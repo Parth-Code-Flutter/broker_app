@@ -1,5 +1,7 @@
+import 'package:broker_app/utils/extensions/app_size_extension.dart';
 import 'package:broker_app/views/app_widgets/app_loader.dart';
-import 'package:flutter/material.dart';import 'package:broker_app/helpers/nav/nav_helper.dart';
+import 'package:flutter/material.dart';
+import 'package:broker_app/helpers/nav/nav_helper.dart';
 import 'package:broker_app/utils/colors/app_colors.dart';
 import 'package:broker_app/utils/strings/app_strings.dart';
 import 'package:broker_app/utils/ui/app_text_styles.dart';
@@ -41,64 +43,44 @@ class AppButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 240,
+      width: 0.85.screenWidth,
       height: 50,
-      child: Stack(
-        children: [
-          if (showBg)
-            Align(
-              child: InkWell(
-                onTap: onPressed,
-                child: Container(
-                  width: 240,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    color: AppColors.primary,
-                    borderRadius: AppUIUtils.primaryBorderRadius,
-                  ),
-                ),
-              ),
+      child: SizedBox(
+        height: 50,
+        child: ElevatedButton(
+          onPressed: onPressed,
+          style: ElevatedButton.styleFrom(
+            elevation: elevation,
+            shadowColor: color ?? AppColors.primary,
+            shape: RoundedRectangleBorder(
+              borderRadius: AppUIUtils.buttonBorderRadius,
             ),
-          Center(
-            child: SizedBox(
-              height: 50,
-              child: ElevatedButton(
-                onPressed: onPressed,
-                style: ElevatedButton.styleFrom(
-                  elevation: elevation,
-                  shadowColor: color ?? AppColors.primary,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: AppUIUtils.primaryBorderRadius,
-                  ),
-                  minimumSize: Size.zero,
-                  padding: padding ??
-                      const EdgeInsets.symmetric(
-                        horizontal: 40,
-                        vertical: 12,
-                      ),
-                  backgroundColor: color ?? AppColors.buttonBg,
+            minimumSize: Size.zero,
+            padding: padding ??
+                const EdgeInsets.symmetric(
+                  horizontal: 40,
+                  vertical: 12,
                 ),
-                child: isLoading ?? false
-                    ? AppLoader(
-                        center: false,
-                        color: loaderColor ?? AppColors.pureWhite,
-                        height: 24,
-                        width: 24,
-                      )
-                    : Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          if (prefix != null) prefix!,
-                          AppText(
-                            text: text,
-                            style: textStyle ?? AppTextStyles.appButton,
-                          ),
-                        ],
-                      ),
-              ),
-            ),
+            backgroundColor: color ?? AppColors.primary,
           ),
-        ],
+          child: isLoading ?? false
+              ? AppLoader(
+                  center: false,
+                  color: loaderColor ?? AppColors.pureWhite,
+                  height: 24,
+                  width: 24,
+                )
+              : Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (prefix != null) prefix!,
+                    AppText(
+                      text: text,
+                      style: textStyle ?? AppTextStyles.appButton,
+                    ),
+                  ],
+                ),
+        ),
       ),
     );
   }

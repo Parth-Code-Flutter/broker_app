@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 class AppTextStyles {
   static double get superLargeFontSize => 28;
 
+  static double get extraMediumLargeFontSize => 26;
+
   static double get extraLargeFontSize => 22;
 
   static double get largeFontSize => 20;
@@ -19,13 +21,13 @@ class AppTextStyles {
   static double get tinyFontSize => 12;
 
   static TextStyle appStyle({required TextStyle textStyle}) =>
-      textStyle.copyWith(fontFamily: 'GeneralSans');
+      textStyle.copyWith(fontFamily: 'Inter');
 
   static double getTextHeight(TextStyle style, {int maxLines = 1}) {
     final textPainter = TextPainter(
       text: TextSpan(
         text:
-        'jsnsiuhbhhjhbddbdnhdbnb hbv dbd hhdb hd h s  hbuhd h vsb jhbssb djhdu ddhb s ',
+            'jsnsiuhbhhjhbddbdnhdbnb hbv dbd hhdb hd h s  hbuhd h vsb jhbssb djhdu ddhb s ',
         style: style,
       ),
       maxLines: maxLines, // You can adjust this based on your requirements
@@ -104,7 +106,8 @@ class AppTextStyles {
 
   static TextStyle textFieldHint({bool isFloating = false}) => appStyle(
         textStyle: TextStyle(
-          fontSize: smallFontSize,
+          // fontSize: smallFontSize,
+          fontSize: extraSmallFontSize,
           fontWeight: FontWeight.normal,
           color: isFloating ? AppColors.primary : AppColors.lightGreyText,
         ),
@@ -139,6 +142,14 @@ class AppTextStyles {
           fontSize: extraSmallFontSize,
           fontWeight: FontWeight.w500,
           color: AppColors.darkGreyText,
+        ),
+      );
+
+  static TextStyle get textFieldBlackShade => appStyle(
+        textStyle: TextStyle(
+          fontSize: extraSmallFontSize,
+          fontWeight: FontWeight.w500,
+          color: AppColors.blackShade,
         ),
       );
 
@@ -251,7 +262,7 @@ class AppTextStyles {
   // Auth
   static TextStyle get authTitle => appStyle(
         textStyle: TextStyle(
-          fontSize: defaultFontSize,
+          fontSize: extraMediumLargeFontSize,
           fontWeight: FontWeight.w500,
           color: AppColors.primaryText,
         ),

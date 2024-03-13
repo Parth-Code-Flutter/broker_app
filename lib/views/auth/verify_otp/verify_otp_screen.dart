@@ -10,6 +10,7 @@ import 'package:broker_app/utils/strings/app_strings.dart';
 import 'package:broker_app/utils/ui/app_text_styles.dart';
 import 'package:broker_app/utils/ui/app_ui_utils.dart';
 import 'package:broker_app/views/app_widgets/app_button.dart';
+import 'package:broker_app/views/app_widgets/app_container.dart';
 import 'package:broker_app/views/app_widgets/app_header.dart';
 import 'package:broker_app/views/app_widgets/app_scaffold.dart';
 import 'package:broker_app/views/app_widgets/app_spaces.dart';
@@ -17,6 +18,7 @@ import 'package:broker_app/views/app_widgets/app_text.dart';
 import 'package:broker_app/views/auth/change_pass/change_pass_screen.dart';
 import 'package:broker_app/views/auth/change_pin/change_pin_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:provider/provider.dart';
 
@@ -60,30 +62,35 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
   Widget build(BuildContext context) {
     return AppScaffold(
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const AppHeader(),
-            AppSpaces.v16,
-            Form(
-              key: _formKey,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                ),
-                child: Column(
-                  children: [
-                    _title,
-                    AppSpaces.v36,
-                    _otpField,
-                    AppSpaces.v16,
-                    _resend,
-                    AppSpaces.v36,
-                    _submitButton,
-                  ],
+        child: Padding(
+          padding: AppUIUtils.defaultHorizontalPadding,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // const AppHeader(),
+              _title,
+              AppSpaces.v16,
+
+              AppContainer(
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      // _title,
+                      _subTitle,
+                      AppSpaces.v16,
+                      _otpField,
+                      AppSpaces.v16,
+                      _resend,
+                      AppSpaces.v36,
+                      _submitButton,
+                      AppSpaces.v16,
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -91,23 +98,41 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
 
   Widget get _title {
     return AppText(
-      text: 'OTP',
+      text: 'Verify OTP',
       style: AppTextStyles.authTitle,
+    );
+  }
+
+  Widget get _subTitle {
+    return Align(
+      alignment: Alignment.topLeft,
+      child: Padding(
+        padding: const EdgeInsets.only(left: 36, top: 20),
+        child: AppText(
+          text: 'Enter OTP',
+          style: AppTextStyles.homeDocName,
+        ),
+      ),
     );
   }
 
   Widget get _otpField {
     return Center(
       child: SizedBox(
-        height: 0.13.screenWidth,
+        height: 0.12.screenWidth,
         child: OtpTextField(
-          fieldWidth: 0.12.screenWidth,
+          fieldWidth: 0.10.screenWidth,
           numberOfFields: 6,
           borderColor: AppColors.textFieldBorder,
           focusedBorderColor: AppColors.primary,
           borderRadius: AppUIUtils.primaryBorderRadius,
           borderWidth: 1,
           showFieldAsBox: true,
+          keyboardType: TextInputType.phone,
+          inputFormatters: [
+            FilteringTextInputFormatter.digitsOnly,
+          ],
+
           onCodeChanged: (String code) {
             // _otpController.text = code;
           },
@@ -202,6 +227,9 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
     final valid = _formKey.currentState?.validate() ?? false;
 
     if (!valid) return;
+
+    if (_otpController.text.trim().length != 6)
+      return SnackBarHelpers.showErrorSnackBar(context, 'Please enter otp');
 
     final otp = _otpController.text.trim();
 

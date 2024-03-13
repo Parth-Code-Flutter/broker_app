@@ -4,8 +4,12 @@ import 'package:broker_app/helpers/auth/auth_helper.dart';
 import 'package:broker_app/helpers/nav/nav_helper.dart';
 import 'package:broker_app/helpers/snackbar/snackbar_helper.dart';
 import 'package:broker_app/providers/sign_in/sign_in_provider.dart';
+import 'package:broker_app/utils/colors/app_colors.dart';
+import 'package:broker_app/utils/strings/app_assets.dart';
 import 'package:broker_app/utils/ui/app_text_styles.dart';
+import 'package:broker_app/utils/ui/app_ui_utils.dart';
 import 'package:broker_app/views/app_widgets/app_button.dart';
+import 'package:broker_app/views/app_widgets/app_container.dart';
 import 'package:broker_app/views/app_widgets/app_header.dart';
 import 'package:broker_app/views/app_widgets/app_scaffold.dart';
 import 'package:broker_app/views/app_widgets/app_spaces.dart';
@@ -14,6 +18,7 @@ import 'package:broker_app/views/app_widgets/app_text_field.dart';
 import 'package:broker_app/views/auth/verify_otp/verify_otp_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 class ForgotPassScreen extends StatefulWidget {
@@ -41,28 +46,37 @@ class _ForgotPassScreenState extends State<ForgotPassScreen> {
   Widget build(BuildContext context) {
     return AppScaffold(
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const AppHeader(),
-            AppSpaces.v16,
-            Form(
-              key: _formKey,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                ),
-                child: Column(
-                  children: [
-                    _title,
-                    AppSpaces.v32,
-                    _userId,
-                    AppSpaces.v32,
-                    _submitButton,
-                  ],
+        child: Padding(
+          padding: AppUIUtils.defaultHorizontalPadding,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // const AppHeader(),
+              _title,
+              AppSpaces.v16,
+              AppContainer(
+                child: Form(
+                  key: _formKey,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                    ),
+                    child: Column(
+                      children: [
+                        AppSpaces.v32,
+                        _userId,
+                        AppSpaces.v16,
+                        _submitButton,
+                        AppSpaces.v32,
+                        _backToLogin,
+                        AppSpaces.v16,
+                      ],
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -77,10 +91,14 @@ class _ForgotPassScreenState extends State<ForgotPassScreen> {
 
   Widget get _userId {
     return AppTextField(
-      labelText: 'Mobile Number',
+      labelText: 'Enter Registered Mobile no.',
       controller: _phoneController,
       textInputType: TextInputType.phone,
       maxLength: 10,
+      suffix: Padding(
+        padding: const EdgeInsets.only(right: 16),
+        child: SvgPicture.asset(AppAssets.phoneIcon),
+      ),
       inputFormatters: [
         FilteringTextInputFormatter.digitsOnly,
       ],
@@ -97,8 +115,32 @@ class _ForgotPassScreenState extends State<ForgotPassScreen> {
   Widget get _submitButton {
     return AppButton(
       onPressed: _submitPressed,
-      text: 'Verify',
+      text: 'Submit',
       isLoading: _isLoading,
+    );
+  }
+
+  Widget get _backToLogin {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        AppText(
+          text: 'Back to Login? ',
+          style: AppTextStyles.textFieldBlackShade,
+        ),
+        GestureDetector(
+          onTap: () {
+            NavHelper.pop(context);
+          },
+          child: AppText(
+            text: 'Login',
+            style: AppTextStyles.textFieldBlackShade.copyWith(
+                color: AppColors.primary,
+                fontWeight: FontWeight.w700,
+                decoration: TextDecoration.underline),
+          ),
+        ),
+      ],
     );
   }
 

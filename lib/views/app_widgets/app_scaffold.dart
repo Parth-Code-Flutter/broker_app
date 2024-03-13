@@ -1,4 +1,6 @@
 import 'package:broker_app/utils/colors/app_colors.dart';
+import 'package:broker_app/utils/extensions/app_size_extension.dart';
+import 'package:broker_app/views/app_widgets/app_header.dart';
 import 'package:flutter/material.dart';
 
 class AppScaffold extends StatelessWidget {
@@ -37,7 +39,13 @@ class AppScaffold extends StatelessWidget {
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         body: Stack(
           children: [
-            body,
+            AppHeader(),
+            Padding(
+              padding: EdgeInsets.only(
+                top: 0.31.screenHeight,
+              ),
+              child: body,
+            ),
           ],
         ),
       ),

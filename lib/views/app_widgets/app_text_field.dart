@@ -34,7 +34,7 @@ class AppTextField extends StatelessWidget {
     this.exText,
     this.fillColor,
     this.padding = const EdgeInsets.symmetric(
-      horizontal: 8,
+      horizontal: 16,
       vertical: 12,
     ),
     this.focusNode,
@@ -117,6 +117,7 @@ class AppTextField extends StatelessWidget {
             focusedBorder: _focusedBorder,
             errorBorder: _enabledErrorBorder,
             focusedErrorBorder: _focusedErrorBorder,
+            // disabledBorder: _disableBorder,
             prefixIcon: prefix,
             prefixIconConstraints: const BoxConstraints(),
             suffixIcon: suffix,
@@ -159,7 +160,7 @@ class AppTextField extends StatelessWidget {
     return OutlineInputBorder(
       borderRadius: AppUIUtils.primaryBorderRadius,
       borderSide: BorderSide(
-        color: error ?? false ? Colors.red : AppColors.textFieldBorder,
+        color: error ?? false ? Colors.red : AppColors.lightGreyText,
         width: error ?? false ? 0.7 : 0.8,
       ),
     );
@@ -171,6 +172,16 @@ class AppTextField extends StatelessWidget {
       borderSide: BorderSide(
         color: error ?? false ? Colors.red : AppColors.primary,
         width: error ?? false ? 0.7 : 0.8,
+      ),
+    );
+  }
+
+  InputBorder get _disableBorder {
+    return OutlineInputBorder(
+      borderRadius: AppUIUtils.primaryBorderRadius,
+      borderSide: BorderSide(
+        color:  AppColors.primary,
+        width:  0.8,
       ),
     );
   }

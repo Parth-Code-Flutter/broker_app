@@ -6,7 +6,9 @@ import 'package:broker_app/helpers/snackbar/snackbar_helper.dart';
 import 'package:broker_app/utils/colors/app_colors.dart';
 import 'package:broker_app/utils/globals/app_globals.dart';
 import 'package:broker_app/utils/ui/app_text_styles.dart';
+import 'package:broker_app/utils/ui/app_ui_utils.dart';
 import 'package:broker_app/views/app_widgets/app_button.dart';
+import 'package:broker_app/views/app_widgets/app_container.dart';
 import 'package:broker_app/views/app_widgets/app_header.dart';
 import 'package:broker_app/views/app_widgets/app_scaffold.dart';
 import 'package:broker_app/views/app_widgets/app_spaces.dart';
@@ -40,32 +42,39 @@ class _SignInScreenState extends State<SignInScreen> {
   Widget build(BuildContext context) {
     return AppScaffold(
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const AppHeader(),
-            AppSpaces.v16,
-            Form(
-              key: _formKey,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                ),
-                child: Column(
-                  children: [
-                    _title,
-                    AppSpaces.v32,
-                    _phone,
-                    AppSpaces.v12,
-                    _passField,
-                    AppSpaces.v16,
-                    _forgotPass,
-                    AppSpaces.v32,
-                    _signInButton,
-                  ],
+        child: Padding(
+          padding: AppUIUtils.defaultHorizontalPadding,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // const AppHeader(),
+              _title,
+              AppSpaces.v16,
+              AppContainer(
+                child: Form(
+                  key: _formKey,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                    ),
+                    child: Column(
+                      children: [
+                        AppSpaces.v32,
+                        _phone,
+                        AppSpaces.v12,
+                        _passField,
+                        AppSpaces.v16,
+                        _signInButton,
+                        AppSpaces.v10,
+                        _forgotPass,
+                        AppSpaces.v16,
+                      ],
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -73,7 +82,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
   Widget get _title {
     return AppText(
-      text: 'User Login',
+      text: 'Login to Your Account',
       style: AppTextStyles.authTitle,
     );
   }

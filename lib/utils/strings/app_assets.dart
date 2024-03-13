@@ -11,11 +11,14 @@ class AppAssets {
   static const whatsapp = '$icons/whatsapp_icon.svg';
   static const editIcon = '$icons/edit_icon.svg';
   static const deleteIcon = '$icons/delete_icon.svg';
+  static const phoneIcon = '$icons/phone.svg';
 
   /// --------------------------------------------------------------------------
 
   // Images
   static const images = '$assets/images';
   static const logo = '$images/logo.png';
+  static const logoSvg = '$images/logo.svg';
   static const splashImage = '$images/splash_image.png';
+  static const bgBottom = '$images/bg_bottom.png';
 }

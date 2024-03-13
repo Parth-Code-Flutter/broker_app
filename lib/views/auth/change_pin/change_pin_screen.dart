@@ -7,7 +7,9 @@ import 'package:broker_app/helpers/snackbar/snackbar_helper.dart';
 import 'package:broker_app/utils/colors/app_colors.dart';
 import 'package:broker_app/utils/globals/app_globals.dart';
 import 'package:broker_app/utils/ui/app_text_styles.dart';
+import 'package:broker_app/utils/ui/app_ui_utils.dart';
 import 'package:broker_app/views/app_widgets/app_button.dart';
+import 'package:broker_app/views/app_widgets/app_container.dart';
 import 'package:broker_app/views/app_widgets/app_header.dart';
 import 'package:broker_app/views/app_widgets/app_scaffold.dart';
 import 'package:broker_app/views/app_widgets/app_spaces.dart';
@@ -64,34 +66,41 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
   Widget build(BuildContext context) {
     return AppScaffold(
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const AppHeader(),
-            AppSpaces.v16,
-            Form(
-              key: _formKey,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                ),
-                child: Column(
-                  children: [
-                    _title,
-                    AppSpaces.v36,
-                    if (_pin == null && widget.hasPin) _oldPassField,
-                    AppSpaces.v16,
-                    _passField,
-                    AppSpaces.v16,
-                    _reTypePassField,
-                    AppSpaces.v16,
-                    _backToLogin,
-                    AppSpaces.v36,
-                    _submitButton,
-                  ],
+        child: Padding(
+          padding: AppUIUtils.defaultHorizontalPadding,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // const AppHeader(),
+              _title,
+              AppSpaces.v16,
+              AppContainer(
+                child: Form(
+                  key: _formKey,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                    ),
+                    child: Column(
+                      children: [
+                        // AppSpaces.v36,
+                        if (_pin == null && widget.hasPin) _oldPassField,
+                        AppSpaces.v16,
+                        _passField,
+                        AppSpaces.v16,
+                        _reTypePassField,
+                        AppSpaces.v20,
+                        _submitButton,
+                        AppSpaces.v32,
+                        _backToLogin,
+                        AppSpaces.v20,
+                      ],
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -107,40 +116,40 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
   Widget get _submitButton {
     return AppButton(
       onPressed: _submitPressed,
-      text: 'Submit',
+      text: 'Change Pin',
       isLoading: _isLoading,
     );
   }
 
   Widget get _backToLogin {
-    return Align(
-      alignment: Alignment.centerRight,
-      child: AppTextButton(
-        dense: true,
-        text: widget.hasPin ? 'Back to home' : 'Back To Login',
-        onPressed: () {
-          if (widget.hasPin) {
-            NavHelper.pop(context);
-            return;
-          }
-
-          NavHelper.navigate(
-            context: context,
-            screen: const SignInScreen(),
-            removeAll: true,
-          );
-        },
-        textStyle: AppTextStyles.defaultTextButton.copyWith(
-          color: AppColors.primary,
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        AppText(
+          text: 'Back to Login? ',
+          style: AppTextStyles.textFieldBlackShade,
         ),
-      ),
+        GestureDetector(
+          onTap: () {
+            NavHelper.navigate(
+                context: context, screen: SignInScreen(), removeAll: true);
+          },
+          child: AppText(
+            text: 'Login',
+            style: AppTextStyles.textFieldBlackShade.copyWith(
+                color: AppColors.primary,
+                fontWeight: FontWeight.w700,
+                decoration: TextDecoration.underline),
+          ),
+        ),
+      ],
     );
   }
 
   Widget get _passField {
     return AppTextField(
       controller: _pinController,
-      labelText: 'New PIN',
+      labelText: 'New Pin',
       obscureText: _hidePass,
       textInputType: TextInputType.number,
       inputFormatters: [
@@ -206,7 +215,7 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
   Widget get _reTypePassField {
     return AppTextField(
       controller: _cPassController,
-      labelText: 'Re-Type New PIN',
+      labelText: 'Confirm New PIN',
       obscureText: _hideReTypePass,
       textInputType: TextInputType.number,
       inputFormatters: [

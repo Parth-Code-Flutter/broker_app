@@ -6,8 +6,10 @@ class AppColors {
 
   //
   static final AppColor _primary = AppColor(
-    light: const Color.fromRGBO(242, 126, 2, 1),
-    dark: const Color.fromRGBO(242, 126, 2, 1),
+    light: const Color.fromRGBO(42, 99, 54, 1),
+    dark:  const Color.fromRGBO(42, 99, 54, 1),
+    // light: const Color.fromRGBO(242, 126, 2, 1),
+    // dark: const Color.fromRGBO(242, 126, 2, 1),
   );
 
   static final AppColor _secondary = AppColor(
@@ -24,8 +26,10 @@ class AppColors {
 
   // Text
   static final AppColor _primaryText = AppColor(
-    light: const Color.fromRGBO(48, 48, 48, 1),
-    dark: const Color.fromRGBO(255, 255, 255, 1),
+    light: const Color.fromRGBO(42, 99, 54, 1),
+    dark:  const Color.fromRGBO(42, 99, 54, 1),
+    // light: const Color.fromRGBO(48, 48, 48, 1),
+    // dark: const Color.fromRGBO(255, 255, 255, 1),
   );
 
   static final AppColor _whiteText = AppColor(
@@ -34,8 +38,8 @@ class AppColors {
   );
 
   static final AppColor _lightGreyText = AppColor(
-    light: const Color.fromRGBO(192, 192, 192, 1),
-    dark: const Color.fromRGBO(192, 192, 192, 1),
+    light: const Color.fromRGBO(170, 170, 170, 1),
+    dark: const Color.fromRGBO(170, 170, 170, 1),
   );
 
   static final AppColor _darkGreyText = AppColor(
@@ -66,13 +70,19 @@ class AppColors {
     light: const Color.fromRGBO(161, 161, 163, 1),
     dark: const Color.fromRGBO(161, 161, 163, 1),
   );
+  static final AppColor _blackShade = AppColor(
+    light: const Color.fromRGBO(37, 37, 37, 1),
+    dark: const Color.fromRGBO(37, 37, 37, 1),
+  );
 
   /// --------------------------------------------------------------------------
 
   // Bg
   static final AppColor _primaryBg = AppColor(
-    light: const Color.fromRGBO(255, 255, 255, 1),
-    dark: const Color.fromRGBO(255, 255, 255, 1),
+    light: const Color.fromRGBO(42, 99, 54, 1),
+    dark:  const Color.fromRGBO(42, 99, 54, 1),
+    // light: const Color.fromRGBO(255, 255, 255, 1),
+    // dark: const Color.fromRGBO(255, 255, 255, 1),
   );
 
   static final AppColor _whiteBg = AppColor(
@@ -203,6 +213,7 @@ class AppColors {
   static Color get pureWhiteText => _pureWhiteText.color(type);
   static Color get goldenText => _goldenText.color(type);
   static Color get dataFieldTitle => _dataFieldTitle.color(type);
+  static Color get blackShade => _blackShade.color(type);
 
   /// --------------------------------------------------------------------------
 

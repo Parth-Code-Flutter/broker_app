@@ -6,6 +6,7 @@ import 'package:broker_app/views/app_widgets/app_image.dart';
 import 'package:broker_app/views/app_widgets/app_spaces.dart';
 import 'package:broker_app/views/app_widgets/app_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class AppHeader extends StatelessWidget {
   const AppHeader({
@@ -17,19 +18,17 @@ class AppHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 0.4.screenHeight,
+    return Container(
+      // height: 0.4.screenHeight,
+      color: AppColors.whiteBg,
+      width: 1.screenWidth,
       child: Stack(
         children: [
-          ClipPath(
-            clipper: ZigzagClipper(),
-            child: Container(
-              color: AppColors.authBg,
-              height: 0.4.screenHeight,
-              width: 1.screenWidth,
-            ),
-          ),
           if (showLogo) _logo,
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: AppImage.asset(path: AppAssets.bgBottom),
+          ),
         ],
       ),
     );
@@ -37,17 +36,20 @@ class AppHeader extends StatelessWidget {
 
   Widget get _logo {
     return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          AppImage.asset(
-            path: AppAssets.logo,
-            height: 100,
-            width: 100,
-          ),
-          AppSpaces.v12,
-          _name,
-        ],
+      child: Padding(
+        padding: const EdgeInsets.only(top: 70),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            AppImage.asset(
+              path: AppAssets.logo,
+              height: 100,
+              width: 230,
+            ),
+            AppSpaces.v12,
+            // _name,
+          ],
+        ),
       ),
     );
   }
@@ -74,7 +76,6 @@ class ZigzagClipper extends CustomClipper<Path> {
       ..lineTo(cornerWidth * 3, size.height - height)
       ..lineTo(size.width, size.height)
       ..lineTo(size.width, 0)
-      ..lineTo(0, 0)
       ..close();
 
     return path;

@@ -9,9 +9,12 @@ class AppUIUtils {
   static BorderRadius get bottomNavBarRadius => BorderRadius.circular(0);
 
   static BorderRadius get homeBorderRadius => BorderRadius.circular(20);
+  static BorderRadius get buttonBorderRadius => BorderRadius.circular(48);
 
   static double get productHeight => 170;
 
   static double get homeIconSize => 36;
   static double get homeScreenCardHeight => 120;
+
+  static EdgeInsets get defaultHorizontalPadding => EdgeInsets.symmetric(horizontal: 16);
 }

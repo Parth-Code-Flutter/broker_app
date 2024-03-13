@@ -12,6 +12,7 @@ import 'package:broker_app/utils/strings/app_strings.dart';
 import 'package:broker_app/utils/ui/app_text_styles.dart';
 import 'package:broker_app/utils/ui/app_ui_utils.dart';
 import 'package:broker_app/views/app_widgets/app_button.dart';
+import 'package:broker_app/views/app_widgets/app_container.dart';
 import 'package:broker_app/views/app_widgets/app_header.dart';
 import 'package:broker_app/views/app_widgets/app_scaffold.dart';
 import 'package:broker_app/views/app_widgets/app_spaces.dart';
@@ -39,30 +40,36 @@ class _VerifyPinScreenState extends State<VerifyPinScreen> {
   Widget build(BuildContext context) {
     return AppScaffold(
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const AppHeader(),
-            AppSpaces.v16,
-            Form(
-              key: _formKey,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                ),
-                child: Column(
-                  children: [
-                    _title,
-                    AppSpaces.v36,
-                    _pinField,
-                    AppSpaces.v16,
-                    _forgotPin,
-                    AppSpaces.v36,
-                    _submitButton,
-                  ],
+        child: Padding(
+          padding: AppUIUtils.defaultHorizontalPadding,
+          child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // const AppHeader(),
+              _title,
+              AppSpaces.v16,
+              AppContainer(
+                child: Form(
+                  key: _formKey,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                    ),
+                    child: Column(
+                      children: [
+                        AppSpaces.v36,
+                        _pinField,
+                        AppSpaces.v16,
+                        _forgotPin,
+                        AppSpaces.v32,
+                        _submitButton,
+                        AppSpaces.v16,
+                      ],
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -70,7 +77,7 @@ class _VerifyPinScreenState extends State<VerifyPinScreen> {
 
   Widget get _title {
     return AppText(
-      text: 'Please Enter Your PIN',
+      text: 'Enter PIN',
       style: AppTextStyles.authTitle,
     );
   }
@@ -99,10 +106,10 @@ class _VerifyPinScreenState extends State<VerifyPinScreen> {
   Widget get _pinField {
     return Center(
       child: SizedBox(
-        height: 0.13.screenWidth,
+        height: 0.12.screenWidth,
         child: OtpTextField(
+          fieldWidth: 0.10.screenWidth,
           obscureText: true,
-          fieldWidth: 0.12.screenWidth,
           numberOfFields: 6,
           borderColor: AppColors.textFieldBorder,
           focusedBorderColor: AppColors.primary,
