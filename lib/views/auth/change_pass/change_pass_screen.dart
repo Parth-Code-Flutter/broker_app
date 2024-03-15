@@ -58,6 +58,8 @@ class _ChangePassScreenState extends State<ChangePassScreen> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
+      isShowAppIcon: true,
+      bgColor: AppColors.primaryBg,
       body: SingleChildScrollView(
         child: Padding(
           padding: AppUIUtils.defaultHorizontalPadding,
@@ -124,7 +126,8 @@ class _ChangePassScreenState extends State<ChangePassScreen> {
         ),
         GestureDetector(
           onTap: () {
-            NavHelper.navigate(context: context, screen:SignInScreen(),removeAll: true);
+            NavHelper.navigate(
+                context: context, screen: SignInScreen(), removeAll: true);
           },
           child: AppText(
             text: 'Login',
@@ -211,6 +214,7 @@ class _ChangePassScreenState extends State<ChangePassScreen> {
   }
 
   Future<void> _submitPressed() async {
+    FocusManager.instance.primaryFocus?.unfocus();
     if (_isLoading) return;
 
     final valid = _formKey.currentState?.validate() ?? false;

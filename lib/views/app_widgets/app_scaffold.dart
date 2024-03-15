@@ -13,6 +13,7 @@ class AppScaffold extends StatelessWidget {
     this.drawer,
     this.floatingActionButton,
     this.resizeToAvoidBottomInset = false,
+    this.isShowAppIcon = false,
   });
 
   final Widget body;
@@ -22,6 +23,7 @@ class AppScaffold extends StatelessWidget {
   final Widget? drawer;
   final Widget? floatingActionButton;
   final bool? resizeToAvoidBottomInset;
+  final bool isShowAppIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -33,16 +35,16 @@ class AppScaffold extends StatelessWidget {
         appBar: appBar,
         resizeToAvoidBottomInset: resizeToAvoidBottomInset,
         bottomNavigationBar: bottomNavigationBar,
-        backgroundColor: bgColor ?? AppColors.primaryBg,
+        backgroundColor: bgColor ?? AppColors.whiteBg,
         drawer: drawer,
         floatingActionButton: floatingActionButton,
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         body: Stack(
           children: [
-            AppHeader(),
+           if(isShowAppIcon) AppHeader(),
             Padding(
               padding: EdgeInsets.only(
-                top: 0.31.screenHeight,
+                top: isShowAppIcon?0.31.screenHeight:0,
               ),
               child: body,
             ),

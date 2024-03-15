@@ -45,6 +45,8 @@ class _ForgotPassScreenState extends State<ForgotPassScreen> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
+      isShowAppIcon: true,
+      bgColor: AppColors.primaryBg,
       body: SingleChildScrollView(
         child: Padding(
           padding: AppUIUtils.defaultHorizontalPadding,
@@ -145,6 +147,7 @@ class _ForgotPassScreenState extends State<ForgotPassScreen> {
   }
 
   Future<void> _submitPressed() async {
+    FocusManager.instance.primaryFocus?.unfocus();
     if (_isLoading) return;
 
     final valid = _formKey.currentState?.validate() ?? false;

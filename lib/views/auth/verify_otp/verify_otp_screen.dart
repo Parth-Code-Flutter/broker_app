@@ -20,6 +20,7 @@ import 'package:broker_app/views/auth/change_pin/change_pin_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:provider/provider.dart';
 
 class VerifyOtpScreen extends StatefulWidget {
@@ -61,6 +62,8 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
+      isShowAppIcon: true,
+      bgColor: AppColors.primaryBg,
       body: SingleChildScrollView(
         child: Padding(
           padding: AppUIUtils.defaultHorizontalPadding,
@@ -107,7 +110,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
     return Align(
       alignment: Alignment.topLeft,
       child: Padding(
-        padding: const EdgeInsets.only(left: 36, top: 20),
+        padding: const EdgeInsets.only(left: 12, top: 20),
         child: AppText(
           text: 'Enter OTP',
           style: AppTextStyles.homeDocName,
@@ -119,39 +122,97 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
   Widget get _otpField {
     return Center(
       child: SizedBox(
-        height: 0.12.screenWidth,
-        child: OtpTextField(
-          fieldWidth: 0.10.screenWidth,
-          numberOfFields: 6,
-          borderColor: AppColors.textFieldBorder,
-          focusedBorderColor: AppColors.primary,
-          borderRadius: AppUIUtils.primaryBorderRadius,
-          borderWidth: 1,
-          showFieldAsBox: true,
-          keyboardType: TextInputType.phone,
-          inputFormatters: [
-            FilteringTextInputFormatter.digitsOnly,
-          ],
+          height: 0.12.screenWidth,
+          child: PinCodeTextField(
+            appContext: context,
+            controller: _otpController,
+            length: 6,
+            autoDismissKeyboard: true,
+            keyboardType: TextInputType.phone,
+            inputFormatters: <TextInputFormatter>[
+              FilteringTextInputFormatter.digitsOnly
+            ],
+            onChanged: (String value) {},
+            textStyle: AppTextStyles.defaultTextButton
+                .copyWith(color: AppColors.blackShade),
+            errorTextSpace: 20,
+            enablePinAutofill: true,
 
-          onCodeChanged: (String code) {
-            // _otpController.text = code;
-          },
-          onSubmit: (String verificationCode) {
-            _otpController.text = verificationCode;
-            _submitPressed();
-          }, // end onSubmit
-        ),
-      ),
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            pinTheme: PinTheme(
+              shape: PinCodeFieldShape.box,
+              borderRadius: BorderRadius.circular(5),
+              fieldHeight: 0.12.screenWidth,
+              fieldWidth: 0.11.screenWidth,
+              borderWidth: 1,
+              activeBorderWidth: 1,
+              selectedBorderWidth: 1,
+              errorBorderWidth: 1,
+              inactiveBorderWidth: 1,
+
+              /// kColorFFEDD7
+              activeFillColor: AppColors.textFieldBorder,
+              inactiveFillColor: AppColors.primary,
+              inactiveColor: AppColors.textFieldBorder,
+              // disabledColor: Colors.green,
+              // activeColor: kColorPrimary,
+              // selectedFillColor: Colors.pink,
+              selectedColor: AppColors.primary,
+              // errorBorderColor: kColorErrorRed,
+            ),
+            cursorColor: Colors.black,
+            onEditingComplete: () {},
+            onCompleted: (v) {
+              _otpController.text = v;
+              _submitPressed();
+            },
+            onSubmitted: (value) {
+              _otpController.text = value;
+              _submitPressed();
+            },
+            // validator: (v) {
+            //   // return Validate.otpValidation(context, v ?? '');
+            // },
+          ),
+          // OtpTextField(
+          //   fieldWidth: 0.11.screenWidth,
+          //   mainAxisAlignment: 	MainAxisAlignment.center,
+          //   crossAxisAlignment: 	CrossAxisAlignment.center,
+          //   numberOfFields: 6,
+          //   borderColor: AppColors.textFieldBorder,
+          //   focusedBorderColor: AppColors.primary,
+          //   borderRadius: AppUIUtils.primaryBorderRadius,
+          //   borderWidth: 1,
+          //   showFieldAsBox: true,
+          //   textStyle: AppTextStyles.homeDocName,
+          //
+          //   inputFormatters: [
+          //     FilteringTextInputFormatter.digitsOnly,
+          //   ],
+          //
+          //   onCodeChanged: (String code) {
+          //     // _otpController.text = code;
+          //   },
+          //   onSubmit: (String verificationCode) {
+          //     _otpController.text = verificationCode;
+          //     _submitPressed();
+          //   }, // end onSubmit
+          // ),
+          ),
     );
   }
 
   Widget get _resend {
     return Row(
       mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.end,
       children: [
         AppText(
           text: AppStrings.didntReceive,
-          style: AppTextStyles.notHaveAcc,
+          style: AppTextStyles.tinyTextStyle.copyWith(
+            color: AppColors.darkGreyText,
+            fontWeight: FontWeight.w500,
+          ),
         ),
         AppSpaces.h8,
         _timeLeft,
@@ -169,7 +230,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
             onTap: _resendPressed,
             child: AppText(
               text: AppStrings.sendAgain,
-              style: AppTextStyles.registerFirst,
+              style: AppTextStyles.tinyTextStyle,
             ),
           );
         }
@@ -177,7 +238,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
           padding: const EdgeInsets.symmetric(vertical: 4),
           child: AppText(
             text: 'resend in $seconds seconds',
-            style: AppTextStyles.notHaveAcc,
+            style: AppTextStyles.tinyTextStyle,
           ),
         );
       },
@@ -222,6 +283,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
   }
 
   Future<void> _submitPressed() async {
+    FocusManager.instance.primaryFocus?.unfocus();
     if (_isLoading) return;
 
     final valid = _formKey.currentState?.validate() ?? false;

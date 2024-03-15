@@ -74,9 +74,11 @@ class AppTextStyles {
 
   static TextStyle get appBarTitle => appStyle(
         textStyle: TextStyle(
-          fontSize: defaultFontSize,
-          fontWeight: FontWeight.w600,
-          color: AppColors.primaryText,
+          // fontSize: defaultFontSize,
+          fontSize: smallFontSize,
+          fontWeight: FontWeight.w700,
+          // color: AppColors.primaryText,
+          color: AppColors.whiteText,
         ),
       );
 
@@ -117,6 +119,14 @@ class AppTextStyles {
         textStyle: TextStyle(
           fontSize: smallFontSize,
           fontWeight: FontWeight.w500,
+          color: AppColors.primaryText,
+        ),
+      );
+
+  static TextStyle get dashboardText => appStyle(
+        textStyle: TextStyle(
+          fontSize: extraSmallFontSize,
+          fontWeight: FontWeight.w600,
           color: AppColors.primaryText,
         ),
       );
@@ -503,6 +513,22 @@ class AppTextStyles {
           fontSize: tinyFontSize,
           fontWeight: FontWeight.bold,
           color: AppColors.primaryText,
+        ),
+      );
+
+  static TextStyle get tinyListTextStyle => appStyle(
+        textStyle: TextStyle(
+          fontSize: tinyFontSize,
+          fontWeight: FontWeight.w400,
+          color: AppColors.primaryText,
+        ),
+      );
+
+  static TextStyle get tinyLabelTextStyle => appStyle(
+        textStyle: TextStyle(
+          fontSize: tinyFontSize,
+          fontWeight: FontWeight.w600,
+          color: AppColors.greyShade,
         ),
       );
 }

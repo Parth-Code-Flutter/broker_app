@@ -1,3 +1,4 @@
+import 'package:broker_app/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -57,17 +58,21 @@ class _AppMainState extends State<AppMain> {
   }
 
   Widget get _home {
-    if (!_isAuthenticated) {
-      return const SignInScreen();
-    }
-
-    if (!_hasPin) {
-      return const ChangePinScreen(
-        pin: null,
-      );
-    }
-
-    return const VerifyPinScreen();
+    return SplashScreen(
+      isAuthenticated: _isAuthenticated,
+      hasPin: _hasPin,
+    );
+    // if (!_isAuthenticated) {
+    //   return const SignInScreen();
+    // }
+    //
+    // if (!_hasPin) {
+    //   return const ChangePinScreen(
+    //     pin: null,
+    //   );
+    // }
+    //
+    // return const VerifyPinScreen();
   }
 
   ThemeData get _themeData => ThemeData(

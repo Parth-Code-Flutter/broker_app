@@ -74,6 +74,14 @@ class AppColors {
     light: const Color.fromRGBO(37, 37, 37, 1),
     dark: const Color.fromRGBO(37, 37, 37, 1),
   );
+  static final AppColor _greyShade = AppColor(
+    light: const Color.fromRGBO(64, 64, 64, 1),
+    dark: const Color.fromRGBO(64, 64, 64, 1),
+  );
+  static final AppColor _containerBG = AppColor(
+    light: const Color.fromRGBO(237, 237, 237, 1),
+    dark: const Color.fromRGBO(237, 237, 237, 1),
+  );
 
   /// --------------------------------------------------------------------------
 
@@ -116,8 +124,10 @@ class AppColors {
   );
 
   static final AppColor _success = AppColor(
-    light: const Color.fromRGBO(18, 96, 60, 1),
-    dark: const Color.fromRGBO(18, 96, 60, 1),
+    // light: const Color.fromRGBO(18, 96, 60, 1),
+    // dark: const Color.fromRGBO(18, 96, 60, 1),
+    light: const Color.fromRGBO(21, 176, 65, 1.0),
+    dark: const Color.fromRGBO(21, 176, 65, 1.0),
   );
 
   static final AppColor _error = AppColor(
@@ -214,6 +224,8 @@ class AppColors {
   static Color get goldenText => _goldenText.color(type);
   static Color get dataFieldTitle => _dataFieldTitle.color(type);
   static Color get blackShade => _blackShade.color(type);
+  static Color get greyShade => _greyShade.color(type);
+  static Color get containerBG => _containerBG.color(type);
 
   /// --------------------------------------------------------------------------
 

@@ -21,29 +21,30 @@ class AppText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(
-          text,
-          style: style ?? AppTextStyles.defaultText,
-          textAlign: align,
-          overflow: overflow,
-          maxLines: maxLines,
-        ),
-        if (isRequired)
-          AppText(
-            text: '*',
-            style: AppTextStyles.requiredSignDark,
-          ),
-      ],
+    return Text(
+      text,
+      style: style ?? AppTextStyles.defaultText,
+      textAlign: align,
+      overflow: overflow,
+      maxLines: maxLines,
     );
-    // Text(
-    // text,
-    // style: style ?? AppTextStyles.defaultText,
-    // textAlign: align,
-    // overflow: overflow,
-    // maxLines: maxLines,
-    // );
   }
+
+  // Row(
+  // mainAxisSize: MainAxisSize.min,
+  // children: [
+  // Text(
+  // text,
+  // style: style ?? AppTextStyles.defaultText,
+  // textAlign: align,
+  // overflow: overflow,
+  // maxLines: maxLines,
+  // ),
+  // if (isRequired)
+  // AppText(
+  // text: '*',
+  // style: AppTextStyles.requiredSignDark,
+  // ),
+  // ],
+  // )
 }

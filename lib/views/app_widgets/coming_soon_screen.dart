@@ -20,7 +20,7 @@ class _ComingSoonState extends State<ComingSoon> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      appBar: PrimaryAppBar.appBar(
+      appBar: appBar(
         title: '',
         primaryPage: widget.primary,
       ),

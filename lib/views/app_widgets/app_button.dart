@@ -14,6 +14,8 @@ class AppButton extends StatelessWidget {
     required this.text,
     super.key,
     this.color,
+    this.borderColor,
+    this.borderRadius,
     this.isLoading,
     this.padding,
     this.loaderColor,
@@ -29,6 +31,8 @@ class AppButton extends StatelessWidget {
   final void Function() onPressed;
   final String text;
   final Color? color;
+  final Color? borderColor;
+  final BorderRadius? borderRadius;
   final TextStyle? textStyle;
   final bool? isLoading;
   final Color? loaderColor;
@@ -51,9 +55,13 @@ class AppButton extends StatelessWidget {
           onPressed: onPressed,
           style: ElevatedButton.styleFrom(
             elevation: elevation,
+            surfaceTintColor: color ?? AppColors.primary,
             shadowColor: color ?? AppColors.primary,
             shape: RoundedRectangleBorder(
-              borderRadius: AppUIUtils.buttonBorderRadius,
+              borderRadius: borderRadius ?? AppUIUtils.buttonBorderRadius,
+              side: BorderSide(
+                color: borderColor ?? AppColors.primary,
+              ),
             ),
             minimumSize: Size.zero,
             padding: padding ??

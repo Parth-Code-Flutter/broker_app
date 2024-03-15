@@ -19,8 +19,11 @@ import 'package:broker_app/views/app_widgets/app_spaces.dart';
 import 'package:broker_app/views/app_widgets/app_text.dart';
 import 'package:broker_app/views/app_widgets/app_text_button.dart';
 import 'package:broker_app/views/auth/forgot_pass/forgot_pass_screen.dart';
+import 'package:broker_app/views/dashboard/dashboard_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 
 class VerifyPinScreen extends StatefulWidget {
   const VerifyPinScreen({super.key});
@@ -39,10 +42,13 @@ class _VerifyPinScreenState extends State<VerifyPinScreen> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
+      isShowAppIcon: true,
+      bgColor: AppColors.primaryBg,
       body: SingleChildScrollView(
         child: Padding(
           padding: AppUIUtils.defaultHorizontalPadding,
-          child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // const AppHeader(),
               _title,
@@ -104,27 +110,85 @@ class _VerifyPinScreenState extends State<VerifyPinScreen> {
   }
 
   Widget get _pinField {
-    return Center(
-      child: SizedBox(
-        height: 0.12.screenWidth,
-        child: OtpTextField(
-          fieldWidth: 0.10.screenWidth,
-          obscureText: true,
-          numberOfFields: 6,
-          borderColor: AppColors.textFieldBorder,
-          focusedBorderColor: AppColors.primary,
-          borderRadius: AppUIUtils.primaryBorderRadius,
-          borderWidth: 1,
-          showFieldAsBox: true,
-          onCodeChanged: (String code) {
-            // _otpController.text = code;
-          },
-          onSubmit: (String verificationCode) {
-            _pinController.text = verificationCode;
-            _submitPressed();
-          }, // end onSubmit
+    return SizedBox(
+      height: 0.12.screenWidth,
+      child: PinCodeTextField(
+        appContext: context,
+        controller: _pinController,
+        length: 6,
+        autoDismissKeyboard: true,
+        keyboardType: TextInputType.phone,
+        inputFormatters: <TextInputFormatter>[
+          FilteringTextInputFormatter.digitsOnly
+        ],
+        onChanged: (String value) {},
+        textStyle: AppTextStyles.defaultTextButton
+            .copyWith(color: AppColors.blackShade),
+        errorTextSpace: 20,
+        enablePinAutofill: true,
+        obscureText: true,
+        obscuringCharacter: '*',
+        obscuringWidget: Padding(
+          padding: EdgeInsets.only(top: 0.01.screenHeight),
+          child: Text(
+            '*',
+            style: AppTextStyles.defaultTextButton
+                .copyWith(color: AppColors.blackShade),
+          ),
         ),
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        pinTheme: PinTheme(
+          shape: PinCodeFieldShape.box,
+          borderRadius: BorderRadius.circular(5),
+          fieldHeight: 0.12.screenWidth,
+          fieldWidth: 0.11.screenWidth,
+          borderWidth: 1,
+          activeBorderWidth: 1,
+          selectedBorderWidth: 1,
+          errorBorderWidth: 1,
+          inactiveBorderWidth: 1,
+
+          /// kColorFFEDD7
+          activeFillColor: AppColors.textFieldBorder,
+          inactiveFillColor: AppColors.primary,
+          inactiveColor: AppColors.textFieldBorder,
+          // disabledColor: Colors.green,
+          // activeColor: kColorPrimary,
+          // selectedFillColor: Colors.pink,
+          selectedColor: AppColors.primary,
+          // errorBorderColor: kColorErrorRed,
+        ),
+        cursorColor: Colors.black,
+        onEditingComplete: () {},
+        onCompleted: (v) {
+          _pinController.text = v;
+          _submitPressed();
+        },
+        onSubmitted: (value) {
+          _pinController.text = value;
+          _submitPressed();
+        },
+        // validator: (v) {
+        //   // return Validate.otpValidation(context, v ?? '');
+        // },
       ),
+      // OtpTextField(
+      //   fieldWidth: 0.11.screenWidth,
+      //   obscureText: true,
+      //   numberOfFields: 6,
+      //   borderColor: AppColors.textFieldBorder,
+      //   focusedBorderColor: AppColors.primary,
+      //   borderRadius: AppUIUtils.primaryBorderRadius,
+      //   borderWidth: 1,
+      //   showFieldAsBox: true,
+      //   onCodeChanged: (String code) {
+      //     // _otpController.text = code;
+      //   },
+      //   onSubmit: (String verificationCode) {
+      //     _pinController.text = verificationCode;
+      //     _submitPressed();
+      //   }, // end onSubmit
+      // ),
     );
   }
 
@@ -137,6 +201,7 @@ class _VerifyPinScreenState extends State<VerifyPinScreen> {
   }
 
   Future<void> _submitPressed() async {
+    FocusManager.instance.primaryFocus?.unfocus();
     if (_isLoading) return;
 
     final valid = _formKey.currentState?.validate() ?? false;
@@ -168,8 +233,8 @@ class _VerifyPinScreenState extends State<VerifyPinScreen> {
     AppGlobals.instance.userName = result.data['userName'] as String? ?? '';
     AppGlobals.instance.userType = result.data['userType'] as String? ?? '';
 
-    // NavHelper.navigate(
-    //     context: context, screen: const PrimaryScreen(), removeAll: true);
+    NavHelper.navigate(
+        context: context, screen: const DashboardScreen(), removeAll: true);
 
     // SnackBarHelpers.showSuccessSnackBar(context, 'PIN verified successfully');
   }
