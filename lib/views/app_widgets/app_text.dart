@@ -27,6 +27,7 @@ class AppText extends StatelessWidget {
       textAlign: align,
       overflow: overflow,
       maxLines: maxLines,
+
     );
   }
 

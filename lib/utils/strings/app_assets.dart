@@ -17,6 +17,7 @@ class AppAssets {
   static const forwardArrowIcon = '$icons/forward_arrow.svg';
   static const filterIcon = '$icons/filter.svg';
   static const pdfIcon = '$icons/pdf_icon.svg';
+  static const locationIcon = '$icons/location.svg';
 
 
   /// --------------------------------------------------------------------------

@@ -11,29 +11,28 @@ import 'package:broker_app/views/app_widgets/app_spaces.dart';
 import 'package:broker_app/views/app_widgets/app_text.dart';
 import 'package:broker_app/views/app_widgets/app_text_field.dart';
 import 'package:broker_app/views/app_widgets/primary_app_bar.dart';
-import 'package:broker_app/views/dashboard/party_master/party_filter.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class PartyMasterScreen extends StatefulWidget {
-  const PartyMasterScreen({super.key});
+class ContractsScreen extends StatefulWidget {
+  const ContractsScreen({super.key});
 
   @override
-  State<PartyMasterScreen> createState() => _PartyMasterScreenState();
+  State<ContractsScreen> createState() => _ContractsScreenState();
 }
 
-class _PartyMasterScreenState extends State<PartyMasterScreen> {
+class _ContractsScreenState extends State<ContractsScreen> {
   TextEditingController _searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      appBar: appBar(title: kPartyMaster, isShowBackButton: true),
+      appBar: appBar(title: kContracts, isShowBackButton: true),
       body: Column(
         children: [
           _searchAndFilter,
           AppSpaces.v8,
-          _partyMasterList,
+          _contractsList,
           AppSpaces.v8,
         ],
       ),
@@ -61,10 +60,10 @@ class _PartyMasterScreenState extends State<PartyMasterScreen> {
           ),
           GestureDetector(
             onTap: () {
-              NavHelper.navigate(
-                context: context,
-                screen: PartyFilter(),
-              );
+              // NavHelper.navigate(
+              //   context: context,
+              //   screen: PartyFilter(),
+              // );
             },
             child: Container(
               height: 38,
@@ -92,7 +91,7 @@ class _PartyMasterScreenState extends State<PartyMasterScreen> {
     );
   }
 
-  Widget get _partyMasterList {
+  Widget get _contractsList {
     return Expanded(
       child: ListView.builder(
         itemCount: 10,
@@ -108,18 +107,18 @@ class _PartyMasterScreenState extends State<PartyMasterScreen> {
             ),
             child: Column(
               children: [
-                /// name and date
+                /// type-vno and date
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Row(
                       children: [
                         AppText(
-                          text: '$kName : ',
+                          text: '$kTypeVNo : ',
                           style: AppTextStyles.tinyLabelTextStyle,
                         ),
                         AppText(
-                          text: 'Mr.Mehta',
+                          text: 'ABC-51',
                           style: AppTextStyles.tinyListTextStyle
                               .copyWith(fontWeight: FontWeight.w700),
                         ),
@@ -134,19 +133,18 @@ class _PartyMasterScreenState extends State<PartyMasterScreen> {
                 ),
                 AppSpaces.v4,
 
-                /// city & state
+                /// seller
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     AppText(
-                      text: '$kCity-$kState : ',
+                      text: '$kSeller : ',
                       style: AppTextStyles.tinyLabelTextStyle,
                     ),
                     SizedBox(
                       width: 0.6.screenWidth,
                       child: AppText(
-                        text:
-                            'On Eastern Express Highway, Service Rd, Thane West, Thane, Maharashtra',
+                        text: 'Mr. Mehta - Mumbai',
                         style: AppTextStyles.tinyListTextStyle,
                         maxLines: 2,
                       ),
@@ -155,134 +153,150 @@ class _PartyMasterScreenState extends State<PartyMasterScreen> {
                 ),
                 AppSpaces.v4,
 
-                /// mobile no1
+                /// buyer
                 Row(
                   children: [
                     AppText(
-                      text: '$kMobileNo : ',
-                      style: AppTextStyles.tinyLabelTextStyle,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        LaunchUrlHelper.launchUrlMethod(
-                            Uri.parse('tel:9509006814'));
-                      },
-                      child: AppText(
-                        text: '+91 9509006814',
-                        style: AppTextStyles.tinyListTextStyle,
-                      ),
-                    ),
-                  ],
-                ),
-                AppSpaces.v4,
-
-                /// mobile no2
-                Row(
-                  children: [
-                    AppText(
-                      text: '$kMobileNo2 : ',
-                      style: AppTextStyles.tinyLabelTextStyle,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        LaunchUrlHelper.launchUrlMethod(
-                            Uri.parse('tel:9509006814'));
-                      },
-                      child: AppText(
-                        text: '+91 9509006814',
-                        style: AppTextStyles.tinyListTextStyle,
-                      ),
-                    ),
-                  ],
-                ),
-                AppSpaces.v4,
-
-                /// email-Id
-                Row(
-                  children: [
-                    AppText(
-                      text: '$kEmailID : ',
+                      text: '$kBuyer : ',
                       style: AppTextStyles.tinyLabelTextStyle,
                     ),
                     AppText(
-                      text: 'mehta@gmail.com',
+                      text: 'Bipin Patel - Delhi',
                       style: AppTextStyles.tinyListTextStyle,
                     ),
                   ],
                 ),
                 AppSpaces.v4,
 
-                /// gst
+                /// Product Name
                 Row(
                   children: [
                     AppText(
-                      text: '$kGSTNo : ',
+                      text: '$kProductName : ',
                       style: AppTextStyles.tinyLabelTextStyle,
                     ),
-                    AppText(
-                      text: '09AAACH7409R1ZZ',
-                      style: AppTextStyles.tinyListTextStyle
-                          .copyWith(fontWeight: FontWeight.w700),
-                    ),
-                  ],
-                ),
-
-                AppSpaces.v4,
-
-                /// pan
-                Row(
-                  children: [
-                    AppText(
-                      text: '$kPanNo : ',
-                      style: AppTextStyles.tinyLabelTextStyle,
-                    ),
-                    AppText(
-                      text: 'QPA7215',
-                      style: AppTextStyles.tinyListTextStyle
-                          .copyWith(fontWeight: FontWeight.w700),
+                    SizedBox(
+                      width: 0.6.screenWidth,
+                      child: AppText(
+                        text: 'The Money Managers',
+                        style: AppTextStyles.tinyListTextStyle,
+                        maxLines: 2,
+                      ),
                     ),
                   ],
                 ),
                 AppSpaces.v4,
 
-                /// Address
+                /// qty & packing
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    AppText(
-                      text: '$kAddress : ',
-                      style: AppTextStyles.tinyLabelTextStyle,
-                    ),
-                    AppText(
-                      text: 'Mumbai , India',
-                      style: AppTextStyles.tinyListTextStyle,
-                    ),
-                  ],
-                ),
-                AppSpaces.v4,
-
-                Align(
-                  alignment: Alignment.bottomRight,
-                  child: Container(
-                    height: 32,
-                    width: 0.18.screenWidth,
-                    padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                    decoration: BoxDecoration(
-                      color: AppColors.primaryBg,
-                      borderRadius: AppUIUtils.containerBorderRadius,
-                    ),
-                    child: Row(
+                    Row(
                       children: [
-                        SvgPicture.asset(AppAssets.pdfIcon),
-                        AppSpaces.h4,
                         AppText(
-                          text: kShare,
-                          style: AppTextStyles.tinyLabelTextStyle.copyWith(
-                              color: AppColors.whiteText,
-                              fontWeight: FontWeight.w600),
+                          text: '$kQty : ',
+                          style: AppTextStyles.tinyLabelTextStyle,
+                        ),
+                        AppText(
+                          text: '999.99 ton',
+                          style: AppTextStyles.tinyListTextStyle,
                         ),
                       ],
                     ),
-                  ),
+                    Row(
+                      children: [
+                        AppText(
+                          text: '$kPacking : ',
+                          style: AppTextStyles.tinyLabelTextStyle,
+                        ),
+                        AppText(
+                          text: '999 kg',
+                          style: AppTextStyles.tinyListTextStyle,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                AppSpaces.v4,
+
+                /// Sauda Rate
+                Row(
+                  children: [
+                    AppText(
+                      text: '$kSaudaRate : ',
+                      style: AppTextStyles.tinyLabelTextStyle,
+                    ),
+                    AppText(
+                      text: '99999 quintal',
+                      style: AppTextStyles.tinyListTextStyle,
+                    ),
+                  ],
+                ),
+
+                AppSpaces.v4,
+
+                /// Remarks
+                Row(
+                  children: [
+                    AppText(
+                      text: '$kRemarks : ',
+                      style: AppTextStyles.tinyLabelTextStyle,
+                    ),
+                    AppText(
+                      text: 'OverAll Good',
+                      style: AppTextStyles.tinyListTextStyle,
+                    ),
+                  ],
+                ),
+                AppSpaces.v4,
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Container(
+                      height: 32,
+                      width: 0.18.screenWidth,
+                      padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                      decoration: BoxDecoration(
+                        color: AppColors.primaryBg,
+                        borderRadius: AppUIUtils.containerBorderRadius,
+                      ),
+                      child: Row(
+                        children: [
+                          SvgPicture.asset(AppAssets.pdfIcon),
+                          AppSpaces.h4,
+                          AppText(
+                            text: kShare,
+                            style: AppTextStyles.tinyLabelTextStyle.copyWith(
+                                color: AppColors.whiteText,
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ],
+                      ),
+                    ),
+                    AppSpaces.h8,
+                    Container(
+                      height: 32,
+                      width: 0.18.screenWidth,
+                      padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                      decoration: BoxDecoration(
+                        color: AppColors.primaryBg,
+                        borderRadius: AppUIUtils.containerBorderRadius,
+                      ),
+                      child: Row(
+                        children: [
+                          SvgPicture.asset(AppAssets.pdfIcon),
+                          AppSpaces.h4,
+                          AppText(
+                            text: kView,
+                            style: AppTextStyles.tinyLabelTextStyle.copyWith(
+                                color: AppColors.whiteText,
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
