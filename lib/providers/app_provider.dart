@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
+import 'party_master/party_master_provider.dart';
 import 'sign_in/sign_in_provider.dart';
 
 abstract class AppProvider extends ChangeNotifier {
@@ -13,11 +14,15 @@ abstract class AppProvider extends ChangeNotifier {
     ChangeNotifierProvider(
       create: (context) => AppLocationProvider(),
     ),
+    ChangeNotifierProvider(
+      create: (context) => PartyMasterProvider(),
+    ),
   ];
 
   static void cleanAllData(BuildContext context) {
     context.read<SignInProvider>().clean();
     context.read<AppLocationProvider>().clean();
+    context.read<PartyMasterProvider>().clean();
   }
 
   void clean();

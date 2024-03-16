@@ -3,6 +3,7 @@ String kPartyMaster = 'Party Master';
 String kContracts = 'Contracts';
 String kLoading = 'Loading';
 String kLoadingDetails = 'Loading Details';
+String kProfile = 'Profile';
 
 String kName = 'Name';
 String kCity = 'City';
@@ -13,6 +14,12 @@ String kEmailID = 'Email-Id';
 String kPanNo = 'PAN No.';
 String kGSTNo = 'GST No.';
 String kAddress = 'Address';
+String kEmail = 'Email';
+String kPhoneNo = 'Phone No';
+String kBirthDate = 'BirthDate';
+String kGender = 'Gender';
+String kChangeMPin = 'Change M-Pin';
+String kLogout = 'Logout';
 
 String kTypeVNo = 'Type-VNo';
 String kSeller = 'Seller';

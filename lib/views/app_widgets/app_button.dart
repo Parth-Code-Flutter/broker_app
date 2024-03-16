@@ -47,7 +47,7 @@ class AppButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 0.85.screenWidth,
+      width: width ?? 0.85.screenWidth,
       height: 50,
       child: SizedBox(
         height: 50,
@@ -66,7 +66,7 @@ class AppButton extends StatelessWidget {
             minimumSize: Size.zero,
             padding: padding ??
                 const EdgeInsets.symmetric(
-                  horizontal: 40,
+                  horizontal: 20, // 40
                   vertical: 12,
                 ),
             backgroundColor: color ?? AppColors.primary,

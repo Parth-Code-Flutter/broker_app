@@ -82,6 +82,14 @@ class AppColors {
     light: const Color.fromRGBO(237, 237, 237, 1),
     dark: const Color.fromRGBO(237, 237, 237, 1),
   );
+  static final AppColor _locationText = AppColor(
+    light: const Color.fromRGBO(6, 65, 91, 1),
+    dark: const Color.fromRGBO(6, 65, 91, 1),
+  );
+  static final AppColor _lightGrey = AppColor(
+    light: const Color.fromRGBO(128, 128, 128, 1),
+    dark: const Color.fromRGBO(128, 128, 128, 1),
+  );
 
   /// --------------------------------------------------------------------------
 
@@ -226,6 +234,8 @@ class AppColors {
   static Color get blackShade => _blackShade.color(type);
   static Color get greyShade => _greyShade.color(type);
   static Color get containerBG => _containerBG.color(type);
+  static Color get locationText => _locationText.color(type);
+  static Color get lightGrey => _lightGrey.color(type);
 
   /// --------------------------------------------------------------------------
 

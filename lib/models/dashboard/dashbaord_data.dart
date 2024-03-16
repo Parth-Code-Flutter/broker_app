@@ -1,7 +1,7 @@
 import 'package:broker_app/utils/strings/app_assets.dart';
 import 'package:broker_app/views/dashboard/contracts/contracts_screen.dart';
 import 'package:broker_app/views/dashboard/loading/loading_screen.dart';
-import 'package:broker_app/views/dashboard/party_master/part_master_screen.dart';
+import 'package:broker_app/views/dashboard/party_master/party_master_screen.dart';
 import 'package:flutter/material.dart';
 
 class DashboardData {

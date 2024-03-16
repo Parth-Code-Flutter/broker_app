@@ -17,9 +17,8 @@ class CloudFunctionsNames {
   static String get getProfile => '$prefix/$profile/get';
 
 
-  static String get address => 'address';
-  static String get getAreaComponents => '$prefix/$address/getComponents';
-  static String get addArea => '$prefix/$address/addArea';
+  static String get parties => 'parties';
+  static String get getParties => '$prefix/$parties/get';
 
 
   static String get contacts => 'contacts';

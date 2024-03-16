@@ -36,4 +36,6 @@ class AppAssets {
   static const loadingPayment = '$images/loading_payment.png';
   static const brokerInvoice = '$images/broker_invoice.png';
   static const partyMaster = '$images/party_master.png';
+
+  static const dummyProfile = '$images/dummy_profile.png';
 }
