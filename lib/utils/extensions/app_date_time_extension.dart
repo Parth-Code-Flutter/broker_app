@@ -1,6 +1,37 @@
 import 'package:intl/intl.dart';
 
 extension AppDateTimeExtension on DateTime {
+
+  static String convertServerDateToDDMMYYYY(String date){
+    try{
+      DateTime tempDate = DateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(date);
+      String displayDate = DateFormat("dd MMM, yyyy").format(tempDate);
+      return displayDate;
+    }catch(e){
+      return date;
+    }
+  }
+
+  static String convertServerDateToYY(String date){
+    try{
+      DateTime tempDate = DateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(date);
+      String displayDate = DateFormat("yy").format(tempDate);
+      return displayDate;
+    }catch(e){
+      return date;
+    }
+  }
+
+  static String convertDDMMYYYY(String date){
+    try{
+      DateTime tempDate = DateFormat("yyyy-MM-dd").parse(date);
+      String displayDate = DateFormat("dd/MM/yyyy").format(tempDate);
+      return displayDate;
+    }catch(e){
+      return date;
+    }
+  }
+
   /// converts this `dateTime` to `String` to show in UI
   String get dateWithYear {
     final converted = DateFormat('dd MMM, yyyy').format(this);

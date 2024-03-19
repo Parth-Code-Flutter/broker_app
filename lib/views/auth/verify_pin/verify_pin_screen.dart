@@ -19,6 +19,7 @@ import 'package:broker_app/views/app_widgets/app_spaces.dart';
 import 'package:broker_app/views/app_widgets/app_text.dart';
 import 'package:broker_app/views/app_widgets/app_text_button.dart';
 import 'package:broker_app/views/auth/forgot_pass/forgot_pass_screen.dart';
+import 'package:broker_app/views/auth/year_selection/year_selection_screen.dart';
 import 'package:broker_app/views/dashboard/dashboard_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -223,6 +224,7 @@ class _VerifyPinScreenState extends State<VerifyPinScreen> {
     setState(() {});
 
     if (!result.success || result.data == null) {
+      _pinController.text ='';
       SnackBarHelpers.showErrorSnackBar(
         context,
         result.eMsg ?? AppStrings.eSomethingWrong,
@@ -234,7 +236,8 @@ class _VerifyPinScreenState extends State<VerifyPinScreen> {
     AppGlobals.instance.userType = result.data['userType'] as String? ?? '';
 
     NavHelper.navigate(
-        context: context, screen: const DashboardScreen(), removeAll: true);
+        context: context, screen: const YearSelectionScreen(), removeAll: true);
+    // context: context, screen: const DashboardScreen(), removeAll: true);
 
     // SnackBarHelpers.showSuccessSnackBar(context, 'PIN verified successfully');
   }

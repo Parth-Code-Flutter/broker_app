@@ -1,17 +1,25 @@
 import 'package:broker_app/constants/app_constants.dart';
+import 'package:broker_app/helpers/auth/auth_helper.dart';
 import 'package:broker_app/helpers/nav/nav_helper.dart';
+import 'package:broker_app/providers/sign_in/sign_in_provider.dart';
 import 'package:broker_app/utils/colors/app_colors.dart';
+import 'package:broker_app/utils/dialogs/app_dialogs.dart';
 import 'package:broker_app/utils/extensions/app_size_extension.dart';
 import 'package:broker_app/utils/strings/app_assets.dart';
+import 'package:broker_app/utils/strings/app_strings.dart';
 import 'package:broker_app/utils/ui/app_text_styles.dart';
 import 'package:broker_app/utils/ui/app_ui_utils.dart';
 import 'package:broker_app/views/app_widgets/app_button.dart';
 import 'package:broker_app/views/app_widgets/app_image.dart';
+import 'package:broker_app/views/app_widgets/app_loader.dart';
 import 'package:broker_app/views/app_widgets/app_scaffold.dart';
 import 'package:broker_app/views/app_widgets/app_spaces.dart';
 import 'package:broker_app/views/app_widgets/app_text.dart';
+import 'package:broker_app/views/app_widgets/primary_app_bar.dart';
+import 'package:broker_app/views/auth/verify_pin/verify_pin_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -22,23 +30,35 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   @override
+  void initState() {
+    setUserData();
+    super.initState();
+  }
+
+  setUserData() {
+    context.read<SignInProvider>().setUserData();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(16),
-        child: AppBar(
-          automaticallyImplyLeading: false,
-        ),
-      ),
-      body: Column(
-        children: [
-          _header,
-          AppSpaces.v56,
-          _personName,
-          AppSpaces.v56,
-          _personDetails,
-          _buttons,
-        ],
+      appBar:
+          appBar(title: kProfile, isShowBackButton: true, isShowActions: false),
+      body: Consumer<SignInProvider>(
+        builder: (context, provider, child) {
+          bool isLoading = provider.isLoading;
+          if (isLoading) return AppLoader();
+          return Column(
+            children: [
+              // _header,
+              // AppSpaces.v56,
+              // _personName,
+              AppSpaces.v16,
+              _personDetails,
+              _buttons,
+            ],
+          );
+        },
       ),
     );
   }
@@ -51,7 +71,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
         clipBehavior: Clip.none,
         children: [
           SizedBox(
-            height: 0.15.screenHeight,
+            // height: 0.15.screenHeight,
+            height: 0.08.screenHeight,
             child: Column(
               children: [
                 Row(
@@ -72,26 +93,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ],
                     ),
-                    Image.asset(
-                      AppAssets.notificationIcon,
-                      height: 25,
-                      width: 20,
-                    ),
+                    // Image.asset(
+                    //   AppAssets.notificationIcon,
+                    //   height: 25,
+                    //   width: 20,
+                    // ),
                   ],
                 )
               ],
             ),
           ),
-          Positioned.fill(
-            bottom: -50,
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: CircleAvatar(
-                radius: 50,
-                child: AppImage.asset(path: AppAssets.dummyProfile),
-              ),
-            ),
-          ),
+          // Positioned.fill(
+          //   bottom: -50,
+          //   child: Align(
+          //     alignment: Alignment.bottomCenter,
+          //     child: CircleAvatar(
+          //       radius: 50,
+          //       child: AppImage.asset(path: AppAssets.dummyProfile),
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );
@@ -127,6 +148,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
         children: [
+          /// phone no.
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              AppText(
+                text: kName,
+                style: AppTextStyles.textFieldBlackShade.copyWith(
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.lightGrey,
+                ),
+              ),
+              AppText(
+                text: context.read<SignInProvider>().userData.name ?? '',
+                style: AppTextStyles.textFieldBlackShade.copyWith(
+                    color: AppColors.primary, fontWeight: FontWeight.w600),
+              ),
+            ],
+          ),
+          AppSpaces.v6,
+
           /// email
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -139,7 +180,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ),
               AppText(
-                text: 'rakshit@gmail.com',
+                text: context.read<SignInProvider>().userData.email ?? '',
                 style: AppTextStyles.textFieldBlackShade.copyWith(
                     color: AppColors.primary, fontWeight: FontWeight.w600),
               ),
@@ -159,7 +200,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ),
               AppText(
-                text: '+91 9409006212',
+                text: context.read<SignInProvider>().userData.mobile ?? '',
                 style: AppTextStyles.textFieldBlackShade.copyWith(
                     color: AppColors.primary, fontWeight: FontWeight.w600),
               ),
@@ -167,65 +208,65 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           AppSpaces.v6,
 
-          /// birthdate
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              AppText(
-                text: kBirthDate,
-                style: AppTextStyles.textFieldBlackShade.copyWith(
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.lightGrey,
-                ),
-              ),
-              AppText(
-                text: '23-12-2002',
-                style: AppTextStyles.textFieldBlackShade.copyWith(
-                    color: AppColors.primary, fontWeight: FontWeight.w600),
-              ),
-            ],
-          ),
-          AppSpaces.v6,
+          // /// birthdate
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //   children: [
+          //     AppText(
+          //       text: kBirthDate,
+          //       style: AppTextStyles.textFieldBlackShade.copyWith(
+          //         fontWeight: FontWeight.w600,
+          //         color: AppColors.lightGrey,
+          //       ),
+          //     ),
+          //     AppText(
+          //       text: '23-12-2002',
+          //       style: AppTextStyles.textFieldBlackShade.copyWith(
+          //           color: AppColors.primary, fontWeight: FontWeight.w600),
+          //     ),
+          //   ],
+          // ),
+          // AppSpaces.v6,
 
-          /// address
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              AppText(
-                text: kAddress,
-                style: AppTextStyles.textFieldBlackShade.copyWith(
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.lightGrey,
-                ),
-              ),
-              AppText(
-                text: 'Mumbai,India',
-                style: AppTextStyles.textFieldBlackShade.copyWith(
-                    color: AppColors.primary, fontWeight: FontWeight.w600),
-              ),
-            ],
-          ),
-          AppSpaces.v6,
+          // /// address
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //   children: [
+          //     AppText(
+          //       text: kAddress,
+          //       style: AppTextStyles.textFieldBlackShade.copyWith(
+          //         fontWeight: FontWeight.w600,
+          //         color: AppColors.lightGrey,
+          //       ),
+          //     ),
+          //     AppText(
+          //       text: 'Mumbai,India',
+          //       style: AppTextStyles.textFieldBlackShade.copyWith(
+          //           color: AppColors.primary, fontWeight: FontWeight.w600),
+          //     ),
+          //   ],
+          // ),
+          // AppSpaces.v6,
 
-          /// gender
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              AppText(
-                text: kGender,
-                style: AppTextStyles.textFieldBlackShade.copyWith(
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.lightGrey,
-                ),
-              ),
-              AppText(
-                text: 'Male',
-                style: AppTextStyles.textFieldBlackShade.copyWith(
-                    color: AppColors.primary, fontWeight: FontWeight.w600),
-              ),
-            ],
-          ),
-          AppSpaces.v6,
+          // /// gender
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //   children: [
+          //     AppText(
+          //       text: kGender,
+          //       style: AppTextStyles.textFieldBlackShade.copyWith(
+          //         fontWeight: FontWeight.w600,
+          //         color: AppColors.lightGrey,
+          //       ),
+          //     ),
+          //     AppText(
+          //       text: 'Male',
+          //       style: AppTextStyles.textFieldBlackShade.copyWith(
+          //           color: AppColors.primary, fontWeight: FontWeight.w600),
+          //     ),
+          //   ],
+          // ),
+          // AppSpaces.v6,
         ],
       ),
     );
@@ -251,7 +292,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Flexible(
             flex: 1,
             child: AppButton(
-              onPressed: () {},
+              onPressed: () {
+                AppDialogs.alertSheet(
+                  context: context,
+                  title: AppStrings.logoutAlert,
+                  alertText: AppStrings.logoutAlertText,
+                  actionButtonText: AppStrings.logout,
+                  onOverride: () async {
+                    await AuthHelper.logout(context);
+
+                    // ignore: use_build_context_synchronously
+                    NavHelper.navigate(
+                      context: context,
+                      screen: const VerifyPinScreen(),
+                      removeAll: true,
+                    );
+                  },
+                );
+              },
               text: kLogout,
               borderRadius: AppUIUtils.buttonBorderRadius5,
               color: AppColors.containerBG,

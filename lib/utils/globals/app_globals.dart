@@ -17,4 +17,5 @@ class AppGlobals {
   String? userType;
 
   String? companyId;
+  String? yearId;
 }

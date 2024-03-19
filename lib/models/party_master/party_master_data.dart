@@ -10,19 +10,24 @@ class PartyMasterData {
   String? accPAN;
   String? accGST;
   String? accAdd;
+  String? accCper;
+  String? accCPerMob;
 
-  PartyMasterData(
-      {this.accVou,
-        this.accCmpVou,
-        this.accNm,
-        this.accCtyName,
-        this.accState,
-        this.accPhone,
-        this.accMob,
-        this.accEml,
-        this.accPAN,
-        this.accGST,
-        this.accAdd});
+  PartyMasterData({
+    this.accVou,
+    this.accCmpVou,
+    this.accNm,
+    this.accCtyName,
+    this.accState,
+    this.accPhone,
+    this.accMob,
+    this.accEml,
+    this.accPAN,
+    this.accGST,
+    this.accAdd,
+    this.accCper,
+    this.accCPerMob,
+  });
 
   PartyMasterData.fromJson(Map<String, dynamic> json) {
     accVou = json['AccVou'];
@@ -36,6 +41,8 @@ class PartyMasterData {
     accPAN = json['AccPAN'];
     accGST = json['AccGST'];
     accAdd = json['AccAdd'];
+    accCper = json['AccCper'];
+    accCPerMob = json['AccCPerMob'];
   }
 
   Map<String, dynamic> toJson() {
@@ -51,6 +58,8 @@ class PartyMasterData {
     data['AccPAN'] = this.accPAN;
     data['AccGST'] = this.accGST;
     data['AccAdd'] = this.accAdd;
+    data['AccCper'] = this.accCper;
+    data['AccCPerMob'] = this.accCPerMob;
     return data;
   }
 }

@@ -50,14 +50,14 @@ class AppAlertDialog extends StatelessWidget {
   Widget get _title {
     return AppText(
       text: title,
-      style: AppTextStyles.alertDialogTitle,
+      style: AppTextStyles.alertDialogTitle.copyWith(color: AppColors.whiteText),
     );
   }
 
   Widget get _alertText {
     return AppText(
       text: alertText,
-      style: AppTextStyles.alertDialogText,
+      style: AppTextStyles.alertDialogText.copyWith(color: AppColors.whiteText),
     );
   }
 
@@ -71,7 +71,7 @@ class AppAlertDialog extends StatelessWidget {
             onPressed: () {
               NavHelper.pop(context);
             },
-            color: AppColors.error.withOpacity(0.2),
+            color: AppColors.whiteText,
             textStyle: AppTextStyles.appButton.copyWith(color: AppColors.error),
           ),
         ),

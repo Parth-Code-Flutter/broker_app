@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:broker_app/helpers/nav/nav_helper.dart';
 import 'package:broker_app/models/dashboard/dashbaord_data.dart';
 import 'package:broker_app/utils/colors/app_colors.dart';
@@ -11,6 +13,7 @@ import 'package:broker_app/views/app_widgets/app_spaces.dart';
 import 'package:broker_app/views/app_widgets/app_text.dart';
 import 'package:broker_app/views/app_widgets/primary_app_bar.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -24,7 +27,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      appBar: appBar(title: 'Dashboard'),
+      appBar: appBar(title: 'Dashboard', isShowLogout: true),
       body: Padding(
         padding: const EdgeInsets.only(left: 10, top: 16),
         child: Wrap(
@@ -77,12 +80,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           height: 0.08.screenHeight,
                         ),
                         AppSpaces.v2,
-                        SizedBox(
+                        Container(
                           width: 0.2.screenWidth,
                           child: AppText(
                             text: DashboardData.dashboardDataList[i].title,
                             maxLines: 2,
-                            style: AppTextStyles.dashboardText.copyWith(height: 1.2),
+                            style: AppTextStyles.dashboardText
+                                .copyWith(height: 1.2),
                             align: TextAlign.center,
                           ),
                         ),

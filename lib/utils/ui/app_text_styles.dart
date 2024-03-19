@@ -100,7 +100,8 @@ class AppTextStyles {
 
   static TextStyle get textFieldText => appStyle(
         textStyle: TextStyle(
-          fontSize: smallFontSize,
+          // fontSize: smallFontSize,
+          fontSize: extraSmallFontSize,
           fontWeight: FontWeight.normal,
           color: AppColors.primaryText,
         ),

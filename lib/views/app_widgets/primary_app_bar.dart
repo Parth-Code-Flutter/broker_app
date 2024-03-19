@@ -8,6 +8,8 @@ AppBar appBar({
   required String title,
   bool primaryPage = false,
   bool isShowBackButton = false,
+  bool isShowLogout = false,
+  bool isShowActions = true,
   List<Widget>? actions,
 }) {
   return AppBar(
@@ -38,7 +40,7 @@ AppBar appBar({
     ),
     // actions: actions,
     actions: [
-      AppBarActions(),
+     if(isShowActions) AppBarActions(isShowLogout: isShowLogout),
     ],
     leadingWidth: 0,
   );

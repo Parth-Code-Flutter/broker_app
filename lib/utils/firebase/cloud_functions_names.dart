@@ -9,21 +9,21 @@ class CloudFunctionsNames {
   static String get resetPass => '$prefix/$auth/resetPass';
   static String get verifyPin => '$prefix/$auth/verifyPin';
   static String get resetPin => '$prefix/$auth/resetPin';
+  static String get getYears => '$prefix/$auth/getYears';
 
   static String get products => 'products';
   static String get getProducts => '$prefix/$products/get';
 
-  static String get profile => 'profile';
-  static String get getProfile => '$prefix/$profile/get';
+  // static String get profile => 'profile';
+  static String get getProfile => '$prefix/$auth/getUser';
 
 
   static String get parties => 'parties';
   static String get getParties => '$prefix/$parties/get';
 
 
-  static String get contacts => 'contacts';
-  static String get getContacts => '$prefix/$contacts/get';
-  static String get addContact => '$prefix/$contacts/add';
+  static String get contracts => 'contracts';
+  static String get getContracts => '$prefix/$contracts/get';
 
   static String get collections => 'collections';
   static String get addCollections => '$prefix/$collections/add';
