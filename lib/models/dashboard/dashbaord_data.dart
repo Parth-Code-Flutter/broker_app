@@ -1,4 +1,5 @@
 import 'package:broker_app/utils/strings/app_assets.dart';
+import 'package:broker_app/views/dashboard/contracts/contracts_filter_screen.dart';
 import 'package:broker_app/views/dashboard/contracts/contracts_screen.dart';
 import 'package:broker_app/views/dashboard/loading/loading_screen.dart';
 import 'package:broker_app/views/dashboard/party_master/party_master_screen.dart';
@@ -15,7 +16,7 @@ class DashboardData {
     DashboardData(
       title: 'Contracts',
       imgPath: AppAssets.contracts,
-      navigateTo: ContractsScreen(),
+      navigateTo: ContractsFilterScreen(),
     ),
     DashboardData(
       title: 'Loading',
@@ -25,7 +26,7 @@ class DashboardData {
     DashboardData(title: 'Loading Payment', imgPath: AppAssets.loadingPayment),
     DashboardData(title: 'Broker Invoice', imgPath: AppAssets.brokerInvoice),
     DashboardData(
-      title: 'Party Master',
+      title: 'Party Master  ',
       imgPath: AppAssets.partyMaster,
       navigateTo: PartyMasterScreen(),
     ),

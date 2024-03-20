@@ -54,7 +54,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           },
           child: SizedBox(
             width: 0.32.screenWidth,
-            height: 0.198.screenHeight,
+            height: 0.17.screenHeight,
             child: Container(
               margin: EdgeInsets.only(right: 10, top: 10),
               decoration: BoxDecoration(
@@ -77,11 +77,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       children: [
                         AppImage.asset(
                           path: DashboardData.dashboardDataList[i].imgPath,
-                          height: 0.08.screenHeight,
+                          height: 0.06.screenHeight,
                         ),
                         AppSpaces.v2,
                         Container(
-                          width: 0.2.screenWidth,
+                          // color: Colors.red,
+                          width: 0.23.screenWidth,
                           child: AppText(
                             text: DashboardData.dashboardDataList[i].title,
                             maxLines: 2,

@@ -6,14 +6,14 @@ import 'package:broker_app/utils/globals/app_globals.dart';
 
 class PartyMasterRepo {
   static Future<List<PartyMasterData>> fetchPartyData(
-      {String searchText = '', required int limit, required int offset}) async {
+      {String searchText = '', required int limit, required int offset,bool isFroDropdown =false}) async {
     try {
       String companyId = AppGlobals.instance.companyId ?? '0';
       final data = {
         "searchText": searchText,
         "companyId": companyId,
-        "limit": limit,
-        "offset": offset,
+        if (searchText.isEmpty && isFroDropdown==false) "limit": limit,
+        if (searchText.isEmpty && isFroDropdown==false) "offset": offset,
       };
 
       final result = await CloudFunctionsHelper.call(

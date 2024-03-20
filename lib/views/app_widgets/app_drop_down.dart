@@ -22,7 +22,7 @@ class AppDropDown<T> extends StatelessWidget {
     this.fieldTitle,
     this.isRequired = false,
     this.padding = const EdgeInsets.symmetric(
-      horizontal: 8,
+      horizontal: 16,
       vertical: 12,
     ),
     this.validator,
@@ -78,8 +78,9 @@ class AppDropDown<T> extends StatelessWidget {
             searchDelay: Duration.zero,
             itemBuilder: (context, item, isSelected) {
               return Container(
+                color: AppColors.whiteBg,
                 padding: const EdgeInsets.symmetric(
-                  vertical: 4,
+                  vertical: 8,
                   horizontal: 16,
                 ),
                 child: Column(
@@ -91,7 +92,7 @@ class AppDropDown<T> extends StatelessWidget {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    Divider(color: AppColors.primary,height: 1),
+                    Divider(color: AppColors.primary, height: 1),
                   ],
                 ),
               );
@@ -105,6 +106,8 @@ class AppDropDown<T> extends StatelessWidget {
                   horizontal: 12,
                   vertical: 8,
                 ),
+                fillColor: AppColors.whiteBg,
+                filled: true,
                 border: _enabledBorder,
                 enabledBorder: _enabledBorder,
                 focusedBorder: _focusedBorder,
@@ -137,7 +140,7 @@ class AppDropDown<T> extends StatelessWidget {
           validator: validator,
           dropdownDecoratorProps: DropDownDecoratorProps(
             dropdownSearchDecoration: InputDecoration(
-              fillColor: AppColors.textFieldBg,
+              fillColor: AppColors.whiteBg,
               filled: true,
               isDense: true,
               contentPadding: padding,

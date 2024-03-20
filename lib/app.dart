@@ -89,7 +89,7 @@ class _AppMainState extends State<AppMain> {
 
   ColorScheme get _colorScheme => ColorScheme.fromSeed(
         seedColor: AppColors.primary,
-        background: AppColors.primaryBg,
-        surface: AppColors.primaryBg,
+        background: AppColors.whiteBg,
+        surface: AppColors.whiteBg,
       );
 }

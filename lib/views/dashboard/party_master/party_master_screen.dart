@@ -31,25 +31,27 @@ class _PartyMasterScreenState extends State<PartyMasterScreen> {
   TextEditingController _searchController = TextEditingController();
   final _controller = ScrollController();
 
-  double firstTextWidth = 0.24;
+  double firstTextWidth = 0.3;
   double secondTextWidth = 0.6;
 
   @override
   void initState() {
+    context.read<PartyMasterProvider>().clearList();
     context.read<PartyMasterProvider>().offset = 10;
     context.read<PartyMasterProvider>().limit = 10;
     getPartyData();
 
-    _controller.addListener(() {
+    _controller.addListener(() async {
       if (_controller.position.atEdge) {
         bool isTop = _controller.position.pixels == 0;
         if (isTop) {
           print('At the top');
         } else {
           if (context.read<PartyMasterProvider>().isListEmpty == false) {
-            setState(() {});
-            ;
-            context.read<PartyMasterProvider>().setPartyData();
+            // setState(() {});
+            await context.read<PartyMasterProvider>().setPartyData();
+            // _controller.position.jumpTo(
+            //     context.read<PartyMasterProvider>().offset - 1);
           }
         }
       }
@@ -98,9 +100,10 @@ class _PartyMasterScreenState extends State<PartyMasterScreen> {
                     onTap: () {
                       if (_searchController.text.trim().isNotEmpty) {
                         _searchController.text = '';
+                        context.read<PartyMasterProvider>().clean();
                         context.read<PartyMasterProvider>().isListEmpty = false;
                         context.read<PartyMasterProvider>().limit = 10;
-                        context.read<PartyMasterProvider>().limit = 10;
+                        context.read<PartyMasterProvider>().offset = 10;
                         context
                             .read<PartyMasterProvider>()
                             .setPartyData(searchText: '');
@@ -135,8 +138,9 @@ class _PartyMasterScreenState extends State<PartyMasterScreen> {
             onTap: () {
               if (_searchController.text.trim().isNotEmpty) {
                 FocusManager.instance.primaryFocus?.unfocus();
+                context.read<PartyMasterProvider>().clean();
                 context.read<PartyMasterProvider>().isListEmpty = false;
-                context.read<PartyMasterProvider>().limit = 10;
+                context.read<PartyMasterProvider>().offset = 10;
                 context.read<PartyMasterProvider>().limit = 10;
                 context.read<PartyMasterProvider>().setPartyData(
                       searchText: _searchController.text.trim(),
@@ -288,8 +292,10 @@ class _PartyMasterScreenState extends State<PartyMasterScreen> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            LaunchUrlHelper.launchUrlMethod(
-                                Uri.parse('tel:${data.accCPerMob ?? ''}'));
+                            if ((data.accPhone ?? '').isNotEmpty) {
+                              LaunchUrlHelper.launchUrlMethod(
+                                  Uri.parse('tel:${data.accPhone ?? ''}'));
+                            }
                           },
                           child: SizedBox(
                             width: secondTextWidth.screenWidth,
@@ -336,8 +342,10 @@ class _PartyMasterScreenState extends State<PartyMasterScreen> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            LaunchUrlHelper.launchUrlMethod(
-                                Uri.parse('tel:${data.accMob ?? ''}'));
+                            if ((data.accMob ?? '').isNotEmpty) {
+                              LaunchUrlHelper.launchUrlMethod(
+                                  Uri.parse('tel:${data.accMob ?? ''}'));
+                            }
                           },
                           child: SizedBox(
                             width: secondTextWidth.screenWidth,
@@ -467,16 +475,53 @@ class _PartyMasterScreenState extends State<PartyMasterScreen> {
                             style: AppTextStyles.tinyListTextStyle,
                           ),
                         ),
-                        SizedBox(
-                          width: 0.6.screenWidth,
-                          child: AppText(
-                            text:
-                                '${data.accAdd ?? ''}, ${returnCityState(data)}',
-                            style: AppTextStyles.tinyListTextStyle,
+                        if ((data.accAdd ?? '').isNotEmpty)
+                          SizedBox(
+                            width: 0.6.screenWidth,
+                            child: AppText(
+                              text: '${data.accAdd ?? ''}',
+                              style: AppTextStyles.tinyListTextStyle,
+                            ),
                           ),
-                        ),
+                        if ((data.accAdd ?? '').isEmpty)
+                          SizedBox(
+                            width: 0.6.screenWidth,
+                            child: AppText(
+                              text: '${returnCityState(data)}',
+                              style: AppTextStyles.tinyListTextStyle,
+                            ),
+                          ),
                       ],
                     ),
+                    AppSpaces.v4,
+
+                    /// Address 2
+                    if ((data.accAdd ?? '').isNotEmpty)
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            width: firstTextWidth.screenWidth,
+                            child: AppText(
+                              text: '',
+                              style: AppTextStyles.tinyLabelTextStyle,
+                            ),
+                          ),
+                          SizedBox(
+                            child: AppText(
+                              text: '  ',
+                              style: AppTextStyles.tinyListTextStyle,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 0.6.screenWidth,
+                            child: AppText(
+                              text: '${returnCityState(data)}',
+                              style: AppTextStyles.tinyListTextStyle,
+                            ),
+                          ),
+                        ],
+                      ),
                     AppSpaces.v4,
 
                     // Align(

@@ -32,6 +32,16 @@ extension AppDateTimeExtension on DateTime {
     }
   }
 
+  String get dateWithDDMMYYYY{
+    try{
+      // DateTime tempDate = DateFormat("yyyy-MM-dd").format(this);
+      String displayDate = DateFormat("dd/MM/yyyy").format(this);
+      return displayDate;
+    }catch(e){
+      return this.toString();
+    }
+  }
+
   /// converts this `dateTime` to `String` to show in UI
   String get dateWithYear {
     final converted = DateFormat('dd MMM, yyyy').format(this);

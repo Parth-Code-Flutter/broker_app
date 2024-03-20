@@ -3,8 +3,8 @@ import 'package:broker_app/providers/app_provider.dart';
 import 'package:broker_app/repositories/party_master/party_master_repo.dart';
 
 class PartyMasterProvider extends AppProvider {
-
   List<PartyMasterData> _partyList = [];
+
   List<PartyMasterData> get partyList => _partyList;
 
   int offset = 10;
@@ -12,22 +12,34 @@ class PartyMasterProvider extends AppProvider {
   bool isListEmpty = false;
 
   bool _isLoading = false;
+
   bool get isLoading => _isLoading;
 
+  void clearList() {
+    _partyList = [];
+  }
+
   Future<void> setPartyData(
-      {bool notify = false, String searchText = ''}) async {
+      {bool notify = false,
+      String searchText = '',
+      bool isFroDropdown = false}) async {
     _isLoading = true;
     if (notify) notifyListeners();
 
-    _partyList = await PartyMasterRepo.fetchPartyData(
-        searchText: searchText, offset: offset, limit: limit);
+    var list = await PartyMasterRepo.fetchPartyData(
+        searchText: searchText,
+        offset: offset,
+        limit: limit,
+        isFroDropdown: isFroDropdown);
 
+    _partyList.addAll(list);
+    print('_partyList length :: ${_partyList.length}');
     if (_partyList.isEmpty) {
       isListEmpty = true;
     } else {
       offset = offset + 10;
     }
-    _partyList.sort((a, b) => (a.accNm ?? '').compareTo((b.accNm ?? '')));
+    // _partyList.sort((a, b) => (a.accNm ?? '').compareTo((b.accNm ?? '')));
 
     _isLoading = false;
     notifyListeners();
@@ -35,6 +47,7 @@ class PartyMasterProvider extends AppProvider {
 
   @override
   void clean() {
+    _partyList = [];
     // TODO: implement clean
   }
 }

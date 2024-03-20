@@ -21,6 +21,7 @@ class ContractsRepo {
       final data = {
         "yearId": yearId,
         "companyId": companyId,
+        "searchText": searchText,
         if (partyId.isNotEmpty) "partyId": partyId,
         if (buyerId.isNotEmpty) "buyerId": buyerId,
         if (sellerId.isNotEmpty) "sellerId": sellerId,

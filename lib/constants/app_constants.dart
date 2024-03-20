@@ -46,6 +46,10 @@ String kSellerBillName = 'Seller Bill Name';
 String kBuyerBillName = 'Buyer Bill Name';
 String kTruckNo = 'Truck No';
 
+String kParty = 'Party';
+String kDateFrom = 'Date From';
+String kDateTo = 'Date To';
+
 String kFilter = 'Filter';
 String kShare = 'Share';
 String kSubmit = 'Submit';

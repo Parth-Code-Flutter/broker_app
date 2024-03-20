@@ -5,6 +5,7 @@ import 'package:broker_app/providers/sign_in/sign_in_provider.dart';
 import 'package:broker_app/utils/colors/app_colors.dart';
 import 'package:broker_app/utils/dialogs/app_dialogs.dart';
 import 'package:broker_app/utils/extensions/app_size_extension.dart';
+import 'package:broker_app/utils/globals/app_globals.dart';
 import 'package:broker_app/utils/strings/app_assets.dart';
 import 'package:broker_app/utils/strings/app_strings.dart';
 import 'package:broker_app/utils/ui/app_text_styles.dart';
@@ -16,6 +17,7 @@ import 'package:broker_app/views/app_widgets/app_scaffold.dart';
 import 'package:broker_app/views/app_widgets/app_spaces.dart';
 import 'package:broker_app/views/app_widgets/app_text.dart';
 import 'package:broker_app/views/app_widgets/primary_app_bar.dart';
+import 'package:broker_app/views/auth/change_pin/change_pin_screen.dart';
 import 'package:broker_app/views/auth/verify_pin/verify_pin_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -280,7 +282,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Flexible(
             flex: 1,
             child: AppButton(
-              onPressed: () {},
+              onPressed: () {
+                NavHelper.navigate(
+                  context: context,
+                  screen: ChangePinScreen(
+                    hasPin: AppGlobals.instance.hasPin ?? false,
+                    pin: null,
+                  ),
+                );
+              },
               text: kChangeMPin,
               borderRadius: AppUIUtils.buttonBorderRadius5,
               borderColor: AppColors.containerBG,

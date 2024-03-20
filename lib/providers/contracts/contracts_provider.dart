@@ -26,7 +26,8 @@ class ContractsProvider extends AppProvider {
     _isLoading = true;
     if (notify) notifyListeners();
 
-    _contracts = await ContractsRepo.fetchContracts(
+    var data = await ContractsRepo.fetchContracts(
+      searchText: searchText,
       partyId: partyId,
       buyerId: buyerId,
       sellerId: sellerId,
@@ -35,6 +36,7 @@ class ContractsProvider extends AppProvider {
       limit: limit,
       offset: offset,
     );
+    _contracts.addAll(data);
     if (_contracts.isEmpty) {
       isListEmpty = true;
     } else {
@@ -48,6 +50,7 @@ class ContractsProvider extends AppProvider {
 
   @override
   void clean() {
+    _contracts = [];
     // TODO: implement clean
   }
 }
