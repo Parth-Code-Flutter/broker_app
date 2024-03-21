@@ -7,7 +7,7 @@ class PartyMasterProvider extends AppProvider {
 
   List<PartyMasterData> get partyList => _partyList;
 
-  int offset = 10;
+  int offset = 0;
   int limit = 10;
   bool isListEmpty = false;
 
@@ -48,6 +48,9 @@ class PartyMasterProvider extends AppProvider {
   @override
   void clean() {
     _partyList = [];
+    offset = 0;
+    limit = 10;
+    isListEmpty =false;
     // TODO: implement clean
   }
 }

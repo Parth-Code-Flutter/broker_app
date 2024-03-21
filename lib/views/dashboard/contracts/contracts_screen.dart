@@ -45,8 +45,8 @@ class _ContractsScreenState extends State<ContractsScreen> {
   @override
   void initState() {
     context.read<ContractsProvider>().clean();
-    context.read<ContractsProvider>().offset = 10;
-    context.read<ContractsProvider>().limit = 10;
+    // context.read<ContractsProvider>().offset = 10;
+    // context.read<ContractsProvider>().limit = 10;
     getContractsData();
     _controller.addListener(() {
       if (_controller.position.atEdge) {
@@ -69,7 +69,7 @@ class _ContractsScreenState extends State<ContractsScreen> {
     context.read<ContractsProvider>().setContractsData(
           dateTo: widget.dateTo.dateForDB,
           dateFrom: widget.dateFrom.dateForDB,
-          partyId: widget.partyId ?? '0',
+          partyId: widget.partyId ?? '',
         );
   }
 
@@ -110,12 +110,16 @@ class _ContractsScreenState extends State<ContractsScreen> {
                     onTap: () {
                       if (_searchController.text.trim().isNotEmpty) {
                         _searchController.text = '';
-                        context.read<ContractsProvider>().isListEmpty = false;
-                        context.read<ContractsProvider>().offset = 10;
-                        context.read<ContractsProvider>().limit = 10;
-                        context
-                            .read<ContractsProvider>()
-                            .setContractsData(searchText: '');
+                        context.read<ContractsProvider>().clean();
+                        // context.read<ContractsProvider>().isListEmpty = false;
+                        // context.read<ContractsProvider>().offset = 10;
+                        // context.read<ContractsProvider>().limit = 10;
+                        context.read<ContractsProvider>().setContractsData(
+                              searchText: '',
+                              dateTo: widget.dateTo.dateForDB,
+                              dateFrom: widget.dateFrom.dateForDB,
+                              partyId: widget.partyId ?? '',
+                            );
                         FocusManager.instance.primaryFocus?.unfocus();
                         setState(() {});
                       }
@@ -134,9 +138,9 @@ class _ContractsScreenState extends State<ContractsScreen> {
               if (_searchController.text.trim().isNotEmpty) {
                 FocusManager.instance.primaryFocus?.unfocus();
                 context.read<ContractsProvider>().clean();
-                context.read<ContractsProvider>().isListEmpty = false;
-                context.read<ContractsProvider>().offset = 10;
-                context.read<ContractsProvider>().limit = 10;
+                // context.read<ContractsProvider>().isListEmpty = false;
+                // context.read<ContractsProvider>().offset = 10;
+                // context.read<ContractsProvider>().limit = 10;
                 context.read<ContractsProvider>().setContractsData(
                       searchText: _searchController.text.trim(),
                     );

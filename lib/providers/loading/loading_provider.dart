@@ -1,21 +1,22 @@
 import 'package:broker_app/models/contracts/contracts_data.dart';
+import 'package:broker_app/models/loading/loading_data.dart';
 import 'package:broker_app/providers/app_provider.dart';
 import 'package:broker_app/repositories/contracts_repo/contracts_repo.dart';
+import 'package:broker_app/repositories/loading_repo/loading_repo.dart';
 
-class ContractsProvider extends AppProvider {
-  List<ContractsData> _contracts = [];
+class LoadingProvider extends AppProvider {
 
-  List<ContractsData> get contracts => _contracts;
+  List<LoadingData> _loadings = [];
+  List<LoadingData> get loadings => _loadings;
 
   int offset = 0;
   int limit = 10;
   bool isListEmpty = false;
 
   bool _isLoading = false;
-
   bool get isLoading => _isLoading;
 
-  Future<void> setContractsData({
+  Future<void> setLoadingsData({
     bool notify = false,
     String partyId = '',
     String buyerId = '',
@@ -27,7 +28,7 @@ class ContractsProvider extends AppProvider {
     _isLoading = true;
     if (notify) notifyListeners();
 
-    var data = await ContractsRepo.fetchContracts(
+    var data = await LoadingRepo.fetchLoadings(
       searchText: searchText,
       partyId: partyId,
       buyerId: buyerId,
@@ -37,8 +38,8 @@ class ContractsProvider extends AppProvider {
       limit: limit,
       offset: offset,
     );
-    _contracts.addAll(data);
-    if (_contracts.isEmpty) {
+    _loadings.addAll(data);
+    if (_loadings.isEmpty) {
       isListEmpty = true;
     } else {
       offset = offset + 10;
@@ -51,7 +52,7 @@ class ContractsProvider extends AppProvider {
 
   @override
   void clean() {
-    _contracts = [];
+    _loadings = [];
     offset = 0;
     limit = 10;
     // TODO: implement clean

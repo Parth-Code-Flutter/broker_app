@@ -36,9 +36,9 @@ class _PartyMasterScreenState extends State<PartyMasterScreen> {
 
   @override
   void initState() {
-    context.read<PartyMasterProvider>().clearList();
-    context.read<PartyMasterProvider>().offset = 10;
-    context.read<PartyMasterProvider>().limit = 10;
+    context.read<PartyMasterProvider>().clean();
+    // context.read<PartyMasterProvider>().offset = 10;
+    // context.read<PartyMasterProvider>().limit = 10;
     getPartyData();
 
     _controller.addListener(() async {
@@ -101,9 +101,9 @@ class _PartyMasterScreenState extends State<PartyMasterScreen> {
                       if (_searchController.text.trim().isNotEmpty) {
                         _searchController.text = '';
                         context.read<PartyMasterProvider>().clean();
-                        context.read<PartyMasterProvider>().isListEmpty = false;
-                        context.read<PartyMasterProvider>().limit = 10;
-                        context.read<PartyMasterProvider>().offset = 10;
+                        // context.read<PartyMasterProvider>().isListEmpty = false;
+                        // context.read<PartyMasterProvider>().limit = 10;
+                        // context.read<PartyMasterProvider>().offset = 10;
                         context
                             .read<PartyMasterProvider>()
                             .setPartyData(searchText: '');
@@ -139,9 +139,9 @@ class _PartyMasterScreenState extends State<PartyMasterScreen> {
               if (_searchController.text.trim().isNotEmpty) {
                 FocusManager.instance.primaryFocus?.unfocus();
                 context.read<PartyMasterProvider>().clean();
-                context.read<PartyMasterProvider>().isListEmpty = false;
-                context.read<PartyMasterProvider>().offset = 10;
-                context.read<PartyMasterProvider>().limit = 10;
+                // context.read<PartyMasterProvider>().isListEmpty = false;
+                // context.read<PartyMasterProvider>().offset = 0;
+                // context.read<PartyMasterProvider>().limit = 10;
                 context.read<PartyMasterProvider>().setPartyData(
                       searchText: _searchController.text.trim(),
                     );

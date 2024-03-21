@@ -25,8 +25,8 @@ class CloudFunctionsNames {
   static String get contracts => 'contracts';
   static String get getContracts => '$prefix/$contracts/get';
 
-  static String get collections => 'collections';
-  static String get addCollections => '$prefix/$collections/add';
+  static String get loadings => 'loadings';
+  static String get getLoadings => '$prefix/$loadings/get';
 
   static String get categories => 'categories';
   static String get getCategories => '$prefix/$categories/get';
