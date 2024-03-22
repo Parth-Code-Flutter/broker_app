@@ -1,9 +1,13 @@
 import 'package:broker_app/helpers/nav/nav_helper.dart';
+import 'package:broker_app/providers/sign_in/sign_in_provider.dart';
 import 'package:broker_app/utils/extensions/app_size_extension.dart';
+import 'package:broker_app/utils/globals/app_globals.dart';
 import 'package:broker_app/utils/strings/app_assets.dart';
 import 'package:broker_app/views/app_widgets/app_image.dart';
+import 'package:broker_app/views/app_widgets/app_loader.dart';
 import 'package:broker_app/views/app_widgets/app_scaffold.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'views/auth/change_pin/change_pin_screen.dart';
 import 'views/auth/sign_in/sign_in_screen.dart';
@@ -27,9 +31,16 @@ class _SplashScreenState extends State<SplashScreen> {
   late bool _isAuthenticated;
   late bool _hasPin;
 
+  getSplashScreen() async {
+    if ((AppGlobals.instance.companyId??'').isNotEmpty) {
+      await context.read<SignInProvider>().setSplashImgData();
+    }
+  }
+
   @override
   void initState() {
     super.initState();
+    getSplashScreen();
     _setIsAuthenticated();
   }
 
@@ -38,7 +49,7 @@ class _SplashScreenState extends State<SplashScreen> {
     _hasPin = widget.hasPin;
 
     Future.delayed(
-      Duration(seconds: 3),
+      Duration(seconds: 5),
       () {
         if (!_isAuthenticated) {
           NavHelper.navigate(
@@ -60,11 +71,17 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Container(
-        child: AppImage.asset(
-          path: AppAssets.splashScreen,
-        ),
+    return AppScaffold(
+      body: Consumer<SignInProvider>(
+        builder: (context, provider, child) {
+          bool isLoading = provider.isLoading;
+          if (isLoading) return AppLoader();
+          return Container(
+            child: AppImage.asset(
+              path: AppAssets.splashScreen,
+            ),
+          );
+        },
       ),
     );
   }

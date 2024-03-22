@@ -24,12 +24,15 @@ class ContractsScreen extends StatefulWidget {
   final DateTime dateFrom;
   final DateTime dateTo;
   final String? partyId;
+  final String? voucherId;
 
-  const ContractsScreen(
-      {super.key,
-      required this.dateFrom,
-      required this.dateTo,
-      required this.partyId});
+  const ContractsScreen({
+    super.key,
+    required this.dateFrom,
+    required this.dateTo,
+    required this.partyId,
+    required this.voucherId,
+  });
 
   @override
   State<ContractsScreen> createState() => _ContractsScreenState();
@@ -70,6 +73,7 @@ class _ContractsScreenState extends State<ContractsScreen> {
           dateTo: widget.dateTo.dateForDB,
           dateFrom: widget.dateFrom.dateForDB,
           partyId: widget.partyId ?? '',
+          voucherTypeId: widget.voucherId ?? '',
         );
   }
 
@@ -119,6 +123,7 @@ class _ContractsScreenState extends State<ContractsScreen> {
                               dateTo: widget.dateTo.dateForDB,
                               dateFrom: widget.dateFrom.dateForDB,
                               partyId: widget.partyId ?? '',
+                              voucherTypeId: widget.voucherId ?? '',
                             );
                         FocusManager.instance.primaryFocus?.unfocus();
                         setState(() {});

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:broker_app/models/user/splash_data.dart';
 import 'package:broker_app/models/user/user_data.dart';
 import 'package:broker_app/models/year_selection/year_selection.dart';
 import 'package:broker_app/providers/app_provider.dart';
@@ -19,11 +20,13 @@ class SignInProvider extends AppProvider {
 
   /// states data list
   List<YearData> _years = [];
-
   List<YearData> get years => _years;
 
   UserData _userData = UserData();
   UserData get userData => _userData;
+
+  SplashData _splashData = SplashData();
+  SplashData get splashData => _splashData;
 
   bool _isLoading = false;
 
@@ -49,6 +52,21 @@ class SignInProvider extends AppProvider {
     _isLoading = false;
     notifyListeners();
   }
+
+
+  Future<void> setSplashImgData(
+      {bool notify = false}) async {
+    _isLoading = true;
+    if (notify) notifyListeners();
+
+    _splashData = await AuthRepo.fetchSplashImg()??SplashData();
+
+    // _voucherList.sort((a, b) => (a.accNm ?? '').compareTo((b.accNm ?? '')));
+
+    _isLoading = false;
+    notifyListeners();
+  }
+
 
   void setPhone(String number) {
     _phone = number;

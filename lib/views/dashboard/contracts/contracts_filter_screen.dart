@@ -40,10 +40,11 @@ class _ContractsFilterScreenState extends State<ContractsFilterScreen> {
   DateTime dateFrom = DateTime.now().subtract(Duration(days: 1));
   DateTime dateTo = DateTime.now();
   String? _partyId;
+  String? _voucherId;
   bool isShowPartyList = false;
 
-  getPartyData() async {
-    await context.read<PartyMasterProvider>().setPartyData(isFroDropdown: true);
+  getData() async {
+    await context.read<PartyMasterProvider>().setVoucherData();
   }
 
   @override
@@ -52,7 +53,7 @@ class _ContractsFilterScreenState extends State<ContractsFilterScreen> {
         DateTime.now().subtract(Duration(days: 1)).dateWithYear;
     _dateToController.text = DateTime.now().dateWithYear;
 
-    // getPartyData();
+    getData();
     super.initState();
   }
 
@@ -74,12 +75,13 @@ class _ContractsFilterScreenState extends State<ContractsFilterScreen> {
                 child: Column(
                   children: [
                     AppSpaces.v16,
-                    // _partyDropdown,
                     _searchAndFilter,
                     AppSpaces.v16,
                     _dateFrom,
                     AppSpaces.v16,
                     _dateTo,
+                    AppSpaces.v16,
+                    _voucherDropdown,
                     AppSpaces.v16,
                     _buttons,
                   ],
@@ -237,31 +239,32 @@ class _ContractsFilterScreenState extends State<ContractsFilterScreen> {
     );
   }
 
-  get _partyDropdown {
+  get _voucherDropdown {
     return Consumer<PartyMasterProvider>(
       builder: (context, provider, child) {
         bool isLoading = provider.isLoading;
 
         if (isLoading) return AppLoader();
 
-        final data = provider.partyList;
+        final data = provider.voucherList;
         return AppDropDown<String>(
           // fieldTitle: 'City/Village',
           // isRequired: true,
-          hintText: kPlaceHolder,
-          labelText: kParty,
-          selectedItem: _partyId,
+          hintText: kSelectVoucherType,
+          labelText: kVoucherType,
+          selectedItem: _voucherId,
 
-          items: data.map((e) => e.accVou ?? '').toList(),
+          items: data.map((e) => e.id.toString() ?? '').toList(),
           string: (item) =>
               data
-                  .where((company) => company.accVou == item)
+                  .where((company) => company.id.toString() == item)
                   .firstOrNull
-                  ?.accNm ??
+                  ?.description ??
               '',
           onChanged: (value) {
-            _partyId = value;
+            _voucherId = value;
             setState(() {});
+            print('_voucherId :: $_voucherId');
           },
           // validator: (value) {
           //   if (value == null || value.isEmpty) {
@@ -339,6 +342,7 @@ class _ContractsFilterScreenState extends State<ContractsFilterScreen> {
                   dateFrom: dateFrom,
                   dateTo: dateTo,
                   partyId: _partyId,
+                  voucherId: _voucherId,
                 ),
               );
             },

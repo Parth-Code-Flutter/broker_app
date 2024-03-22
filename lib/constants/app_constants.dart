@@ -47,6 +47,7 @@ String kBuyerBillName = 'Buyer Bill Name';
 String kTruckNo = 'Truck No';
 
 String kParty = 'Party';
+String kVoucherType= 'Voucher Type';
 String kDateFrom = 'Date From';
 String kDateTo = 'Date To';
 
@@ -58,3 +59,4 @@ String kView = 'View';
 
 String kSearchFilterHint = 'Search';
 String kPlaceHolder = 'Placeholder';
+String kSelectVoucherType = 'Select Voucher Type';

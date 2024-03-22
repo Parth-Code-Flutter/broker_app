@@ -12,6 +12,9 @@ class PartyMasterData {
   String? accAdd;
   String? accCper;
   String? accCPerMob;
+  String? area;
+  String? city;
+  String? state;
 
   PartyMasterData({
     this.accVou,
@@ -27,6 +30,9 @@ class PartyMasterData {
     this.accAdd,
     this.accCper,
     this.accCPerMob,
+    this.area,
+    this.city,
+    this.state,
   });
 
   PartyMasterData.fromJson(Map<String, dynamic> json) {
@@ -43,6 +49,9 @@ class PartyMasterData {
     accAdd = json['AccAdd'];
     accCper = json['AccCper'];
     accCPerMob = json['AccCPerMob'];
+    area = json['Area'];
+    city = json['City'];
+    state = json['State'];
   }
 
   Map<String, dynamic> toJson() {
@@ -60,6 +69,9 @@ class PartyMasterData {
     data['AccAdd'] = this.accAdd;
     data['AccCper'] = this.accCper;
     data['AccCPerMob'] = this.accCPerMob;
+    data['Area'] = this.area;
+    data['City'] = this.city;
+    data['State'] = this.state;
     return data;
   }
 }

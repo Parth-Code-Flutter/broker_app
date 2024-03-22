@@ -55,6 +55,7 @@ class LoadingProvider extends AppProvider {
     _loadings = [];
     offset = 0;
     limit = 10;
+    isListEmpty = false;
     // TODO: implement clean
   }
 }

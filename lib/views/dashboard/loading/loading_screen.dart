@@ -45,8 +45,8 @@ class _LoadingScreenState extends State<LoadingScreen> {
   @override
   void initState() {
     context.read<LoadingProvider>().clean();
-    context.read<LoadingProvider>().offset = 10;
-    context.read<LoadingProvider>().limit = 10;
+    // context.read<LoadingProvider>().offset = 10;
+    // context.read<LoadingProvider>().limit = 10;
     getLoadingData();
     _controller.addListener(() {
       if (_controller.position.atEdge) {
@@ -69,7 +69,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
     context.read<LoadingProvider>().setLoadingsData(
           dateTo: widget.dateTo.dateForDB,
           dateFrom: widget.dateFrom.dateForDB,
-          partyId: widget.partyId ?? '0',
+          partyId: widget.partyId ?? '',
         );
   }
 
@@ -110,14 +110,15 @@ class _LoadingScreenState extends State<LoadingScreen> {
                     onTap: () {
                       if (_searchController.text.trim().isNotEmpty) {
                         _searchController.text = '';
-                        context.read<LoadingProvider>().isListEmpty = false;
-                        context.read<LoadingProvider>().offset = 10;
-                        context.read<LoadingProvider>().limit = 10;
+                        context.read<LoadingProvider>().clean();
+                        // context.read<LoadingProvider>().isListEmpty = false;
+                        // context.read<LoadingProvider>().offset = 10;
+                        // context.read<LoadingProvider>().limit = 10;
                         context.read<LoadingProvider>().setLoadingsData(
                               searchText: '',
                               dateTo: widget.dateTo.dateForDB,
                               dateFrom: widget.dateFrom.dateForDB,
-                              partyId: widget.partyId ?? '0',
+                              partyId: widget.partyId ?? '',
                             );
                         FocusManager.instance.primaryFocus?.unfocus();
                         setState(() {});
@@ -137,9 +138,9 @@ class _LoadingScreenState extends State<LoadingScreen> {
               if (_searchController.text.trim().isNotEmpty) {
                 FocusManager.instance.primaryFocus?.unfocus();
                 context.read<LoadingProvider>().clean();
-                context.read<LoadingProvider>().isListEmpty = false;
-                context.read<LoadingProvider>().offset = 10;
-                context.read<LoadingProvider>().limit = 10;
+                // context.read<LoadingProvider>().isListEmpty = false;
+                // context.read<LoadingProvider>().offset = 10;
+                // context.read<LoadingProvider>().limit = 10;
                 context.read<LoadingProvider>().setLoadingsData(
                       searchText: _searchController.text.trim(),
                     );

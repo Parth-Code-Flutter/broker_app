@@ -16,10 +16,14 @@ class CloudFunctionsNames {
 
   // static String get profile => 'profile';
   static String get getProfile => '$prefix/$auth/getUser';
+  static String get getSplash => '$prefix/$auth/getSplash';
 
 
   static String get parties => 'parties';
   static String get getParties => '$prefix/$parties/get';
+
+  static String get voucherTypes => 'voucherTypes';
+  static String get getVoucherTypes => '$prefix/$voucherTypes/get';
 
 
   static String get contracts => 'contracts';
