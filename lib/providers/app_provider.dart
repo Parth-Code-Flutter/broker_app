@@ -1,3 +1,4 @@
+import 'package:broker_app/providers/broker_invoice/broker_invoice_provider.dart';
 import 'package:broker_app/providers/contracts/contracts_provider.dart';
 import 'package:broker_app/providers/loading/loading_provider.dart';
 import 'package:broker_app/providers/loading_payment_provider/loading_payment_provider.dart';
@@ -29,6 +30,9 @@ abstract class AppProvider extends ChangeNotifier {
     ChangeNotifierProvider(
       create: (context) => LoadingPaymentProvider(),
     ),
+    ChangeNotifierProvider(
+      create: (context) => BrokerInvoiceProvider(),
+    ),
   ];
 
   static void cleanAllData(BuildContext context) {
@@ -38,6 +42,7 @@ abstract class AppProvider extends ChangeNotifier {
     context.read<ContractsProvider>().clean();
     context.read<LoadingProvider>().clean();
     context.read<LoadingPaymentProvider>().clean();
+    context.read<BrokerInvoiceProvider>().clean();
   }
 
   void clean();

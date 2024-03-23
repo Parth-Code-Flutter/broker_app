@@ -18,4 +18,6 @@ class AppGlobals {
 
   String? companyId;
   String? yearId;
+  String? selectedYear;
+  String? CmpCode;
 }

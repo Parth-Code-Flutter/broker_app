@@ -1,10 +1,8 @@
 import 'package:broker_app/constants/app_constants.dart';
-import 'package:broker_app/helpers/nav/nav_helper.dart';
-import 'package:broker_app/providers/contracts/contracts_provider.dart';
+import 'package:broker_app/providers/broker_invoice/broker_invoice_provider.dart';
 import 'package:broker_app/utils/colors/app_colors.dart';
 import 'package:broker_app/utils/extensions/app_date_time_extension.dart';
 import 'package:broker_app/utils/extensions/app_size_extension.dart';
-import 'package:broker_app/utils/strings/app_assets.dart';
 import 'package:broker_app/utils/ui/app_text_styles.dart';
 import 'package:broker_app/utils/ui/app_ui_utils.dart';
 import 'package:broker_app/views/app_widgets/app_loader.dart';
@@ -14,18 +12,16 @@ import 'package:broker_app/views/app_widgets/app_text.dart';
 import 'package:broker_app/views/app_widgets/app_text_field.dart';
 import 'package:broker_app/views/app_widgets/no_data_found.dart';
 import 'package:broker_app/views/app_widgets/primary_app_bar.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
-class ContractsScreen extends StatefulWidget {
+class BrokerInvoiceScreen extends StatefulWidget {
   final DateTime dateFrom;
   final DateTime dateTo;
   final String? partyId;
   final String? voucherId;
 
-  const ContractsScreen({
+  const BrokerInvoiceScreen({
     super.key,
     required this.dateFrom,
     required this.dateTo,
@@ -34,10 +30,10 @@ class ContractsScreen extends StatefulWidget {
   });
 
   @override
-  State<ContractsScreen> createState() => _ContractsScreenState();
+  State<BrokerInvoiceScreen> createState() => _BrokerInvoiceScreenState();
 }
 
-class _ContractsScreenState extends State<ContractsScreen> {
+class _BrokerInvoiceScreenState extends State<BrokerInvoiceScreen> {
   TextEditingController _searchController = TextEditingController();
 
   final _controller = ScrollController();
@@ -46,7 +42,7 @@ class _ContractsScreenState extends State<ContractsScreen> {
 
   @override
   void initState() {
-    context.read<ContractsProvider>().clean();
+    context.read<BrokerInvoiceProvider>().clean();
     // context.read<ContractsProvider>().offset = 10;
     // context.read<ContractsProvider>().limit = 10;
     getContractsData();
@@ -56,9 +52,9 @@ class _ContractsScreenState extends State<ContractsScreen> {
         if (isTop) {
           print('At the top');
         } else {
-          if (context.read<ContractsProvider>().isListEmpty == false) {
+          if (context.read<BrokerInvoiceProvider>().isListEmpty == false) {
             // setState(() {});
-            context.read<ContractsProvider>().setContractsData();
+            context.read<BrokerInvoiceProvider>().setBrokerInvoiceData();
           }
         }
       }
@@ -68,7 +64,7 @@ class _ContractsScreenState extends State<ContractsScreen> {
 
   getContractsData() {
     print('widget.dateTo :: ${widget.dateTo}');
-    context.read<ContractsProvider>().setContractsData(
+    context.read<BrokerInvoiceProvider>().setBrokerInvoiceData(
           dateTo: widget.dateTo.dateForDB,
           dateFrom: widget.dateFrom.dateForDB,
           partyId: widget.partyId ?? '',
@@ -79,7 +75,7 @@ class _ContractsScreenState extends State<ContractsScreen> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      appBar: appBar(title: kContracts, isShowBackButton: true),
+      appBar: appBar(title: kBrokerInvoice, isShowBackButton: true),
       body: Column(
         children: [
           _searchAndFilter,
@@ -113,11 +109,13 @@ class _ContractsScreenState extends State<ContractsScreen> {
                     onTap: () {
                       if (_searchController.text.trim().isNotEmpty) {
                         _searchController.text = '';
-                        context.read<ContractsProvider>().clean();
+                        context.read<BrokerInvoiceProvider>().clean();
                         // context.read<ContractsProvider>().isListEmpty = false;
                         // context.read<ContractsProvider>().offset = 10;
                         // context.read<ContractsProvider>().limit = 10;
-                        context.read<ContractsProvider>().setContractsData(
+                        context
+                            .read<BrokerInvoiceProvider>()
+                            .setBrokerInvoiceData(
                               searchText: '',
                               dateTo: widget.dateTo.dateForDB,
                               dateFrom: widget.dateFrom.dateForDB,
@@ -141,11 +139,11 @@ class _ContractsScreenState extends State<ContractsScreen> {
             onTap: () {
               if (_searchController.text.trim().isNotEmpty) {
                 FocusManager.instance.primaryFocus?.unfocus();
-                context.read<ContractsProvider>().clean();
+                context.read<BrokerInvoiceProvider>().clean();
                 // context.read<ContractsProvider>().isListEmpty = false;
                 // context.read<ContractsProvider>().offset = 10;
                 // context.read<ContractsProvider>().limit = 10;
-                context.read<ContractsProvider>().setContractsData(
+                context.read<BrokerInvoiceProvider>().setBrokerInvoiceData(
                       searchText: _searchController.text.trim(),
                     );
                 setState(() {});
@@ -198,7 +196,7 @@ class _ContractsScreenState extends State<ContractsScreen> {
   }
 
   Widget get _contractsList {
-    return Consumer<ContractsProvider>(
+    return Consumer<BrokerInvoiceProvider>(
       builder: (context, provider, child) {
         var isLoading = provider.isLoading;
 
@@ -207,7 +205,7 @@ class _ContractsScreenState extends State<ContractsScreen> {
             child: AppLoader(),
           );
 
-        var contractsList = provider.contracts;
+        var contractsList = provider.brokerInvoices;
         return contractsList.isEmpty
             ? NoDataFound()
             : Expanded(
@@ -227,7 +225,7 @@ class _ContractsScreenState extends State<ContractsScreen> {
                       ),
                       child: Column(
                         children: [
-                          /// type-vno and date
+                          /// bill-no and date
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -250,7 +248,7 @@ class _ContractsScreenState extends State<ContractsScreen> {
                                     width: (secondTextWidth - 0.2).screenWidth,
                                     child: AppText(
                                       text:
-                                          '${(contractData.vouType ?? '').trim()}-${contractData.vouTypeVou ?? 0}',
+                                          '${(contractData.invType ?? '').trim()}-${contractData.invVNo ?? 0}',
                                       style: AppTextStyles.tinyListTextStyle
                                           .copyWith(
                                               fontWeight: FontWeight.w700),
@@ -260,7 +258,7 @@ class _ContractsScreenState extends State<ContractsScreen> {
                               ),
                               AppText(
                                 text: AppDateTimeExtension.convertDDMMYYYY(
-                                    contractData.date ?? ''),
+                                    contractData.invDate ?? ''),
                                 style: AppTextStyles.tinyLabelTextStyle
                                     .copyWith(fontWeight: FontWeight.w400),
                               ),
@@ -268,7 +266,7 @@ class _ContractsScreenState extends State<ContractsScreen> {
                           ),
                           AppSpaces.v4,
 
-                          /// seller
+                          /// party name
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -288,7 +286,7 @@ class _ContractsScreenState extends State<ContractsScreen> {
                               SizedBox(
                                 width: 0.6.screenWidth,
                                 child: AppText(
-                                  text: contractData.sellerName ?? '',
+                                  text: contractData.accNm ?? '',
                                   style: AppTextStyles.tinyListTextStyle,
                                   maxLines: 2,
                                 ),
@@ -297,13 +295,13 @@ class _ContractsScreenState extends State<ContractsScreen> {
                           ),
                           AppSpaces.v4,
 
-                          /// buyer
+                          /// contracts no
                           Row(
                             children: [
                               SizedBox(
                                 width: firstTextWidth.screenWidth,
                                 child: AppText(
-                                  text: kBuyer,
+                                  text: kContractNo,
                                   style: AppTextStyles.tinyLabelTextStyle,
                                 ),
                               ),
@@ -316,7 +314,7 @@ class _ContractsScreenState extends State<ContractsScreen> {
                               SizedBox(
                                 width: secondTextWidth.screenWidth,
                                 child: AppText(
-                                  text: contractData.buyerName ?? '',
+                                  text: contractData.invAccVou ?? '',
                                   style: AppTextStyles.tinyListTextStyle,
                                 ),
                               ),
@@ -324,13 +322,13 @@ class _ContractsScreenState extends State<ContractsScreen> {
                           ),
                           AppSpaces.v4,
 
-                          /// Product Name
+                          /// Bill Amount
                           Row(
                             children: [
                               SizedBox(
                                 width: firstTextWidth.screenWidth,
                                 child: AppText(
-                                  text: kProductName,
+                                  text: kBillAmount,
                                   style: AppTextStyles.tinyLabelTextStyle,
                                 ),
                               ),
@@ -343,8 +341,7 @@ class _ContractsScreenState extends State<ContractsScreen> {
                               SizedBox(
                                 width: 0.6.screenWidth,
                                 child: AppText(
-                                  text: (contractData.productName ?? '')
-                                      .trimLeft(),
+                                  text: (contractData.invTotal ?? ''),
                                   style: AppTextStyles.tinyListTextStyle,
                                   maxLines: 2,
                                 ),
@@ -353,165 +350,6 @@ class _ContractsScreenState extends State<ContractsScreen> {
                           ),
                           AppSpaces.v4,
 
-                          /// qty
-                          Row(
-                            children: [
-                              SizedBox(
-                                width: firstTextWidth.screenWidth,
-                                child: AppText(
-                                  text: kQty,
-                                  style: AppTextStyles.tinyLabelTextStyle,
-                                ),
-                              ),
-                              SizedBox(
-                                child: AppText(
-                                  text: ': ',
-                                  style: AppTextStyles.tinyListTextStyle,
-                                ),
-                              ),
-                              SizedBox(
-                                child: AppText(
-                                  text: contractData.qty ?? '',
-                                  style: AppTextStyles.tinyListTextStyle,
-                                ),
-                              ),
-                            ],
-                          ),
-                          AppSpaces.v4,
-
-                          /// packing
-                          Row(
-                            children: [
-                              SizedBox(
-                                width: firstTextWidth.screenWidth,
-                                child: AppText(
-                                  text: kPacking,
-                                  style: AppTextStyles.tinyLabelTextStyle,
-                                ),
-                              ),
-                              SizedBox(
-                                child: AppText(
-                                  text: ': ',
-                                  style: AppTextStyles.tinyListTextStyle,
-                                ),
-                              ),
-                              AppText(
-                                text: contractData.packaging ?? '',
-                                style: AppTextStyles.tinyListTextStyle,
-                              ),
-                            ],
-                          ),
-                          AppSpaces.v4,
-
-                          /// Sauda Rate
-                          Row(
-                            children: [
-                              SizedBox(
-                                width: firstTextWidth.screenWidth,
-                                child: AppText(
-                                  text: kSaudaRate,
-                                  style: AppTextStyles.tinyLabelTextStyle,
-                                ),
-                              ),
-                              SizedBox(
-                                child: AppText(
-                                  text: ': ',
-                                  style: AppTextStyles.tinyListTextStyle,
-                                ),
-                              ),
-                              SizedBox(
-                                width: secondTextWidth.screenWidth,
-                                child: AppText(
-                                  text: contractData.saudaRate ?? '',
-                                  style: AppTextStyles.tinyListTextStyle,
-                                ),
-                              ),
-                            ],
-                          ),
-
-                          AppSpaces.v4,
-
-                          // /// Remarks
-                          // Row(
-                          //   children: [
-                          //     SizedBox(
-                          //       width: firstTextWidth.screenWidth,
-                          //       child: AppText(
-                          //         text: kRemarks,
-                          //         style: AppTextStyles.tinyLabelTextStyle,
-                          //       ),
-                          //     ),
-                          //     SizedBox(
-                          //       child: AppText(
-                          //         text: ': ',
-                          //         style: AppTextStyles.tinyListTextStyle,
-                          //       ),
-                          //     ),
-                          //     SizedBox(
-                          //       width: secondTextWidth.screenWidth,
-                          //       child: AppText(
-                          //         text: 'OverAll Good',
-                          //         style: AppTextStyles.tinyListTextStyle,
-                          //       ),
-                          //     ),
-                          //   ],
-                          // ),
-                          // AppSpaces.v4,
-
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Container(
-                                height: 32,
-                                width: 0.18.screenWidth,
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 6, vertical: 2),
-                                decoration: BoxDecoration(
-                                  color: AppColors.primaryBg,
-                                  borderRadius:
-                                      AppUIUtils.containerBorderRadius,
-                                ),
-                                child: Row(
-                                  children: [
-                                    SvgPicture.asset(AppAssets.pdfIcon),
-                                    AppSpaces.h4,
-                                    AppText(
-                                      text: kShare,
-                                      style: AppTextStyles.tinyLabelTextStyle
-                                          .copyWith(
-                                              color: AppColors.whiteText,
-                                              fontWeight: FontWeight.w600),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              AppSpaces.h8,
-                              Container(
-                                height: 32,
-                                width: 0.18.screenWidth,
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 6, vertical: 2),
-                                decoration: BoxDecoration(
-                                  color: AppColors.primaryBg,
-                                  borderRadius:
-                                      AppUIUtils.containerBorderRadius,
-                                ),
-                                child: Row(
-                                  children: [
-                                    SvgPicture.asset(AppAssets.pdfIcon),
-                                    AppSpaces.h4,
-                                    AppText(
-                                      text: kView,
-                                      style: AppTextStyles.tinyLabelTextStyle
-                                          .copyWith(
-                                              color: AppColors.whiteText,
-                                              fontWeight: FontWeight.w600),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
                         ],
                       ),
                     );

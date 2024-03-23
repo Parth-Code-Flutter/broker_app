@@ -1,4 +1,5 @@
 import 'package:broker_app/utils/strings/app_assets.dart';
+import 'package:broker_app/views/dashboard/broker_invoice/broker_invoice_filter_screen.dart';
 import 'package:broker_app/views/dashboard/contracts/contracts_filter_screen.dart';
 import 'package:broker_app/views/dashboard/contracts/contracts_screen.dart';
 import 'package:broker_app/views/dashboard/loading/loading_filter_screen.dart';
@@ -30,7 +31,11 @@ class DashboardData {
       imgPath: AppAssets.loadingPayment,
       navigateTo: LoadingPaymentFilter(),
     ),
-    DashboardData(title: 'Broker Invoice', imgPath: AppAssets.brokerInvoice),
+    DashboardData(
+      title: 'Broker Invoice',
+      imgPath: AppAssets.brokerInvoice,
+      navigateTo: BrokerInvoiceFilterScreen(),
+    ),
     DashboardData(
       title: 'Party Master  ',
       imgPath: AppAssets.partyMaster,

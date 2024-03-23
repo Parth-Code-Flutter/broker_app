@@ -160,6 +160,7 @@ class _LoadingPaymentDetailsScreenState
                     ),
                   ],
                 ),
+                AppSpaces.v4,
 
                 /// contract date
                 Row(
@@ -369,7 +370,7 @@ class _LoadingPaymentDetailsScreenState
                 ),
                 AppSpaces.v4,
 
-                /// Bill No & Date
+                /// Bill No
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -394,27 +395,30 @@ class _LoadingPaymentDetailsScreenState
                         ),
                       ],
                     ),
-                    Row(
-                      children: [
-                        SizedBox(
-                          width: (firstTextWidth - 0.08).screenWidth,
-                          child: AppText(
-                            text: '$kBillDate.',
-                            style: AppTextStyles.tinyLabelTextStyle,
-                          ),
-                        ),
-                        SizedBox(
-                          child: AppText(
-                            text: ': ',
-                            style: AppTextStyles.tinyListTextStyle,
-                          ),
-                        ),
-                        AppText(
-                          text: AppDateTimeExtension.convertDDMMYYYY(
-                              loadingData?.billDate ?? ''),
-                          style: AppTextStyles.tinyListTextStyle,
-                        ),
-                      ],
+                  ],
+                ),
+                AppSpaces.v4,
+
+                /// Bill Date
+                Row(
+                  children: [
+                    SizedBox(
+                      width: (firstTextWidth).screenWidth,
+                      child: AppText(
+                        text: '$kBillDate.',
+                        style: AppTextStyles.tinyLabelTextStyle,
+                      ),
+                    ),
+                    SizedBox(
+                      child: AppText(
+                        text: ': ',
+                        style: AppTextStyles.tinyListTextStyle,
+                      ),
+                    ),
+                    AppText(
+                      text: AppDateTimeExtension.convertDDMMYYYY(
+                          loadingData?.billDate ?? ''),
+                      style: AppTextStyles.tinyListTextStyle,
                     ),
                   ],
                 ),

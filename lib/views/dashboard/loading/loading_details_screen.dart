@@ -67,7 +67,7 @@ class _LoadingDetailsScreenState extends State<LoadingDetailsScreen> {
                           ),
                         ),
                         AppText(
-                          text: loadingData?.truckNo ?? '',
+                          text: (loadingData?.vNo ?? 0).toString(),
                           style: AppTextStyles.tinyListTextStyle
                               .copyWith(fontWeight: FontWeight.w700),
                         ),
@@ -490,20 +490,20 @@ class _LoadingDetailsScreenState extends State<LoadingDetailsScreen> {
                 ),
                 AppSpaces.v4,
 
-                // /// remarks
-                // Row(
-                //   children: [
-                //     AppText(
-                //       text: '$kRemarks : ',
-                //       style: AppTextStyles.tinyLabelTextStyle,
-                //     ),
-                //     AppText(
-                //       text: 'Remarks',
-                //       style: AppTextStyles.tinyListTextStyle,
-                //     ),
-                //   ],
-                // ),
-                // AppSpaces.v4,
+                /// remarks
+                Row(
+                  children: [
+                    AppText(
+                      text: '$kRemarks : ',
+                      style: AppTextStyles.tinyLabelTextStyle,
+                    ),
+                    AppText(
+                      text: loadingData?.remarks??'',
+                      style: AppTextStyles.tinyListTextStyle,
+                    ),
+                  ],
+                ),
+                AppSpaces.v4,
               ],
             ),
           ),

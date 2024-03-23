@@ -5,6 +5,7 @@ String kLoading = 'Loading';
 String kLoadingDetails = 'Loading Details';
 String kLoadingPayment = 'Loading Payment';
 String kLoadingPaymentDetails = 'Loading Payment Details';
+String kBrokerInvoice = 'Broker Invoice';
 String kProfile = 'Profile';
 
 String kName = 'Name';
@@ -48,6 +49,7 @@ String kBillDate = 'Bill Date';
 String kSellerBillName = 'Seller Bill Name';
 String kBuyerBillName = 'Buyer Bill Name';
 String kTruckNo = 'Truck No';
+String kBillAmount = 'Bill Amount';
 
 String kParty = 'Party';
 String kVoucherType= 'Voucher Type';

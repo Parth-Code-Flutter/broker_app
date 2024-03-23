@@ -21,6 +21,15 @@ extension AppDateTimeExtension on DateTime {
       return date;
     }
   }
+  static String convertServerDateToYYYY(String date){
+    try{
+      DateTime tempDate = DateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(date);
+      String displayDate = DateFormat("yyyy").format(tempDate);
+      return displayDate;
+    }catch(e){
+      return date;
+    }
+  }
 
   static String convertDDMMYYYY(String date){
     try{

@@ -252,7 +252,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
                                       width:
                                           (secondTextWidth - 0.15).screenWidth,
                                       child: AppText(
-                                        text: data.truckNo,
+                                        text: data.vNo.toString(),
                                         style: AppTextStyles.tinyListTextStyle
                                             .copyWith(
                                                 fontWeight: FontWeight.w700),

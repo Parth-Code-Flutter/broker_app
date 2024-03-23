@@ -62,6 +62,15 @@ class _YearSelectionScreenState extends State<YearSelectionScreen> {
                           onTap: () {
                             AppGlobals.instance.yearId =
                                 provider.years[index].yearVou.toString();
+                            AppGlobals.instance.selectedYear =
+                                ((AppDateTimeExtension.convertServerDateToYYYY(
+                                      (provider.years[index].startDt ?? ''),
+                                    )) +
+                                    (AppDateTimeExtension
+                                        .convertServerDateToYYYY(
+                                      (provider.years[index].endDt ?? ''),
+                                    )));
+                            AppGlobals.instance.selectedYear =  provider.years[index].cmpCode??'';
                             NavHelper.navigate(
                               context: context,
                               screen: DashboardScreen(),

@@ -32,6 +32,9 @@ class CloudFunctionsNames {
   static String get loadings => 'loadings';
   static String get getLoadings => '$prefix/$loadings/get';
 
+  static String get invoices => 'invoices';
+  static String get getInvoices => '$prefix/$invoices/get';
+
   static String get loadingPayments => 'loadingPayments';
   static String get getLoadingPayments => '$prefix/$loadingPayments/get';
 

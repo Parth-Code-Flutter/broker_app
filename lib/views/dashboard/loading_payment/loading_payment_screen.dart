@@ -460,24 +460,24 @@ class _LoadingPaymentScreenState extends State<LoadingPaymentScreen> {
                                     ),
                                   ],
                                 ),
-                                // Row(
-                                //   children: [
-                                //     AppText(
-                                //       text: kPendingQty,
-                                //       style: AppTextStyles.tinyLabelTextStyle,
-                                //     ),
-                                //     SizedBox(
-                                //       child: AppText(
-                                //         text: ': ',
-                                //         style: AppTextStyles.tinyListTextStyle,
-                                //       ),
-                                //     ),
-                                //     AppText(
-                                //       text: '999.99 ton',
-                                //       style: AppTextStyles.tinyListTextStyle,
-                                //     ),
-                                //   ],
-                                // ),
+                                Row(
+                                  children: [
+                                    AppText(
+                                      text: kPendingQty,
+                                      style: AppTextStyles.tinyLabelTextStyle,
+                                    ),
+                                    SizedBox(
+                                      child: AppText(
+                                        text: ': ',
+                                        style: AppTextStyles.tinyListTextStyle,
+                                      ),
+                                    ),
+                                    AppText(
+                                      text: data.pendingQty??'',
+                                      style: AppTextStyles.tinyListTextStyle,
+                                    ),
+                                  ],
+                                ),
                               ],
                             ),
                             AppSpaces.v4,
