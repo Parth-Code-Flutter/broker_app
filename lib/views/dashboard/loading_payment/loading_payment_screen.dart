@@ -1,10 +1,9 @@
 import 'package:broker_app/constants/app_constants.dart';
 import 'package:broker_app/helpers/nav/nav_helper.dart';
-import 'package:broker_app/providers/loading/loading_provider.dart';
+import 'package:broker_app/providers/loading_payment_provider/loading_payment_provider.dart';
 import 'package:broker_app/utils/colors/app_colors.dart';
 import 'package:broker_app/utils/extensions/app_date_time_extension.dart';
 import 'package:broker_app/utils/extensions/app_size_extension.dart';
-import 'package:broker_app/utils/strings/app_assets.dart';
 import 'package:broker_app/utils/ui/app_text_styles.dart';
 import 'package:broker_app/utils/ui/app_ui_utils.dart';
 import 'package:broker_app/views/app_widgets/app_loader.dart';
@@ -15,27 +14,26 @@ import 'package:broker_app/views/app_widgets/app_text_field.dart';
 import 'package:broker_app/views/app_widgets/no_data_found.dart';
 import 'package:broker_app/views/app_widgets/primary_app_bar.dart';
 import 'package:broker_app/views/dashboard/loading/loading_details_screen.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:broker_app/views/dashboard/loading_payment/loading_payment_details_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
-class LoadingScreen extends StatefulWidget {
+class LoadingPaymentScreen extends StatefulWidget {
   final DateTime dateFrom;
   final DateTime dateTo;
   final String? partyId;
 
-  const LoadingScreen(
+  const LoadingPaymentScreen(
       {super.key,
       required this.dateFrom,
       required this.dateTo,
       required this.partyId});
 
   @override
-  State<LoadingScreen> createState() => _LoadingScreenState();
+  State<LoadingPaymentScreen> createState() => _LoadingPaymentScreenState();
 }
 
-class _LoadingScreenState extends State<LoadingScreen> {
+class _LoadingPaymentScreenState extends State<LoadingPaymentScreen> {
   TextEditingController _searchController = TextEditingController();
 
   final _controller = ScrollController();
@@ -44,7 +42,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
   @override
   void initState() {
-    context.read<LoadingProvider>().clean();
+    context.read<LoadingPaymentProvider>().clean();
     // context.read<LoadingProvider>().offset = 10;
     // context.read<LoadingProvider>().limit = 10;
     getLoadingData();
@@ -54,9 +52,9 @@ class _LoadingScreenState extends State<LoadingScreen> {
         if (isTop) {
           print('At the top');
         } else {
-          if (context.read<LoadingProvider>().isListEmpty == false) {
+          if (context.read<LoadingPaymentProvider>().isListEmpty == false) {
             // setState(() {});
-            context.read<LoadingProvider>().setLoadingsData();
+            context.read<LoadingPaymentProvider>().setLoadingsData();
           }
         }
       }
@@ -66,7 +64,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
   getLoadingData() {
     print('widget.dateTo :: ${widget.dateTo}');
-    context.read<LoadingProvider>().setLoadingsData(
+    context.read<LoadingPaymentProvider>().setLoadingsData(
           dateTo: widget.dateTo.dateForDB,
           dateFrom: widget.dateFrom.dateForDB,
           partyId: widget.partyId ?? '',
@@ -76,7 +74,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      appBar: appBar(title: kLoading, isShowBackButton: true),
+      appBar: appBar(title: kLoadingPayment, isShowBackButton: true),
       body: Column(
         children: [
           _searchAndFilter,
@@ -110,11 +108,11 @@ class _LoadingScreenState extends State<LoadingScreen> {
                     onTap: () {
                       if (_searchController.text.trim().isNotEmpty) {
                         _searchController.text = '';
-                        context.read<LoadingProvider>().clean();
+                        context.read<LoadingPaymentProvider>().clean();
                         // context.read<LoadingProvider>().isListEmpty = false;
                         // context.read<LoadingProvider>().offset = 10;
                         // context.read<LoadingProvider>().limit = 10;
-                        context.read<LoadingProvider>().setLoadingsData(
+                        context.read<LoadingPaymentProvider>().setLoadingsData(
                               searchText: '',
                               dateTo: widget.dateTo.dateForDB,
                               dateFrom: widget.dateFrom.dateForDB,
@@ -137,11 +135,11 @@ class _LoadingScreenState extends State<LoadingScreen> {
             onTap: () {
               if (_searchController.text.trim().isNotEmpty) {
                 FocusManager.instance.primaryFocus?.unfocus();
-                context.read<LoadingProvider>().clean();
+                context.read<LoadingPaymentProvider>().clean();
                 // context.read<LoadingProvider>().isListEmpty = false;
                 // context.read<LoadingProvider>().offset = 10;
                 // context.read<LoadingProvider>().limit = 10;
-                context.read<LoadingProvider>().setLoadingsData(
+                context.read<LoadingPaymentProvider>().setLoadingsData(
                       searchText: _searchController.text.trim(),
                     );
                 setState(() {});
@@ -194,7 +192,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   }
 
   Widget get _loadingList {
-    return Consumer<LoadingProvider>(
+    return Consumer<LoadingPaymentProvider>(
       builder: (context, provider, child) {
         var isLoading = provider.isLoading;
 
@@ -203,7 +201,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
             child: AppLoader(),
           );
 
-        var loadingList = provider.loadings;
+        var loadingList = provider.loadingPayments;
         return loadingList.isEmpty
             ? NoDataFound()
             : Expanded(
@@ -217,7 +215,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
                     return GestureDetector(
                       onTap: () => NavHelper.navigate(
                         context: context,
-                        screen: LoadingDetailsScreen(loadingData: data),
+                        screen: LoadingPaymentDetailsScreen(loadingData: data),
                       ),
                       child: Container(
                         margin:
@@ -238,7 +236,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
                                     SizedBox(
                                       width: firstTextWidth.screenWidth,
                                       child: AppText(
-                                        text: kTypeVNo,
+                                        text: kVNo,
                                         style: AppTextStyles.tinyLabelTextStyle,
                                       ),
                                     ),
@@ -252,7 +250,8 @@ class _LoadingScreenState extends State<LoadingScreen> {
                                       width:
                                           (secondTextWidth - 0.15).screenWidth,
                                       child: AppText(
-                                        text: data.truckNo,
+                                        // text: '${(data.vouType ?? '').trim()}-${data.vNo ?? 0}',
+                                        text: '${data.vNo ?? 0}',
                                         style: AppTextStyles.tinyListTextStyle
                                             .copyWith(
                                                 fontWeight: FontWeight.w700),
@@ -290,7 +289,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
                                 SizedBox(
                                   width: 0.6.screenWidth,
                                   child: AppText(
-                                    text: data.sellerName,
+                                    text: data.sellerName ?? '',
                                     style: AppTextStyles.tinyListTextStyle,
                                     maxLines: 2,
                                   ),
@@ -456,7 +455,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
                                       ),
                                     ),
                                     AppText(
-                                      text: data.saudaQty.toString(),
+                                      text: data.saudaQty ?? '',
                                       style: AppTextStyles.tinyListTextStyle,
                                     ),
                                   ],
@@ -500,7 +499,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
                                   ),
                                 ),
                                 AppText(
-                                  text: data.loadQty,
+                                  text: data.loadQty ?? '',
                                   style: AppTextStyles.tinyListTextStyle,
                                 ),
                               ],

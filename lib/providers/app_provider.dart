@@ -1,5 +1,6 @@
 import 'package:broker_app/providers/contracts/contracts_provider.dart';
 import 'package:broker_app/providers/loading/loading_provider.dart';
+import 'package:broker_app/providers/loading_payment_provider/loading_payment_provider.dart';
 import 'package:broker_app/providers/location/app_location_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -25,6 +26,9 @@ abstract class AppProvider extends ChangeNotifier {
     ChangeNotifierProvider(
       create: (context) => LoadingProvider(),
     ),
+    ChangeNotifierProvider(
+      create: (context) => LoadingPaymentProvider(),
+    ),
   ];
 
   static void cleanAllData(BuildContext context) {
@@ -33,6 +37,7 @@ abstract class AppProvider extends ChangeNotifier {
     context.read<PartyMasterProvider>().clean();
     context.read<ContractsProvider>().clean();
     context.read<LoadingProvider>().clean();
+    context.read<LoadingPaymentProvider>().clean();
   }
 
   void clean();

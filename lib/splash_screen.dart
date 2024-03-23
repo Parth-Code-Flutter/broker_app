@@ -3,6 +3,7 @@ import 'package:broker_app/providers/sign_in/sign_in_provider.dart';
 import 'package:broker_app/utils/extensions/app_size_extension.dart';
 import 'package:broker_app/utils/globals/app_globals.dart';
 import 'package:broker_app/utils/strings/app_assets.dart';
+import 'package:broker_app/utils/urls/api_urls.dart';
 import 'package:broker_app/views/app_widgets/app_image.dart';
 import 'package:broker_app/views/app_widgets/app_loader.dart';
 import 'package:broker_app/views/app_widgets/app_scaffold.dart';
@@ -32,7 +33,7 @@ class _SplashScreenState extends State<SplashScreen> {
   late bool _hasPin;
 
   getSplashScreen() async {
-    if ((AppGlobals.instance.companyId??'').isNotEmpty) {
+    if ((AppGlobals.instance.companyId ?? '').isNotEmpty) {
       await context.read<SignInProvider>().setSplashImgData();
     }
   }
@@ -76,9 +77,17 @@ class _SplashScreenState extends State<SplashScreen> {
         builder: (context, provider, child) {
           bool isLoading = provider.isLoading;
           if (isLoading) return AppLoader();
+
+          if ((context.read<SignInProvider>().splashData.cliSplashImg ?? '')
+              .isEmpty)
+            return Container(
+              child: AppImage.asset(
+                path: AppAssets.pbSplashScreen,
+              ),
+            );
           return Container(
-            child: AppImage.asset(
-              path: AppAssets.splashScreen,
+            child: Image.network(
+              APIUrls.splashScreenUrl+(context.read<SignInProvider>().splashData.cliSplashImg ?? ''),
             ),
           );
         },

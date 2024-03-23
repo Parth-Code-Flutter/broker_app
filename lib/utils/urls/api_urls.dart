@@ -24,4 +24,7 @@ class APIUrls {
 
   static String get salesEntry =>
       '$baseUrl/sales/index?UserId=$userId&CompanyId=$companyId&Lat=$lat&Lng=$lng';
+
+  static String get splashScreenUrl =>
+      'http://broker.pioerp.com/SplashImg/';
 }

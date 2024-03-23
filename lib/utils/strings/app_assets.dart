@@ -18,6 +18,8 @@ class AppAssets {
   static const filterIcon = '$icons/filter.svg';
   static const pdfIcon = '$icons/pdf_icon.svg';
   static const locationIcon = '$icons/location.svg';
+  static const checkedIcon = '$icons/checked.svg';
+  static const uncheckedIcon = '$icons/unchecked.svg';
 
 
   /// --------------------------------------------------------------------------
@@ -27,7 +29,7 @@ class AppAssets {
   static const logo = '$images/logo.png';
 
   static const logoSvg = '$images/logo.svg';
-  static const splashImage = '$images/splash_image.png';
+  static const pbSplashScreen = '$images/pb_splash_screen.jpg';
   static const splashScreen = '$images/splash_screen.png';
   static const bgBottom = '$images/bg_bottom.png';
 

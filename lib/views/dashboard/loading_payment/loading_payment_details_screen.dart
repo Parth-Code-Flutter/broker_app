@@ -1,5 +1,5 @@
 import 'package:broker_app/constants/app_constants.dart';
-import 'package:broker_app/models/loading/loading_data.dart';
+import 'package:broker_app/models/loading_payment/loading_payment_data.dart';
 import 'package:broker_app/utils/colors/app_colors.dart';
 import 'package:broker_app/utils/extensions/app_date_time_extension.dart';
 import 'package:broker_app/utils/extensions/app_size_extension.dart';
@@ -11,17 +11,19 @@ import 'package:broker_app/views/app_widgets/app_text.dart';
 import 'package:broker_app/views/app_widgets/primary_app_bar.dart';
 import 'package:flutter/cupertino.dart';
 
-class LoadingDetailsScreen extends StatefulWidget {
-  final LoadingData loadingData;
+class LoadingPaymentDetailsScreen extends StatefulWidget {
+  final LoadingPaymentData loadingData;
 
-  const LoadingDetailsScreen({super.key, required this.loadingData});
+  const LoadingPaymentDetailsScreen({super.key, required this.loadingData});
 
   @override
-  State<LoadingDetailsScreen> createState() => _LoadingDetailsScreenState();
+  State<LoadingPaymentDetailsScreen> createState() =>
+      _LoadingPaymentDetailsScreenState();
 }
 
-class _LoadingDetailsScreenState extends State<LoadingDetailsScreen> {
-  LoadingData? loadingData;
+class _LoadingPaymentDetailsScreenState
+    extends State<LoadingPaymentDetailsScreen> {
+  LoadingPaymentData? loadingData;
   double firstTextWidth = 0.26;
   double secondTextWidth = 0.6;
 
@@ -34,7 +36,7 @@ class _LoadingDetailsScreenState extends State<LoadingDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      appBar: appBar(title: kLoadingDetails, isShowBackButton: true),
+      appBar: appBar(title: kLoadingPaymentDetails, isShowBackButton: true),
       body: Column(
         children: [
           AppSpaces.v8,
@@ -56,7 +58,7 @@ class _LoadingDetailsScreenState extends State<LoadingDetailsScreen> {
                         SizedBox(
                           width: firstTextWidth.screenWidth,
                           child: AppText(
-                            text: kTypeVNo,
+                            text: kVNo,
                             style: AppTextStyles.tinyLabelTextStyle,
                           ),
                         ),
@@ -67,7 +69,7 @@ class _LoadingDetailsScreenState extends State<LoadingDetailsScreen> {
                           ),
                         ),
                         AppText(
-                          text: loadingData?.truckNo ?? '',
+                          text: loadingData?.vNo ?? '',
                           style: AppTextStyles.tinyListTextStyle
                               .copyWith(fontWeight: FontWeight.w700),
                         ),
@@ -269,9 +271,9 @@ class _LoadingDetailsScreenState extends State<LoadingDetailsScreen> {
                     ),
                   ],
                 ),
-
-                /// packing
                 AppSpaces.v4,
+
+                /// pending
                 Row(
                   children: [
                     SizedBox(
@@ -418,53 +420,53 @@ class _LoadingDetailsScreenState extends State<LoadingDetailsScreen> {
                 ),
                 AppSpaces.v4,
 
-                /// seller bill name
-                Row(
-                  children: [
-                    SizedBox(
-                      width: firstTextWidth.screenWidth,
-                      child: AppText(
-                        text: kSellerBillName,
-                        style: AppTextStyles.tinyLabelTextStyle,
-                      ),
-                    ),
-                    SizedBox(
-                      child: AppText(
-                        text: ': ',
-                        style: AppTextStyles.tinyListTextStyle,
-                      ),
-                    ),
-                    AppText(
-                      text: loadingData?.sellerBillName ?? '',
-                      style: AppTextStyles.tinyListTextStyle,
-                    ),
-                  ],
-                ),
-                AppSpaces.v4,
-
-                /// buyer bill name
-                Row(
-                  children: [
-                    SizedBox(
-                      width: firstTextWidth.screenWidth,
-                      child: AppText(
-                        text: kBuyerBillName,
-                        style: AppTextStyles.tinyLabelTextStyle,
-                      ),
-                    ),
-                    SizedBox(
-                      child: AppText(
-                        text: ': ',
-                        style: AppTextStyles.tinyListTextStyle,
-                      ),
-                    ),
-                    AppText(
-                      text: loadingData?.buyerBillName ?? '',
-                      style: AppTextStyles.tinyListTextStyle,
-                    ),
-                  ],
-                ),
-                AppSpaces.v4,
+                // /// seller bill name
+                // Row(
+                //   children: [
+                //     SizedBox(
+                //       width: firstTextWidth.screenWidth,
+                //       child: AppText(
+                //         text: kSellerBillName,
+                //         style: AppTextStyles.tinyLabelTextStyle,
+                //       ),
+                //     ),
+                //     SizedBox(
+                //       child: AppText(
+                //         text: ': ',
+                //         style: AppTextStyles.tinyListTextStyle,
+                //       ),
+                //     ),
+                //     AppText(
+                //       text: loadingData?.sellerBillName ?? '',
+                //       style: AppTextStyles.tinyListTextStyle,
+                //     ),
+                //   ],
+                // ),
+                // AppSpaces.v4,
+                //
+                // /// buyer bill name
+                // Row(
+                //   children: [
+                //     SizedBox(
+                //       width: firstTextWidth.screenWidth,
+                //       child: AppText(
+                //         text: kBuyerBillName,
+                //         style: AppTextStyles.tinyLabelTextStyle,
+                //       ),
+                //     ),
+                //     SizedBox(
+                //       child: AppText(
+                //         text: ': ',
+                //         style: AppTextStyles.tinyListTextStyle,
+                //       ),
+                //     ),
+                //     AppText(
+                //       text: loadingData?.buyerBillName ?? '',
+                //       style: AppTextStyles.tinyListTextStyle,
+                //     ),
+                //   ],
+                // ),
+                // AppSpaces.v4,
 
                 /// truck no.
                 Row(

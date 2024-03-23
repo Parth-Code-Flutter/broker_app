@@ -3,6 +3,8 @@ String kPartyMaster = 'Party Master';
 String kContracts = 'Contracts';
 String kLoading = 'Loading';
 String kLoadingDetails = 'Loading Details';
+String kLoadingPayment = 'Loading Payment';
+String kLoadingPaymentDetails = 'Loading Payment Details';
 String kProfile = 'Profile';
 
 String kName = 'Name';
@@ -23,6 +25,7 @@ String kGender = 'Gender';
 String kChangeMPin = 'Change M-Pin';
 String kLogout = 'Logout';
 
+String kVNo = 'VNo';
 String kTypeVNo = 'Type-VNo';
 String kSeller = 'Seller';
 String kBuyer = 'Buyer';
@@ -50,6 +53,10 @@ String kParty = 'Party';
 String kVoucherType= 'Voucher Type';
 String kDateFrom = 'Date From';
 String kDateTo = 'Date To';
+String kPending = 'Pending';
+String kYes = 'Yes';
+String kNo = 'No';
+String kAll = 'All';
 
 String kFilter = 'Filter';
 String kShare = 'Share';

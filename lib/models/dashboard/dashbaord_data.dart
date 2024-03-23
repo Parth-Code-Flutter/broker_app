@@ -3,6 +3,7 @@ import 'package:broker_app/views/dashboard/contracts/contracts_filter_screen.dar
 import 'package:broker_app/views/dashboard/contracts/contracts_screen.dart';
 import 'package:broker_app/views/dashboard/loading/loading_filter_screen.dart';
 import 'package:broker_app/views/dashboard/loading/loading_screen.dart';
+import 'package:broker_app/views/dashboard/loading_payment/loading_payment_filter.dart';
 import 'package:broker_app/views/dashboard/party_master/party_master_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -24,7 +25,11 @@ class DashboardData {
       imgPath: AppAssets.dashboardLoading,
       navigateTo: LoadingFilterScreen(),
     ),
-    DashboardData(title: 'Loading Payment', imgPath: AppAssets.loadingPayment),
+    DashboardData(
+      title: 'Loading Payment',
+      imgPath: AppAssets.loadingPayment,
+      navigateTo: LoadingPaymentFilter(),
+    ),
     DashboardData(title: 'Broker Invoice', imgPath: AppAssets.brokerInvoice),
     DashboardData(
       title: 'Party Master  ',
