@@ -70,7 +70,7 @@ class _YearSelectionScreenState extends State<YearSelectionScreen> {
                                         .convertServerDateToYYYY(
                                       (provider.years[index].endDt ?? ''),
                                     )));
-                            AppGlobals.instance.selectedYear =  provider.years[index].cmpCode??'';
+                            AppGlobals.instance.CmpCode =  provider.years[index].cmpCode??'';
                             NavHelper.navigate(
                               context: context,
                               screen: DashboardScreen(),

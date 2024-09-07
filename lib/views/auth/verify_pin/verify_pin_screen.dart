@@ -5,6 +5,7 @@ import 'dart:async';
 import 'package:broker_app/helpers/auth/auth_helper.dart';
 import 'package:broker_app/helpers/nav/nav_helper.dart';
 import 'package:broker_app/helpers/snackbar/snackbar_helper.dart';
+import 'package:broker_app/providers/sign_in/sign_in_provider.dart';
 import 'package:broker_app/utils/colors/app_colors.dart';
 import 'package:broker_app/utils/extensions/app_size_extension.dart';
 import 'package:broker_app/utils/globals/app_globals.dart';
@@ -14,6 +15,7 @@ import 'package:broker_app/utils/ui/app_ui_utils.dart';
 import 'package:broker_app/views/app_widgets/app_button.dart';
 import 'package:broker_app/views/app_widgets/app_container.dart';
 import 'package:broker_app/views/app_widgets/app_header.dart';
+import 'package:broker_app/views/app_widgets/app_loader.dart';
 import 'package:broker_app/views/app_widgets/app_scaffold.dart';
 import 'package:broker_app/views/app_widgets/app_spaces.dart';
 import 'package:broker_app/views/app_widgets/app_text.dart';
@@ -25,6 +27,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:provider/provider.dart';
 
 class VerifyPinScreen extends StatefulWidget {
   const VerifyPinScreen({super.key});
@@ -40,44 +43,62 @@ class _VerifyPinScreenState extends State<VerifyPinScreen> {
 
   bool _isLoading = false;
 
+  getSplashScreen() async {
+    if ((AppGlobals.instance.companyId ?? '').isNotEmpty) {
+      await context.read<SignInProvider>().setSplashImgData();
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getSplashScreen();
+  }
+
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
       isShowAppIcon: true,
       bgColor: AppColors.primaryBg,
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: AppUIUtils.defaultHorizontalPadding,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // const AppHeader(),
-              _title,
-              AppSpaces.v16,
-              AppContainer(
-                child: Form(
-                  key: _formKey,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                    ),
-                    child: Column(
-                      children: [
-                        AppSpaces.v36,
-                        _pinField,
-                        AppSpaces.v16,
-                        _forgotPin,
-                        AppSpaces.v32,
-                        _submitButton,
-                        AppSpaces.v16,
-                      ],
+      body: Consumer<SignInProvider>(
+        builder: (context, provider, child) {
+          bool isLoading = provider.isLoading;
+          if (isLoading) return AppLoader();
+          return SingleChildScrollView(
+            child: Padding(
+              padding: AppUIUtils.defaultHorizontalPadding,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // const AppHeader(),
+                  _title,
+                  AppSpaces.v16,
+                  AppContainer(
+                    child: Form(
+                      key: _formKey,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                        ),
+                        child: Column(
+                          children: [
+                            AppSpaces.v36,
+                            _pinField,
+                            AppSpaces.v16,
+                            _forgotPin,
+                            AppSpaces.v32,
+                            _submitButton,
+                            AppSpaces.v16,
+                          ],
+                        ),
+                      ),
                     ),
                   ),
-                ),
+                ],
               ),
-            ],
-          ),
-        ),
+            ),
+          );
+        },
       ),
     );
   }
@@ -224,7 +245,7 @@ class _VerifyPinScreenState extends State<VerifyPinScreen> {
     setState(() {});
 
     if (!result.success || result.data == null) {
-      _pinController.text ='';
+      _pinController.text = '';
       SnackBarHelpers.showErrorSnackBar(
         context,
         result.eMsg ?? AppStrings.eSomethingWrong,

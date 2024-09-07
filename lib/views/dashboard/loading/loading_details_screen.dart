@@ -5,6 +5,7 @@ import 'package:broker_app/utils/extensions/app_date_time_extension.dart';
 import 'package:broker_app/utils/extensions/app_size_extension.dart';
 import 'package:broker_app/utils/ui/app_text_styles.dart';
 import 'package:broker_app/utils/ui/app_ui_utils.dart';
+import 'package:broker_app/views/app_widgets/app_divider_with_text.dart';
 import 'package:broker_app/views/app_widgets/app_scaffold.dart';
 import 'package:broker_app/views/app_widgets/app_spaces.dart';
 import 'package:broker_app/views/app_widgets/app_text.dart';
@@ -47,7 +48,7 @@ class _LoadingDetailsScreenState extends State<LoadingDetailsScreen> {
             ),
             child: Column(
               children: [
-                /// type-vno and date
+                /// vno and date
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -56,7 +57,7 @@ class _LoadingDetailsScreenState extends State<LoadingDetailsScreen> {
                         SizedBox(
                           width: firstTextWidth.screenWidth,
                           child: AppText(
-                            text: kTypeVNo,
+                            text: kVNo,
                             style: AppTextStyles.tinyLabelTextStyle,
                           ),
                         ),
@@ -112,8 +113,33 @@ class _LoadingDetailsScreenState extends State<LoadingDetailsScreen> {
                 ),
                 AppSpaces.v4,
 
+                /// city & state
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: firstTextWidth.screenWidth,
+                      child: AppText(
+                        text: '$kCity-$kState',
+                        style: AppTextStyles.tinyLabelTextStyle,
+                      ),
+                    ),
+                    SizedBox(
+                      width: secondTextWidth.screenWidth,
+                      child: AppText(
+                        text:
+                            ': ${returnCityState(loadingData?.sellerCityName ?? '', (loadingData?.sellerStateName ?? '').isEmpty ? (loadingData?.sellerStateName ?? '') : (loadingData?.sellerStateName2 ?? ''))}',
+                        style: AppTextStyles.tinyListTextStyle,
+                        maxLines: 2,
+                      ),
+                    ),
+                  ],
+                ),
+                AppSpaces.v4,
+
                 /// buyer
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(
                       width: firstTextWidth.screenWidth,
@@ -136,36 +162,42 @@ class _LoadingDetailsScreenState extends State<LoadingDetailsScreen> {
                 ),
                 AppSpaces.v4,
 
-                /// contract no
+                /// city & state
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(
                       width: firstTextWidth.screenWidth,
                       child: AppText(
-                        text: '$kContractNo : ',
+                        text: '$kCity-$kState',
                         style: AppTextStyles.tinyLabelTextStyle,
                       ),
                     ),
                     SizedBox(
+                      width: secondTextWidth.screenWidth,
                       child: AppText(
-                        text: ': ',
+                        text:
+                            ': ${returnCityState(loadingData?.buyerCityName ?? '', (loadingData?.sellerStateName ?? '').isEmpty ? (loadingData?.buyerStateName ?? '') : (loadingData?.buyerStateName2 ?? ''))}',
                         style: AppTextStyles.tinyListTextStyle,
+                        maxLines: 2,
                       ),
-                    ),
-                    AppText(
-                      text: (loadingData?.contractNo ?? 0).toString(),
-                      style: AppTextStyles.tinyListTextStyle,
                     ),
                   ],
                 ),
+                AppSpaces.v4,
 
-                /// contract date
+                AppDividerWIthText(
+                  text: kLoadingDetails,
+                ),
+                AppSpaces.v4,
+
+                /// Product Name
                 Row(
                   children: [
                     SizedBox(
                       width: firstTextWidth.screenWidth,
                       child: AppText(
-                        text: kContractDate,
+                        text: kProduct,
                         style: AppTextStyles.tinyLabelTextStyle,
                       ),
                     ),
@@ -178,42 +210,14 @@ class _LoadingDetailsScreenState extends State<LoadingDetailsScreen> {
                     SizedBox(
                       width: secondTextWidth.screenWidth,
                       child: AppText(
-                        text: AppDateTimeExtension.convertDDMMYYYY(
-                            loadingData?.contractDate ?? ''),
+                        text: (loadingData?.productName ?? '').trim(),
                         style: AppTextStyles.tinyListTextStyle,
+                        maxLines: 2,
                       ),
                     ),
                   ],
                 ),
                 AppSpaces.v4,
-
-                // /// Product Name
-                // Row(
-                //   children: [
-                //     SizedBox(
-                //       width: firstTextWidth.screenWidth,
-                //       child: AppText(
-                //         text: kProductName,
-                //         style: AppTextStyles.tinyLabelTextStyle,
-                //       ),
-                //     ),
-                //     SizedBox(
-                //       child: AppText(
-                //         text: ': ',
-                //         style: AppTextStyles.tinyListTextStyle,
-                //       ),
-                //     ),
-                //     SizedBox(
-                //       width: secondTextWidth.screenWidth,
-                //       child: AppText(
-                //         text: loadingData?.,
-                //         style: AppTextStyles.tinyListTextStyle,
-                //         maxLines: 2,
-                //       ),
-                //     ),
-                //   ],
-                // ),
-                // AppSpaces.v4,
 
                 /// Rate
                 Row(
@@ -242,16 +246,16 @@ class _LoadingDetailsScreenState extends State<LoadingDetailsScreen> {
                 ),
                 AppSpaces.v4,
 
-                /// sauda qty
+                /// Bags & packing
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Row(
                       children: [
                         SizedBox(
                           width: firstTextWidth.screenWidth,
                           child: AppText(
-                            text: kSaudaQty,
+                            text: kBags,
                             style: AppTextStyles.tinyLabelTextStyle,
                           ),
                         ),
@@ -262,34 +266,28 @@ class _LoadingDetailsScreenState extends State<LoadingDetailsScreen> {
                           ),
                         ),
                         AppText(
-                          text: (loadingData?.saudaQty ?? 0).toString(),
+                          text: loadingData?.loadBags ?? '',
                           style: AppTextStyles.tinyListTextStyle,
                         ),
                       ],
                     ),
-                  ],
-                ),
-
-                /// packing
-                AppSpaces.v4,
-                Row(
-                  children: [
-                    SizedBox(
-                      width: firstTextWidth.screenWidth,
-                      child: AppText(
-                        text: kPendingQty,
-                        style: AppTextStyles.tinyLabelTextStyle,
-                      ),
-                    ),
-                    SizedBox(
-                      child: AppText(
-                        text: ': ',
-                        style: AppTextStyles.tinyListTextStyle,
-                      ),
-                    ),
-                    AppText(
-                      text: loadingData?.pendingQty ?? '',
-                      style: AppTextStyles.tinyListTextStyle,
+                    Row(
+                      children: [
+                        AppText(
+                          text: '          $kPacking',
+                          style: AppTextStyles.tinyLabelTextStyle,
+                        ),
+                        SizedBox(
+                          child: AppText(
+                            text: ' : ',
+                            style: AppTextStyles.tinyListTextStyle,
+                          ),
+                        ),
+                        AppText(
+                          text: loadingData?.loadPacking ?? '',
+                          style: AppTextStyles.tinyListTextStyle,
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -307,7 +305,7 @@ class _LoadingDetailsScreenState extends State<LoadingDetailsScreen> {
                     ),
                     SizedBox(
                       child: AppText(
-                        text: ': ',
+                        text: ' : ',
                         style: AppTextStyles.tinyListTextStyle,
                       ),
                     ),
@@ -319,13 +317,13 @@ class _LoadingDetailsScreenState extends State<LoadingDetailsScreen> {
                 ),
                 AppSpaces.v4,
 
-                /// Amount
+                /// Bill Amount
                 Row(
                   children: [
                     SizedBox(
                       width: firstTextWidth.screenWidth,
                       child: AppText(
-                        text: kAmount,
+                        text: kBillAmount,
                         style: AppTextStyles.tinyLabelTextStyle,
                       ),
                     ),
@@ -343,13 +341,13 @@ class _LoadingDetailsScreenState extends State<LoadingDetailsScreen> {
                 ),
                 AppSpaces.v4,
 
-                /// Other Charges
+                /// bill name
                 Row(
                   children: [
                     SizedBox(
                       width: firstTextWidth.screenWidth,
                       child: AppText(
-                        text: kOtherCharges,
+                        text: kBillName,
                         style: AppTextStyles.tinyLabelTextStyle,
                       ),
                     ),
@@ -360,7 +358,7 @@ class _LoadingDetailsScreenState extends State<LoadingDetailsScreen> {
                       ),
                     ),
                     AppText(
-                      text: (loadingData?.otherAmount ?? 0).toString(),
+                      text: loadingData?.sellerBillName ?? '',
                       style: AppTextStyles.tinyListTextStyle,
                     ),
                   ],
@@ -393,17 +391,15 @@ class _LoadingDetailsScreenState extends State<LoadingDetailsScreen> {
                       ],
                     ),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        SizedBox(
-                          width: (firstTextWidth - 0.08).screenWidth,
-                          child: AppText(
-                            text: '$kBillDate.',
-                            style: AppTextStyles.tinyLabelTextStyle,
-                          ),
+                        AppText(
+                          text: '$kBillDate.',
+                          style: AppTextStyles.tinyLabelTextStyle,
                         ),
                         SizedBox(
                           child: AppText(
-                            text: ': ',
+                            text: ' : ',
                             style: AppTextStyles.tinyListTextStyle,
                           ),
                         ),
@@ -418,61 +414,13 @@ class _LoadingDetailsScreenState extends State<LoadingDetailsScreen> {
                 ),
                 AppSpaces.v4,
 
-                /// seller bill name
+                /// vehicle no
                 Row(
                   children: [
                     SizedBox(
                       width: firstTextWidth.screenWidth,
                       child: AppText(
-                        text: kSellerBillName,
-                        style: AppTextStyles.tinyLabelTextStyle,
-                      ),
-                    ),
-                    SizedBox(
-                      child: AppText(
-                        text: ': ',
-                        style: AppTextStyles.tinyListTextStyle,
-                      ),
-                    ),
-                    AppText(
-                      text: loadingData?.sellerBillName ?? '',
-                      style: AppTextStyles.tinyListTextStyle,
-                    ),
-                  ],
-                ),
-                AppSpaces.v4,
-
-                /// buyer bill name
-                Row(
-                  children: [
-                    SizedBox(
-                      width: firstTextWidth.screenWidth,
-                      child: AppText(
-                        text: kBuyerBillName,
-                        style: AppTextStyles.tinyLabelTextStyle,
-                      ),
-                    ),
-                    SizedBox(
-                      child: AppText(
-                        text: ': ',
-                        style: AppTextStyles.tinyListTextStyle,
-                      ),
-                    ),
-                    AppText(
-                      text: loadingData?.buyerBillName ?? '',
-                      style: AppTextStyles.tinyListTextStyle,
-                    ),
-                  ],
-                ),
-                AppSpaces.v4,
-
-                /// truck no.
-                Row(
-                  children: [
-                    SizedBox(
-                      width: firstTextWidth.screenWidth,
-                      child: AppText(
-                        text: kTruckNo,
+                        text: kVehicleNo,
                         style: AppTextStyles.tinyLabelTextStyle,
                       ),
                     ),
@@ -490,25 +438,359 @@ class _LoadingDetailsScreenState extends State<LoadingDetailsScreen> {
                 ),
                 AppSpaces.v4,
 
-                /// remarks
+                AppDividerWIthText(
+                  text: kSaudaDetails,
+                ),
+                AppSpaces.v4,
+
+                /// type-vno and date
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    AppText(
-                      text: '$kRemarks : ',
-                      style: AppTextStyles.tinyLabelTextStyle,
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: firstTextWidth.screenWidth,
+                          child: AppText(
+                            text: kTypeVNo,
+                            style: AppTextStyles.tinyLabelTextStyle,
+                          ),
+                        ),
+                        SizedBox(
+                          child: AppText(
+                            text: ': ',
+                            style: AppTextStyles.tinyListTextStyle,
+                          ),
+                        ),
+                        AppText(
+                          text:
+                              '${(loadingData?.vouType ?? '').trim()}-${(loadingData?.contractNo ?? '')}',
+                          style: AppTextStyles.tinyListTextStyle
+                              .copyWith(fontWeight: FontWeight.w700),
+                        ),
+                      ],
                     ),
                     AppText(
-                      text: loadingData?.remarks??'',
+                      text: AppDateTimeExtension.convertDDMMYYYY(
+                          loadingData?.date ?? ''),
+                      style: AppTextStyles.tinyLabelTextStyle
+                          .copyWith(fontWeight: FontWeight.w400),
+                    ),
+                  ],
+                ),
+                AppSpaces.v4,
+
+                /// Bags & packing
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: firstTextWidth.screenWidth,
+                          child: AppText(
+                            text: kBags,
+                            style: AppTextStyles.tinyLabelTextStyle,
+                          ),
+                        ),
+                        SizedBox(
+                          child: AppText(
+                            text: ': ',
+                            style: AppTextStyles.tinyListTextStyle,
+                          ),
+                        ),
+                        AppText(
+                          text: loadingData?.saudaBags ?? '',
+                          style: AppTextStyles.tinyListTextStyle,
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        AppText(
+                          text: '          $kPacking',
+                          style: AppTextStyles.tinyLabelTextStyle,
+                        ),
+                        SizedBox(
+                          child: AppText(
+                            text: ' : ',
+                            style: AppTextStyles.tinyListTextStyle,
+                          ),
+                        ),
+                        AppText(
+                          text: loadingData?.saudaPackaging ?? '',
+                          style: AppTextStyles.tinyListTextStyle,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                AppSpaces.v4,
+
+                /// sauda qty
+                Row(
+                  children: [
+                    SizedBox(
+                      width: firstTextWidth.screenWidth,
+                      child: AppText(
+                        text: kSaudaQty,
+                        style: AppTextStyles.tinyLabelTextStyle,
+                      ),
+                    ),
+                    SizedBox(
+                      child: AppText(
+                        text: ': ',
+                        style: AppTextStyles.tinyListTextStyle,
+                      ),
+                    ),
+                    AppText(
+                      text: (loadingData?.saudaQty ?? 0).toString(),
                       style: AppTextStyles.tinyListTextStyle,
                     ),
                   ],
                 ),
                 AppSpaces.v4,
+
+                /// pending qty
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: firstTextWidth.screenWidth,
+                      child: AppText(
+                        text: kPendingQty,
+                        style: AppTextStyles.tinyLabelTextStyle,
+                      ),
+                    ),
+                    SizedBox(
+                      child: AppText(
+                        text: ': ',
+                        style: AppTextStyles.tinyListTextStyle,
+                      ),
+                    ),
+                    AppText(
+                      text: loadingData?.pendingQty ?? '',
+                      style: AppTextStyles.tinyListTextStyle,
+                    ),
+                  ],
+                ),
+                AppSpaces.v4,
+
+                /// contract no
+                // Row(
+                //   children: [
+                //     SizedBox(
+                //       width: firstTextWidth.screenWidth,
+                //       child: AppText(
+                //         text: '$kContractNo : ',
+                //         style: AppTextStyles.tinyLabelTextStyle,
+                //       ),
+                //     ),
+                //     SizedBox(
+                //       child: AppText(
+                //         text: ': ',
+                //         style: AppTextStyles.tinyListTextStyle,
+                //       ),
+                //     ),
+                //     AppText(
+                //       text: (loadingData?.contractNo ?? 0).toString(),
+                //       style: AppTextStyles.tinyListTextStyle,
+                //     ),
+                //   ],
+                // ),
+                // AppSpaces.v4,
+
+                /// contract date
+                // Row(
+                //   children: [
+                //     SizedBox(
+                //       width: firstTextWidth.screenWidth,
+                //       child: AppText(
+                //         text: kContractDate,
+                //         style: AppTextStyles.tinyLabelTextStyle,
+                //       ),
+                //     ),
+                //     SizedBox(
+                //       child: AppText(
+                //         text: ': ',
+                //         style: AppTextStyles.tinyListTextStyle,
+                //       ),
+                //     ),
+                //     SizedBox(
+                //       width: secondTextWidth.screenWidth,
+                //       child: AppText(
+                //         text: AppDateTimeExtension.convertDDMMYYYY(
+                //             loadingData?.contractDate ?? ''),
+                //         style: AppTextStyles.tinyListTextStyle,
+                //       ),
+                //     ),
+                //   ],
+                // ),
+                // AppSpaces.v4,
+
+                /// contract date
+                // Row(
+                //   children: [
+                //     SizedBox(
+                //       width: firstTextWidth.screenWidth,
+                //       child: AppText(
+                //         text: kContractDate,
+                //         style: AppTextStyles.tinyLabelTextStyle,
+                //       ),
+                //     ),
+                //     SizedBox(
+                //       child: AppText(
+                //         text: ': ',
+                //         style: AppTextStyles.tinyListTextStyle,
+                //       ),
+                //     ),
+                //     SizedBox(
+                //       width: secondTextWidth.screenWidth,
+                //       child: AppText(
+                //         text: AppDateTimeExtension.convertDDMMYYYY(
+                //             loadingData?.contractDate ?? ''),
+                //         style: AppTextStyles.tinyListTextStyle,
+                //       ),
+                //     ),
+                //   ],
+                // ),
+                // AppSpaces.v4,
+
+                /// Other Charges
+                // Row(
+                //   children: [
+                //     SizedBox(
+                //       width: firstTextWidth.screenWidth,
+                //       child: AppText(
+                //         text: kOtherCharges,
+                //         style: AppTextStyles.tinyLabelTextStyle,
+                //       ),
+                //     ),
+                //     SizedBox(
+                //       child: AppText(
+                //         text: ': ',
+                //         style: AppTextStyles.tinyListTextStyle,
+                //       ),
+                //     ),
+                //     AppText(
+                //       text: (loadingData?.otherAmount ?? 0).toString(),
+                //       style: AppTextStyles.tinyListTextStyle,
+                //     ),
+                //   ],
+                // ),
+                // AppSpaces.v4,
+
+                /// seller bill name
+                // Row(
+                //   children: [
+                //     SizedBox(
+                //       width: firstTextWidth.screenWidth,
+                //       child: AppText(
+                //         text: kSellerBillName,
+                //         style: AppTextStyles.tinyLabelTextStyle,
+                //       ),
+                //     ),
+                //     SizedBox(
+                //       child: AppText(
+                //         text: ': ',
+                //         style: AppTextStyles.tinyListTextStyle,
+                //       ),
+                //     ),
+                //     AppText(
+                //       text: loadingData?.sellerBillName ?? '',
+                //       style: AppTextStyles.tinyListTextStyle,
+                //     ),
+                //   ],
+                // ),
+                // AppSpaces.v4,
+
+                /// buyer bill name
+                // Row(
+                //   children: [
+                //     SizedBox(
+                //       width: firstTextWidth.screenWidth,
+                //       child: AppText(
+                //         text: kBuyerBillName,
+                //         style: AppTextStyles.tinyLabelTextStyle,
+                //       ),
+                //     ),
+                //     SizedBox(
+                //       child: AppText(
+                //         text: ': ',
+                //         style: AppTextStyles.tinyListTextStyle,
+                //       ),
+                //     ),
+                //     AppText(
+                //       text: loadingData?.buyerBillName ?? '',
+                //       style: AppTextStyles.tinyListTextStyle,
+                //     ),
+                //   ],
+                // ),
+                // AppSpaces.v4,
+
+                /// truck no.
+                // Row(
+                //   children: [
+                //     SizedBox(
+                //       width: firstTextWidth.screenWidth,
+                //       child: AppText(
+                //         text: kTruckNo,
+                //         style: AppTextStyles.tinyLabelTextStyle,
+                //       ),
+                //     ),
+                //     SizedBox(
+                //       child: AppText(
+                //         text: ': ',
+                //         style: AppTextStyles.tinyListTextStyle,
+                //       ),
+                //     ),
+                //     AppText(
+                //       text: loadingData?.truckNo ?? '',
+                //       style: AppTextStyles.tinyListTextStyle,
+                //     ),
+                //   ],
+                // ),
+                // AppSpaces.v4,
+
+                /// remarks
+                // Row(
+                //   children: [
+                //     AppText(
+                //       text: '$kRemarks : ',
+                //       style: AppTextStyles.tinyLabelTextStyle,
+                //     ),
+                //     AppText(
+                //       text: loadingData?.remarks ?? '',
+                //       style: AppTextStyles.tinyListTextStyle,
+                //     ),
+                //   ],
+                // ),
+                // AppSpaces.v4,
               ],
             ),
           ),
         ],
       ),
     );
+  }
+
+  returnCityState(String c, String s) {
+    String city = c;
+    // (data.accCtyName ?? '').isNotEmpty
+    //     ? data.accCtyName ?? ''
+    //     : data.city ?? '';
+    String state = s;
+    // (data.accState ?? '').isNotEmpty
+    //     ? data.accState ?? ''
+    //     : data.state ?? '';
+
+    if (city.isEmpty) {
+      return state;
+    } else if (state.isNotEmpty) {
+      return city + ', $state';
+    } else {
+      return city;
+    }
   }
 }

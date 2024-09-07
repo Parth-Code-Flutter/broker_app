@@ -21,6 +21,7 @@ class AppCheckBox extends StatelessWidget {
       height: size ?? 24,
       width: size ?? 24,
       child: Checkbox(
+        visualDensity: VisualDensity(horizontal: -4,vertical: -4),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
         side: BorderSide(width: 0.5),
         fillColor: MaterialStateProperty.resolveWith<Color>(

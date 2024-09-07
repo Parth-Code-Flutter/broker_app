@@ -86,7 +86,11 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
                     child: Column(
                       children: [
                         // AppSpaces.v36,
-                        if (_pin == null && widget.hasPin) _oldPassField,
+                        if (_pin == null && widget.hasPin)
+                          Column(children: [
+                            AppSpaces.v16,
+                            _oldPassField,
+                          ]),
                         AppSpaces.v16,
                         _passField,
                         AppSpaces.v16,

@@ -44,13 +44,14 @@ class PartyMasterRepo {
     }
   }
 
-  static Future<List<VoucherData>> fetchVoucherData() async {
+  static Future<List<VoucherData>> fetchVoucherData({required String type}) async {
     try {
       String companyId = AppGlobals.instance.companyId ?? '0';
       String yearId = AppGlobals.instance.yearId ?? '0';
       final data = {
         "yearId": yearId,
         "companyId": companyId,
+        "type": type,
       };
 
       final result = await CloudFunctionsHelper.call(

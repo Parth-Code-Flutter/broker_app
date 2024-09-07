@@ -1,12 +1,16 @@
+import 'package:broker_app/providers/sign_in/sign_in_provider.dart';
 import 'package:broker_app/utils/colors/app_colors.dart';
 import 'package:broker_app/utils/extensions/app_size_extension.dart';
+import 'package:broker_app/utils/globals/app_globals.dart';
 import 'package:broker_app/utils/strings/app_assets.dart';
 import 'package:broker_app/utils/ui/app_text_styles.dart';
+import 'package:broker_app/utils/urls/api_urls.dart';
 import 'package:broker_app/views/app_widgets/app_image.dart';
 import 'package:broker_app/views/app_widgets/app_spaces.dart';
 import 'package:broker_app/views/app_widgets/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 class AppHeader extends StatelessWidget {
   const AppHeader({
@@ -18,19 +22,23 @@ class AppHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      // height: 0.4.screenHeight,
-      color: AppColors.whiteBg,
-      width: 1.screenWidth,
-      child: Stack(
-        children: [
-          if (showLogo) _logo,
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: AppImage.asset(path: AppAssets.bgBottom),
+    return Consumer<SignInProvider>(
+      builder: (context, value, child) {
+        return Container(
+          // height: 0.4.screenHeight,
+          color: AppColors.whiteBg,
+          width: 1.screenWidth,
+          child: Stack(
+            children: [
+              if (showLogo) _logo,
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: AppImage.asset(path: AppAssets.bgBottom),
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 
@@ -41,11 +49,19 @@ class AppHeader extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            AppImage.asset(
-              path: AppAssets.logo,
-              height: 100,
-              width: 230,
-            ),
+            (AppGlobals.instance.appLogo ?? '').isNotEmpty
+                ? Image.network(
+                    APIUrls.baseUrl2 +
+                        '/LogoImg/' +
+                        (AppGlobals.instance.appLogo ?? ''),
+                    height: 100,
+                    width: 230,
+                  )
+                : AppImage.asset(
+                    path: AppAssets.pbLogo,
+                    height: 100,
+                    width: 230,
+                  ),
             AppSpaces.v12,
             // _name,
           ],

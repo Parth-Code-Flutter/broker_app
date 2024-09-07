@@ -39,6 +39,7 @@ class AppTextField extends StatelessWidget {
     ),
     this.focusNode,
     this.obscureText = false,
+    this.textInputAction,
   });
 
   final TextEditingController? controller;
@@ -68,6 +69,7 @@ class AppTextField extends StatelessWidget {
   final EdgeInsetsGeometry? padding;
   final FocusNode? focusNode;
   final bool obscureText;
+  final TextInputAction? textInputAction;
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +88,7 @@ class AppTextField extends StatelessWidget {
           keyboardType: textInputType,
           textCapitalization: TextCapitalization.sentences,
           onChanged: onChanged,
-          textInputAction: TextInputAction.next,
+          textInputAction: textInputAction ?? TextInputAction.next,
           maxLength: maxLength,
           initialValue: value,
           inputFormatters: inputFormatters,
@@ -180,8 +182,8 @@ class AppTextField extends StatelessWidget {
     return OutlineInputBorder(
       borderRadius: AppUIUtils.primaryBorderRadius,
       borderSide: BorderSide(
-        color:  AppColors.primary,
-        width:  0.8,
+        color: AppColors.primary,
+        width: 0.8,
       ),
     );
   }

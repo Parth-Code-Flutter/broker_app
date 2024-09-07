@@ -26,7 +26,7 @@ class PartyMasterProvider extends AppProvider {
       {bool notify = false,
       String searchText = '',
       bool isFroDropdown = false}) async {
-    _isLoading = true;
+    if(offset ==0)_isLoading = true;
     if (notify) notifyListeners();
 
     var list = await PartyMasterRepo.fetchPartyData(
@@ -37,23 +37,23 @@ class PartyMasterProvider extends AppProvider {
 
     _partyList.addAll(list);
     print('_partyList length :: ${_partyList.length}');
-    if (_partyList.isEmpty) {
+    if (list.isEmpty) {
       isListEmpty = true;
     } else {
       offset = offset + 10;
     }
     // _partyList.sort((a, b) => (a.accNm ?? '').compareTo((b.accNm ?? '')));
 
-    _isLoading = false;
+    if(offset ==10 || offset==0)_isLoading = false;
     notifyListeners();
   }
 
   Future<void> setVoucherData(
-      {bool notify = false}) async {
+      {bool notify = false,required String type}) async {
     _isLoading = true;
     if (notify) notifyListeners();
 
-    _voucherList = await PartyMasterRepo.fetchVoucherData();
+    _voucherList = await PartyMasterRepo.fetchVoucherData(type: type);
 
     // _voucherList.sort((a, b) => (a.accNm ?? '').compareTo((b.accNm ?? '')));
 

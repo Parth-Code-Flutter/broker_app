@@ -42,7 +42,7 @@ class _BrokerInvoiceFilterScreenState extends State<BrokerInvoiceFilterScreen> {
   bool isShowPartyList = false;
 
   getData() async {
-    await context.read<PartyMasterProvider>().setVoucherData();
+    await context.read<PartyMasterProvider>().setVoucherData(type: 'invoice');
   }
 
   @override
@@ -252,10 +252,10 @@ class _BrokerInvoiceFilterScreenState extends State<BrokerInvoiceFilterScreen> {
           labelText: kVoucherType,
           selectedItem: _voucherId,
 
-          items: data.map((e) => e.id.toString() ?? '').toList(),
+          items: data.map((e) => e.description.toString() ?? '').toList(),
           string: (item) =>
               data
-                  .where((company) => company.id.toString() == item)
+                  .where((company) => company.description.toString() == item)
                   .firstOrNull
                   ?.description ??
               '',

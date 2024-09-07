@@ -65,18 +65,7 @@ class AppDialogs {
       firstDate: minDate,
       lastDate: maxDate,
       builder: (BuildContext context, Widget? child) {
-        return Theme(
-          data: ThemeData.dark().copyWith(
-            colorScheme: ColorScheme.dark(
-              primary: AppColors.primary,
-              onPrimary: Colors.white,
-              surface: AppColors.whiteText,
-              onSurface: AppColors.primaryText,
-            ),
-            dialogBackgroundColor: AppColors.primaryBg,
-          ),
-          child: child!,
-        );
+        return child!;
       },
     );
 

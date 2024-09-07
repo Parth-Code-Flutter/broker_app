@@ -25,6 +25,7 @@ class BrokerInvoiceRepo {
         "searchText": searchText,
         if (partyId.isNotEmpty) "partyId": partyId,
         if (buyerId.isNotEmpty) "buyerId": buyerId,
+        if (voucherTypeId.isNotEmpty) "voucherTypeId": voucherTypeId,
         if (sellerId.isNotEmpty) "sellerId": sellerId,
         if (dateFrom.isNotEmpty) "dateFrom": dateFrom,
         if (dateTo.isNotEmpty) "dateTo": dateTo,

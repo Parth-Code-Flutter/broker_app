@@ -5,6 +5,7 @@ import 'package:broker_app/utils/extensions/app_date_time_extension.dart';
 import 'package:broker_app/utils/extensions/app_size_extension.dart';
 import 'package:broker_app/utils/ui/app_text_styles.dart';
 import 'package:broker_app/utils/ui/app_ui_utils.dart';
+import 'package:broker_app/views/app_widgets/app_divider_with_text.dart';
 import 'package:broker_app/views/app_widgets/app_scaffold.dart';
 import 'package:broker_app/views/app_widgets/app_spaces.dart';
 import 'package:broker_app/views/app_widgets/app_text.dart';
@@ -37,484 +38,1004 @@ class _LoadingPaymentDetailsScreenState
   Widget build(BuildContext context) {
     return AppScaffold(
       appBar: appBar(title: kLoadingPaymentDetails, isShowBackButton: true),
-      body: Column(
-        children: [
-          AppSpaces.v8,
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-            padding: EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: AppColors.containerBG,
-              borderRadius: AppUIUtils.containerBorderRadius,
-            ),
-            child: Column(
-              children: [
-                /// type-vno and date
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        SizedBox(
-                          width: firstTextWidth.screenWidth,
-                          child: AppText(
-                            text: kVNo,
-                            style: AppTextStyles.tinyLabelTextStyle,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            AppSpaces.v8,
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+              padding: EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: AppColors.containerBG,
+                borderRadius: AppUIUtils.containerBorderRadius,
+              ),
+              child: Column(
+                children: [
+                  /// type-vno and date
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          SizedBox(
+                            width: firstTextWidth.screenWidth,
+                            child: AppText(
+                              text: kVNo,
+                              style: AppTextStyles.tinyLabelTextStyle,
+                            ),
                           ),
+                          SizedBox(
+                            child: AppText(
+                              text: ': ',
+                              style: AppTextStyles.tinyListTextStyle,
+                            ),
+                          ),
+                          AppText(
+                            text: loadingData?.vNo ?? '',
+                            style: AppTextStyles.tinyListTextStyle
+                                .copyWith(fontWeight: FontWeight.w700),
+                          ),
+                        ],
+                      ),
+                      AppText(
+                        text: AppDateTimeExtension.convertDDMMYYYY(
+                            loadingData?.date ?? ''),
+                        style: AppTextStyles.tinyLabelTextStyle
+                            .copyWith(fontWeight: FontWeight.w400),
+                      ),
+                    ],
+                  ),
+                  AppSpaces.v4,
+
+                  /// seller
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: firstTextWidth.screenWidth,
+                        child: AppText(
+                          text: kSeller,
+                          style: AppTextStyles.tinyLabelTextStyle,
                         ),
-                        SizedBox(
-                          child: AppText(
-                            text: ': ',
+                      ),
+                      SizedBox(
+                        child: AppText(
+                          text: ': ',
+                          style: AppTextStyles.tinyListTextStyle,
+                        ),
+                      ),
+                      SizedBox(
+                        width: secondTextWidth.screenWidth,
+                        child: AppText(
+                          text: loadingData?.sellerName ?? '',
+                          style: AppTextStyles.tinyListTextStyle,
+                          maxLines: 2,
+                        ),
+                      ),
+                    ],
+                  ),
+                  AppSpaces.v4,
+
+                  /// city & state
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: firstTextWidth.screenWidth,
+                        child: AppText(
+                          text: '$kCity-$kState',
+                          style: AppTextStyles.tinyLabelTextStyle,
+                        ),
+                      ),
+                      SizedBox(
+                        width: secondTextWidth.screenWidth,
+                        child: AppText(
+                          text:
+                              ': ${returnCityState(loadingData?.sellerCityName ?? '', (loadingData?.sellerStateName ?? '').isEmpty ? (loadingData?.sellerStateName ?? '') : (loadingData?.sellerStateName2 ?? ''))}',
+                          style: AppTextStyles.tinyListTextStyle,
+                          maxLines: 2,
+                        ),
+                      ),
+                    ],
+                  ),
+                  AppSpaces.v4,
+
+                  /// buyer
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: firstTextWidth.screenWidth,
+                        child: AppText(
+                          text: kBuyer,
+                          style: AppTextStyles.tinyLabelTextStyle,
+                        ),
+                      ),
+                      SizedBox(
+                        child: AppText(
+                          text: ': ',
+                          style: AppTextStyles.tinyListTextStyle,
+                        ),
+                      ),
+                      AppText(
+                        text: loadingData?.buyerName ?? '',
+                        style: AppTextStyles.tinyListTextStyle,
+                      ),
+                    ],
+                  ),
+                  AppSpaces.v4,
+
+                  /// city & state
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: firstTextWidth.screenWidth,
+                        child: AppText(
+                          text: '$kCity-$kState',
+                          style: AppTextStyles.tinyLabelTextStyle,
+                        ),
+                      ),
+                      SizedBox(
+                        width: secondTextWidth.screenWidth,
+                        child: AppText(
+                          text:
+                              ': ${returnCityState(loadingData?.buyerCityName ?? '', loadingData?.buyerStateName ?? '')}',
+                          style: AppTextStyles.tinyListTextStyle,
+                          maxLines: 2,
+                        ),
+                      ),
+                    ],
+                  ),
+                  AppSpaces.v4,
+
+                  /// Amount
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: firstTextWidth.screenWidth,
+                        child: AppText(
+                          text: kAmount,
+                          style: AppTextStyles.tinyLabelTextStyle,
+                        ),
+                      ),
+                      SizedBox(
+                        child: AppText(
+                          text: ': ',
+                          style: AppTextStyles.tinyListTextStyle,
+                        ),
+                      ),
+                      AppText(
+                        text: loadingData?.payAmount ?? '',
+                        style: AppTextStyles.tinyListTextStyle,
+                      ),
+                    ],
+                  ),
+                  AppSpaces.v4,
+
+                  /// Charges
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: firstTextWidth.screenWidth,
+                        child: AppText(
+                          text: kCharges,
+                          style: AppTextStyles.tinyLabelTextStyle,
+                        ),
+                      ),
+                      SizedBox(
+                        child: AppText(
+                          text: ': ',
+                          style: AppTextStyles.tinyListTextStyle,
+                        ),
+                      ),
+                      AppText(
+                        text: loadingData?.payCharges ?? '',
+                        style: AppTextStyles.tinyListTextStyle,
+                      ),
+                    ],
+                  ),
+                  AppSpaces.v4,
+
+                  /// PayAmt
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: firstTextWidth.screenWidth,
+                        child: AppText(
+                          text: kPayAmt,
+                          style: AppTextStyles.tinyLabelTextStyle,
+                        ),
+                      ),
+                      SizedBox(
+                        child: AppText(
+                          text: ': ',
+                          style: AppTextStyles.tinyListTextStyle,
+                        ),
+                      ),
+                      AppText(
+                        text: loadingData?.payAmount ?? '',
+                        style: AppTextStyles.tinyListTextStyle,
+                      ),
+                    ],
+                  ),
+                  AppSpaces.v4,
+
+                  AppDividerWIthText(
+                    text: kLoadingDetails,
+                  ),
+                  AppSpaces.v4,
+
+                  /// type-vno and date
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          SizedBox(
+                            width: firstTextWidth.screenWidth,
+                            child: AppText(
+                              text: kVNo,
+                              style: AppTextStyles.tinyLabelTextStyle,
+                            ),
+                          ),
+                          SizedBox(
+                            child: AppText(
+                              text: ': ',
+                              style: AppTextStyles.tinyListTextStyle,
+                            ),
+                          ),
+                          AppText(
+                            text: loadingData?.loadVNo ?? '',
+                            style: AppTextStyles.tinyListTextStyle
+                                .copyWith(fontWeight: FontWeight.w700),
+                          ),
+                        ],
+                      ),
+                      AppText(
+                        text: AppDateTimeExtension.convertDDMMYYYY(
+                            loadingData?.billDate ?? ''),
+                        // loadingData?.date ?? ''),
+                        style: AppTextStyles.tinyLabelTextStyle
+                            .copyWith(fontWeight: FontWeight.w400),
+                      ),
+                    ],
+                  ),
+                  AppSpaces.v4,
+
+                  /// Product Name
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: firstTextWidth.screenWidth,
+                        child: AppText(
+                          text: kProduct,
+                          style: AppTextStyles.tinyLabelTextStyle,
+                        ),
+                      ),
+                      SizedBox(
+                        child: AppText(
+                          text: ': ',
+                          style: AppTextStyles.tinyListTextStyle,
+                        ),
+                      ),
+                      SizedBox(
+                        width: secondTextWidth.screenWidth,
+                        child: AppText(
+                          text: (loadingData?.productName ?? '').trim(),
+                          style: AppTextStyles.tinyListTextStyle,
+                          maxLines: 2,
+                        ),
+                      ),
+                    ],
+                  ),
+                  AppSpaces.v4,
+
+                  /// Rate
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: firstTextWidth.screenWidth,
+                        child: AppText(
+                          text: kRate,
+                          style: AppTextStyles.tinyLabelTextStyle,
+                        ),
+                      ),
+                      SizedBox(
+                        child: AppText(
+                          text: ': ',
+                          style: AppTextStyles.tinyListTextStyle,
+                        ),
+                      ),
+                      SizedBox(
+                        width: secondTextWidth.screenWidth,
+                        child: AppText(
+                          text: (loadingData?.rate ?? 0).toString(),
+                          style: AppTextStyles.tinyListTextStyle,
+                        ),
+                      ),
+                    ],
+                  ),
+                  AppSpaces.v4,
+
+                  /// Bags & packing
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          SizedBox(
+                            width: firstTextWidth.screenWidth,
+                            child: AppText(
+                              text: kBags,
+                              style: AppTextStyles.tinyLabelTextStyle,
+                            ),
+                          ),
+                          SizedBox(
+                            child: AppText(
+                              text: ': ',
+                              style: AppTextStyles.tinyListTextStyle,
+                            ),
+                          ),
+                          AppText(
+                            text: loadingData?.loadBags ?? '',
                             style: AppTextStyles.tinyListTextStyle,
                           ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          AppText(
+                            text: '          $kPacking',
+                            style: AppTextStyles.tinyLabelTextStyle,
+                          ),
+                          SizedBox(
+                            child: AppText(
+                              text: ' : ',
+                              style: AppTextStyles.tinyListTextStyle,
+                            ),
+                          ),
+                          AppText(
+                            text: loadingData?.loadPacking ?? '',
+                            style: AppTextStyles.tinyListTextStyle,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  AppSpaces.v4,
+
+                  /// Loading Qty
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: firstTextWidth.screenWidth,
+                        child: AppText(
+                          text: '$kLoading $kQty',
+                          style: AppTextStyles.tinyLabelTextStyle,
                         ),
-                        AppText(
-                          text: loadingData?.vNo ?? '',
-                          style: AppTextStyles.tinyListTextStyle
-                              .copyWith(fontWeight: FontWeight.w700),
+                      ),
+                      SizedBox(
+                        child: AppText(
+                          text: ': ',
+                          style: AppTextStyles.tinyListTextStyle,
                         ),
-                      ],
-                    ),
-                    AppText(
-                      text: AppDateTimeExtension.convertDDMMYYYY(
-                          loadingData?.date ?? ''),
-                      style: AppTextStyles.tinyLabelTextStyle
-                          .copyWith(fontWeight: FontWeight.w400),
-                    ),
-                  ],
-                ),
-                AppSpaces.v4,
+                      ),
+                      AppText(
+                        text: loadingData?.loadQty ?? '',
+                        style: AppTextStyles.tinyListTextStyle,
+                      ),
+                    ],
+                  ),
+                  AppSpaces.v4,
 
-                /// seller
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      width: firstTextWidth.screenWidth,
-                      child: AppText(
-                        text: kSeller,
-                        style: AppTextStyles.tinyLabelTextStyle,
+                  /// Bill Amount
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: firstTextWidth.screenWidth,
+                        child: AppText(
+                          text: kBillAmount,
+                          style: AppTextStyles.tinyLabelTextStyle,
+                        ),
                       ),
-                    ),
-                    SizedBox(
-                      child: AppText(
-                        text: ': ',
+                      SizedBox(
+                        child: AppText(
+                          text: ': ',
+                          style: AppTextStyles.tinyListTextStyle,
+                        ),
+                      ),
+                      AppText(
+                        text: loadingData?.payBillAmount ?? '',
                         style: AppTextStyles.tinyListTextStyle,
                       ),
-                    ),
-                    SizedBox(
-                      width: secondTextWidth.screenWidth,
-                      child: AppText(
-                        text: loadingData?.sellerName ?? '',
-                        style: AppTextStyles.tinyListTextStyle,
-                        maxLines: 2,
-                      ),
-                    ),
-                  ],
-                ),
-                AppSpaces.v4,
+                    ],
+                  ),
+                  AppSpaces.v4,
 
-                /// buyer
-                Row(
-                  children: [
-                    SizedBox(
-                      width: firstTextWidth.screenWidth,
-                      child: AppText(
-                        text: kBuyer,
-                        style: AppTextStyles.tinyLabelTextStyle,
+                  /// Bill No & Date
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          SizedBox(
+                            width: firstTextWidth.screenWidth,
+                            child: AppText(
+                              text: '$kBillNo.',
+                              style: AppTextStyles.tinyLabelTextStyle,
+                            ),
+                          ),
+                          SizedBox(
+                            child: AppText(
+                              text: ': ',
+                              style: AppTextStyles.tinyListTextStyle,
+                            ),
+                          ),
+                          AppText(
+                            text: loadingData?.billNo ?? '',
+                            style: AppTextStyles.tinyListTextStyle,
+                          ),
+                        ],
                       ),
-                    ),
-                    SizedBox(
-                      child: AppText(
-                        text: ': ',
-                        style: AppTextStyles.tinyListTextStyle,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          AppText(
+                            text: '$kBillDate.',
+                            style: AppTextStyles.tinyLabelTextStyle,
+                          ),
+                          SizedBox(
+                            child: AppText(
+                              text: ' : ',
+                              style: AppTextStyles.tinyListTextStyle,
+                            ),
+                          ),
+                          AppText(
+                            text: AppDateTimeExtension.convertDDMMYYYY(
+                                loadingData?.billDate ?? ''),
+                            style: AppTextStyles.tinyListTextStyle,
+                          ),
+                        ],
                       ),
-                    ),
-                    AppText(
-                      text: loadingData?.buyerName ?? '',
-                      style: AppTextStyles.tinyListTextStyle,
-                    ),
-                  ],
-                ),
-                AppSpaces.v4,
+                    ],
+                  ),
+                  AppSpaces.v4,
 
-                /// contract no
-                Row(
-                  children: [
-                    SizedBox(
-                      width: firstTextWidth.screenWidth,
-                      child: AppText(
-                        text: '$kContractNo : ',
-                        style: AppTextStyles.tinyLabelTextStyle,
+                  /// bill name
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: firstTextWidth.screenWidth,
+                        child: AppText(
+                          text: kBillName,
+                          style: AppTextStyles.tinyLabelTextStyle,
+                        ),
                       ),
-                    ),
-                    SizedBox(
-                      child: AppText(
-                        text: ': ',
+                      SizedBox(
+                        child: AppText(
+                          text: ': ',
+                          style: AppTextStyles.tinyListTextStyle,
+                        ),
+                      ),
+                      AppText(
+                        text: loadingData?.sellerBillName ?? '',
                         style: AppTextStyles.tinyListTextStyle,
                       ),
-                    ),
-                    AppText(
-                      text: (loadingData?.contractNo ?? 0).toString(),
-                      style: AppTextStyles.tinyListTextStyle,
-                    ),
-                  ],
-                ),
-                AppSpaces.v4,
+                    ],
+                  ),
+                  AppSpaces.v4,
 
-                /// contract date
-                Row(
-                  children: [
-                    SizedBox(
-                      width: firstTextWidth.screenWidth,
-                      child: AppText(
-                        text: kContractDate,
-                        style: AppTextStyles.tinyLabelTextStyle,
+                  /// vehicle no
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: firstTextWidth.screenWidth,
+                        child: AppText(
+                          text: kVehicleNo,
+                          style: AppTextStyles.tinyLabelTextStyle,
+                        ),
                       ),
-                    ),
-                    SizedBox(
-                      child: AppText(
-                        text: ': ',
+                      SizedBox(
+                        child: AppText(
+                          text: ': ',
+                          style: AppTextStyles.tinyListTextStyle,
+                        ),
+                      ),
+                      AppText(
+                        text: loadingData?.truckNo ?? '',
                         style: AppTextStyles.tinyListTextStyle,
                       ),
-                    ),
-                    SizedBox(
-                      width: secondTextWidth.screenWidth,
-                      child: AppText(
+                    ],
+                  ),
+                  AppSpaces.v4,
+
+                  AppDividerWIthText(
+                    text: kSaudaDetails,
+                  ),
+                  AppSpaces.v4,
+
+                  /// type-vno and date
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          SizedBox(
+                            width: firstTextWidth.screenWidth,
+                            child: AppText(
+                              text: kTypeVNo,
+                              style: AppTextStyles.tinyLabelTextStyle,
+                            ),
+                          ),
+                          SizedBox(
+                            child: AppText(
+                              text: ': ',
+                              style: AppTextStyles.tinyListTextStyle,
+                            ),
+                          ),
+                          AppText(
+                            text:
+                                '${(loadingData?.vouType ?? '').trim()} ${(loadingData?.contractNo ?? '')}',
+                            style: AppTextStyles.tinyListTextStyle
+                                .copyWith(fontWeight: FontWeight.w700),
+                          ),
+                        ],
+                      ),
+                      AppText(
                         text: AppDateTimeExtension.convertDDMMYYYY(
                             loadingData?.contractDate ?? ''),
-                        style: AppTextStyles.tinyListTextStyle,
+                        style: AppTextStyles.tinyLabelTextStyle
+                            .copyWith(fontWeight: FontWeight.w400),
                       ),
-                    ),
-                  ],
-                ),
-                AppSpaces.v4,
+                    ],
+                  ),
+                  AppSpaces.v4,
 
-                // /// Product Name
-                // Row(
-                //   children: [
-                //     SizedBox(
-                //       width: firstTextWidth.screenWidth,
-                //       child: AppText(
-                //         text: kProductName,
-                //         style: AppTextStyles.tinyLabelTextStyle,
-                //       ),
-                //     ),
-                //     SizedBox(
-                //       child: AppText(
-                //         text: ': ',
-                //         style: AppTextStyles.tinyListTextStyle,
-                //       ),
-                //     ),
-                //     SizedBox(
-                //       width: secondTextWidth.screenWidth,
-                //       child: AppText(
-                //         text: loadingData?.,
-                //         style: AppTextStyles.tinyListTextStyle,
-                //         maxLines: 2,
-                //       ),
-                //     ),
-                //   ],
-                // ),
-                // AppSpaces.v4,
-
-                /// Rate
-                Row(
-                  children: [
-                    SizedBox(
-                      width: firstTextWidth.screenWidth,
-                      child: AppText(
-                        text: kRate,
-                        style: AppTextStyles.tinyLabelTextStyle,
-                      ),
-                    ),
-                    SizedBox(
-                      child: AppText(
-                        text: ': ',
-                        style: AppTextStyles.tinyListTextStyle,
-                      ),
-                    ),
-                    SizedBox(
-                      width: secondTextWidth.screenWidth,
-                      child: AppText(
-                        text: (loadingData?.rate ?? 0).toString(),
-                        style: AppTextStyles.tinyListTextStyle,
-                      ),
-                    ),
-                  ],
-                ),
-                AppSpaces.v4,
-
-                /// sauda qty
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        SizedBox(
-                          width: firstTextWidth.screenWidth,
-                          child: AppText(
-                            text: kSaudaQty,
-                            style: AppTextStyles.tinyLabelTextStyle,
+                  /// Bags & packing
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          SizedBox(
+                            width: firstTextWidth.screenWidth,
+                            child: AppText(
+                              text: kBags,
+                              style: AppTextStyles.tinyLabelTextStyle,
+                            ),
                           ),
-                        ),
-                        SizedBox(
-                          child: AppText(
-                            text: ': ',
+                          SizedBox(
+                            child: AppText(
+                              text: ': ',
+                              style: AppTextStyles.tinyListTextStyle,
+                            ),
+                          ),
+                          AppText(
+                            text: loadingData?.saudaBags ?? '',
                             style: AppTextStyles.tinyListTextStyle,
                           ),
-                        ),
-                        AppText(
-                          text: (loadingData?.saudaQty ?? 0).toString(),
-                          style: AppTextStyles.tinyListTextStyle,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                AppSpaces.v4,
-
-                /// pending
-                Row(
-                  children: [
-                    SizedBox(
-                      width: firstTextWidth.screenWidth,
-                      child: AppText(
-                        text: kPendingQty,
-                        style: AppTextStyles.tinyLabelTextStyle,
+                        ],
                       ),
-                    ),
-                    SizedBox(
-                      child: AppText(
-                        text: ': ',
-                        style: AppTextStyles.tinyListTextStyle,
-                      ),
-                    ),
-                    AppText(
-                      text: loadingData?.pendingQty ?? '',
-                      style: AppTextStyles.tinyListTextStyle,
-                    ),
-                  ],
-                ),
-                AppSpaces.v4,
-
-                /// Loading Qty
-                Row(
-                  children: [
-                    SizedBox(
-                      width: firstTextWidth.screenWidth,
-                      child: AppText(
-                        text: '$kLoading $kQty',
-                        style: AppTextStyles.tinyLabelTextStyle,
-                      ),
-                    ),
-                    SizedBox(
-                      child: AppText(
-                        text: ': ',
-                        style: AppTextStyles.tinyListTextStyle,
-                      ),
-                    ),
-                    AppText(
-                      text: loadingData?.loadQty ?? '',
-                      style: AppTextStyles.tinyListTextStyle,
-                    ),
-                  ],
-                ),
-                AppSpaces.v4,
-
-                /// Amount
-                Row(
-                  children: [
-                    SizedBox(
-                      width: firstTextWidth.screenWidth,
-                      child: AppText(
-                        text: kAmount,
-                        style: AppTextStyles.tinyLabelTextStyle,
-                      ),
-                    ),
-                    SizedBox(
-                      child: AppText(
-                        text: ': ',
-                        style: AppTextStyles.tinyListTextStyle,
-                      ),
-                    ),
-                    AppText(
-                      text: loadingData?.amount ?? '',
-                      style: AppTextStyles.tinyListTextStyle,
-                    ),
-                  ],
-                ),
-                AppSpaces.v4,
-
-                /// Other Charges
-                Row(
-                  children: [
-                    SizedBox(
-                      width: firstTextWidth.screenWidth,
-                      child: AppText(
-                        text: kOtherCharges,
-                        style: AppTextStyles.tinyLabelTextStyle,
-                      ),
-                    ),
-                    SizedBox(
-                      child: AppText(
-                        text: ': ',
-                        style: AppTextStyles.tinyListTextStyle,
-                      ),
-                    ),
-                    AppText(
-                      text: (loadingData?.otherAmount ?? 0).toString(),
-                      style: AppTextStyles.tinyListTextStyle,
-                    ),
-                  ],
-                ),
-                AppSpaces.v4,
-
-                /// Bill No
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        SizedBox(
-                          width: firstTextWidth.screenWidth,
-                          child: AppText(
-                            text: '$kBillNo.',
+                      Row(
+                        children: [
+                          AppText(
+                            text: '          $kPacking',
                             style: AppTextStyles.tinyLabelTextStyle,
                           ),
-                        ),
-                        SizedBox(
-                          child: AppText(
-                            text: ': ',
+                          SizedBox(
+                            child: AppText(
+                              text: ' : ',
+                              style: AppTextStyles.tinyListTextStyle,
+                            ),
+                          ),
+                          AppText(
+                            text: loadingData?.saudaPackaging ?? '',
                             style: AppTextStyles.tinyListTextStyle,
                           ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  AppSpaces.v4,
+
+                  /// sauda qty
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: firstTextWidth.screenWidth,
+                        child: AppText(
+                          text: kSaudaQty,
+                          style: AppTextStyles.tinyLabelTextStyle,
                         ),
-                        AppText(
-                          text: loadingData?.billNo ?? '',
+                      ),
+                      SizedBox(
+                        child: AppText(
+                          text: ': ',
                           style: AppTextStyles.tinyListTextStyle,
                         ),
-                      ],
-                    ),
-                  ],
-                ),
-                AppSpaces.v4,
-
-                /// Bill Date
-                Row(
-                  children: [
-                    SizedBox(
-                      width: (firstTextWidth).screenWidth,
-                      child: AppText(
-                        text: '$kBillDate.',
-                        style: AppTextStyles.tinyLabelTextStyle,
                       ),
-                    ),
-                    SizedBox(
-                      child: AppText(
-                        text: ': ',
+                      AppText(
+                        text: (loadingData?.saudaQty ?? 0).toString(),
                         style: AppTextStyles.tinyListTextStyle,
                       ),
-                    ),
-                    AppText(
-                      text: AppDateTimeExtension.convertDDMMYYYY(
-                          loadingData?.billDate ?? ''),
-                      style: AppTextStyles.tinyListTextStyle,
-                    ),
-                  ],
-                ),
-                AppSpaces.v4,
+                    ],
+                  ),
+                  AppSpaces.v4,
 
-                // /// seller bill name
-                // Row(
-                //   children: [
-                //     SizedBox(
-                //       width: firstTextWidth.screenWidth,
-                //       child: AppText(
-                //         text: kSellerBillName,
-                //         style: AppTextStyles.tinyLabelTextStyle,
-                //       ),
-                //     ),
-                //     SizedBox(
-                //       child: AppText(
-                //         text: ': ',
-                //         style: AppTextStyles.tinyListTextStyle,
-                //       ),
-                //     ),
-                //     AppText(
-                //       text: loadingData?.sellerBillName ?? '',
-                //       style: AppTextStyles.tinyListTextStyle,
-                //     ),
-                //   ],
-                // ),
-                // AppSpaces.v4,
-                //
-                // /// buyer bill name
-                // Row(
-                //   children: [
-                //     SizedBox(
-                //       width: firstTextWidth.screenWidth,
-                //       child: AppText(
-                //         text: kBuyerBillName,
-                //         style: AppTextStyles.tinyLabelTextStyle,
-                //       ),
-                //     ),
-                //     SizedBox(
-                //       child: AppText(
-                //         text: ': ',
-                //         style: AppTextStyles.tinyListTextStyle,
-                //       ),
-                //     ),
-                //     AppText(
-                //       text: loadingData?.buyerBillName ?? '',
-                //       style: AppTextStyles.tinyListTextStyle,
-                //     ),
-                //   ],
-                // ),
-                // AppSpaces.v4,
+                  /// contract no
+                  // Row(
+                  //   children: [
+                  //     SizedBox(
+                  //       width: firstTextWidth.screenWidth,
+                  //       child: AppText(
+                  //         text: '$kContractNo : ',
+                  //         style: AppTextStyles.tinyLabelTextStyle,
+                  //       ),
+                  //     ),
+                  //     SizedBox(
+                  //       child: AppText(
+                  //         text: ': ',
+                  //         style: AppTextStyles.tinyListTextStyle,
+                  //       ),
+                  //     ),
+                  //     AppText(
+                  //       text: (loadingData?.contractNo ?? 0).toString(),
+                  //       style: AppTextStyles.tinyListTextStyle,
+                  //     ),
+                  //   ],
+                  // ),
+                  // AppSpaces.v4,
 
-                /// truck no.
-                Row(
-                  children: [
-                    SizedBox(
-                      width: firstTextWidth.screenWidth,
-                      child: AppText(
-                        text: kTruckNo,
-                        style: AppTextStyles.tinyLabelTextStyle,
-                      ),
-                    ),
-                    SizedBox(
-                      child: AppText(
-                        text: ': ',
-                        style: AppTextStyles.tinyListTextStyle,
-                      ),
-                    ),
-                    AppText(
-                      text: loadingData?.truckNo ?? '',
-                      style: AppTextStyles.tinyListTextStyle,
-                    ),
-                  ],
-                ),
-                AppSpaces.v4,
+                  /// contract date
+                  // Row(
+                  //   children: [
+                  //     SizedBox(
+                  //       width: firstTextWidth.screenWidth,
+                  //       child: AppText(
+                  //         text: kContractDate,
+                  //         style: AppTextStyles.tinyLabelTextStyle,
+                  //       ),
+                  //     ),
+                  //     SizedBox(
+                  //       child: AppText(
+                  //         text: ': ',
+                  //         style: AppTextStyles.tinyListTextStyle,
+                  //       ),
+                  //     ),
+                  //     SizedBox(
+                  //       width: secondTextWidth.screenWidth,
+                  //       child: AppText(
+                  //         text: AppDateTimeExtension.convertDDMMYYYY(
+                  //             loadingData?.contractDate ?? ''),
+                  //         style: AppTextStyles.tinyListTextStyle,
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
+                  // AppSpaces.v4,
 
-                // /// remarks
-                // Row(
-                //   children: [
-                //     AppText(
-                //       text: '$kRemarks : ',
-                //       style: AppTextStyles.tinyLabelTextStyle,
-                //     ),
-                //     AppText(
-                //       text: 'Remarks',
-                //       style: AppTextStyles.tinyListTextStyle,
-                //     ),
-                //   ],
-                // ),
-                // AppSpaces.v4,
-              ],
+                  // /// Product Name
+                  // Row(
+                  //   children: [
+                  //     SizedBox(
+                  //       width: firstTextWidth.screenWidth,
+                  //       child: AppText(
+                  //         text: kProductName,
+                  //         style: AppTextStyles.tinyLabelTextStyle,
+                  //       ),
+                  //     ),
+                  //     SizedBox(
+                  //       child: AppText(
+                  //         text: ': ',
+                  //         style: AppTextStyles.tinyListTextStyle,
+                  //       ),
+                  //     ),
+                  //     SizedBox(
+                  //       width: secondTextWidth.screenWidth,
+                  //       child: AppText(
+                  //         text: loadingData?.,
+                  //         style: AppTextStyles.tinyListTextStyle,
+                  //         maxLines: 2,
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
+                  // AppSpaces.v4,
+
+                  /// Rate
+                  // Row(
+                  //   children: [
+                  //     SizedBox(
+                  //       width: firstTextWidth.screenWidth,
+                  //       child: AppText(
+                  //         text: kRate,
+                  //         style: AppTextStyles.tinyLabelTextStyle,
+                  //       ),
+                  //     ),
+                  //     SizedBox(
+                  //       child: AppText(
+                  //         text: ': ',
+                  //         style: AppTextStyles.tinyListTextStyle,
+                  //       ),
+                  //     ),
+                  //     SizedBox(
+                  //       width: secondTextWidth.screenWidth,
+                  //       child: AppText(
+                  //         text: (loadingData?.rate ?? 0).toString(),
+                  //         style: AppTextStyles.tinyListTextStyle,
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
+                  // AppSpaces.v4,
+
+                  /// sauda qty
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //   children: [
+                  //     Row(
+                  //       children: [
+                  //         SizedBox(
+                  //           width: firstTextWidth.screenWidth,
+                  //           child: AppText(
+                  //             text: kSaudaQty,
+                  //             style: AppTextStyles.tinyLabelTextStyle,
+                  //           ),
+                  //         ),
+                  //         SizedBox(
+                  //           child: AppText(
+                  //             text: ': ',
+                  //             style: AppTextStyles.tinyListTextStyle,
+                  //           ),
+                  //         ),
+                  //         AppText(
+                  //           text: (loadingData?.saudaQty ?? 0).toString(),
+                  //           style: AppTextStyles.tinyListTextStyle,
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ],
+                  // ),
+                  // AppSpaces.v4,
+
+                  /// pending
+                  // Row(
+                  //   children: [
+                  //     SizedBox(
+                  //       width: firstTextWidth.screenWidth,
+                  //       child: AppText(
+                  //         text: kPendingQty,
+                  //         style: AppTextStyles.tinyLabelTextStyle,
+                  //       ),
+                  //     ),
+                  //     SizedBox(
+                  //       child: AppText(
+                  //         text: ': ',
+                  //         style: AppTextStyles.tinyListTextStyle,
+                  //       ),
+                  //     ),
+                  //     AppText(
+                  //       text: loadingData?.pendingQty ?? '',
+                  //       style: AppTextStyles.tinyListTextStyle,
+                  //     ),
+                  //   ],
+                  // ),
+                  // AppSpaces.v4,
+
+                  /// Loading Qty
+                  // Row(
+                  //   children: [
+                  //     SizedBox(
+                  //       width: firstTextWidth.screenWidth,
+                  //       child: AppText(
+                  //         text: '$kLoading $kQty',
+                  //         style: AppTextStyles.tinyLabelTextStyle,
+                  //       ),
+                  //     ),
+                  //     SizedBox(
+                  //       child: AppText(
+                  //         text: ': ',
+                  //         style: AppTextStyles.tinyListTextStyle,
+                  //       ),
+                  //     ),
+                  //     AppText(
+                  //       text: loadingData?.loadQty ?? '',
+                  //       style: AppTextStyles.tinyListTextStyle,
+                  //     ),
+                  //   ],
+                  // ),
+                  // AppSpaces.v4,
+
+                  /// Other Charges
+                  // Row(
+                  //   children: [
+                  //     SizedBox(
+                  //       width: firstTextWidth.screenWidth,
+                  //       child: AppText(
+                  //         text: kOtherCharges,
+                  //         style: AppTextStyles.tinyLabelTextStyle,
+                  //       ),
+                  //     ),
+                  //     SizedBox(
+                  //       child: AppText(
+                  //         text: ': ',
+                  //         style: AppTextStyles.tinyListTextStyle,
+                  //       ),
+                  //     ),
+                  //     AppText(
+                  //       text: (loadingData?.otherAmount ?? 0).toString(),
+                  //       style: AppTextStyles.tinyListTextStyle,
+                  //     ),
+                  //   ],
+                  // ),
+                  // AppSpaces.v4,
+
+                  /// Bill No
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //   children: [
+                  //     Row(
+                  //       children: [
+                  //         SizedBox(
+                  //           width: firstTextWidth.screenWidth,
+                  //           child: AppText(
+                  //             text: '$kBillNo.',
+                  //             style: AppTextStyles.tinyLabelTextStyle,
+                  //           ),
+                  //         ),
+                  //         SizedBox(
+                  //           child: AppText(
+                  //             text: ': ',
+                  //             style: AppTextStyles.tinyListTextStyle,
+                  //           ),
+                  //         ),
+                  //         AppText(
+                  //           text: loadingData?.billNo ?? '',
+                  //           style: AppTextStyles.tinyListTextStyle,
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ],
+                  // ),
+                  // AppSpaces.v4,
+
+                  /// Bill Date
+                  // Row(
+                  //   children: [
+                  //     SizedBox(
+                  //       width: (firstTextWidth).screenWidth,
+                  //       child: AppText(
+                  //         text: '$kBillDate.',
+                  //         style: AppTextStyles.tinyLabelTextStyle,
+                  //       ),
+                  //     ),
+                  //     SizedBox(
+                  //       child: AppText(
+                  //         text: ': ',
+                  //         style: AppTextStyles.tinyListTextStyle,
+                  //       ),
+                  //     ),
+                  //     AppText(
+                  //       text: AppDateTimeExtension.convertDDMMYYYY(
+                  //           loadingData?.billDate ?? ''),
+                  //       style: AppTextStyles.tinyListTextStyle,
+                  //     ),
+                  //   ],
+                  // ),
+                  // AppSpaces.v4,
+                  //
+                  // /// seller bill name
+                  // Row(
+                  //   children: [
+                  //     SizedBox(
+                  //       width: firstTextWidth.screenWidth,
+                  //       child: AppText(
+                  //         text: kSellerBillName,
+                  //         style: AppTextStyles.tinyLabelTextStyle,
+                  //       ),
+                  //     ),
+                  //     SizedBox(
+                  //       child: AppText(
+                  //         text: ': ',
+                  //         style: AppTextStyles.tinyListTextStyle,
+                  //       ),
+                  //     ),
+                  //     AppText(
+                  //       text: loadingData?.sellerBillName ?? '',
+                  //       style: AppTextStyles.tinyListTextStyle,
+                  //     ),
+                  //   ],
+                  // ),
+                  // AppSpaces.v4,
+                  //
+                  // /// buyer bill name
+                  // Row(
+                  //   children: [
+                  //     SizedBox(
+                  //       width: firstTextWidth.screenWidth,
+                  //       child: AppText(
+                  //         text: kBuyerBillName,
+                  //         style: AppTextStyles.tinyLabelTextStyle,
+                  //       ),
+                  //     ),
+                  //     SizedBox(
+                  //       child: AppText(
+                  //         text: ': ',
+                  //         style: AppTextStyles.tinyListTextStyle,
+                  //       ),
+                  //     ),
+                  //     AppText(
+                  //       text: loadingData?.buyerBillName ?? '',
+                  //       style: AppTextStyles.tinyListTextStyle,
+                  //     ),
+                  //   ],
+                  // ),
+                  // AppSpaces.v4,
+
+                  /// truck no.
+                  // Row(
+                  //   children: [
+                  //     SizedBox(
+                  //       width: firstTextWidth.screenWidth,
+                  //       child: AppText(
+                  //         text: kTruckNo,
+                  //         style: AppTextStyles.tinyLabelTextStyle,
+                  //       ),
+                  //     ),
+                  //     SizedBox(
+                  //       child: AppText(
+                  //         text: ': ',
+                  //         style: AppTextStyles.tinyListTextStyle,
+                  //       ),
+                  //     ),
+                  //     AppText(
+                  //       text: loadingData?.truckNo ?? '',
+                  //       style: AppTextStyles.tinyListTextStyle,
+                  //     ),
+                  //   ],
+                  // ),
+                  // AppSpaces.v4,
+
+                  // /// remarks
+                  // Row(
+                  //   children: [
+                  //     AppText(
+                  //       text: '$kRemarks : ',
+                  //       style: AppTextStyles.tinyLabelTextStyle,
+                  //     ),
+                  //     AppText(
+                  //       text: 'Remarks',
+                  //       style: AppTextStyles.tinyListTextStyle,
+                  //     ),
+                  //   ],
+                  // ),
+                  // AppSpaces.v4,
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
+  }
+
+  returnCityState(String c, String s) {
+    String city = c;
+    // (data.accCtyName ?? '').isNotEmpty
+    //     ? data.accCtyName ?? ''
+    //     : data.city ?? '';
+    String state = s;
+    // (data.accState ?? '').isNotEmpty
+    //     ? data.accState ?? ''
+    //     : data.state ?? '';
+
+    if (city.isEmpty) {
+      return state;
+    } else if (state.isNotEmpty) {
+      return city + ', $state';
+    } else {
+      return city;
+    }
   }
 }

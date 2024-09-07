@@ -310,7 +310,9 @@ class _LoadingFilterScreenState extends State<LoadingFilterScreen> {
         Flexible(
           flex: 1,
           child: AppButton(
-            onPressed: () {},
+            onPressed: () {
+              NavHelper.pop(context);
+            },
             text: kCancel,
             borderRadius: AppUIUtils.buttonBorderRadius5,
             color: AppColors.whiteBg,

@@ -27,6 +27,7 @@ class AppAssets {
   // Images
   static const images = '$assets/images';
   static const logo = '$images/logo.png';
+  static const pbLogo = '$images/pb_logo.png';
 
   static const logoSvg = '$images/logo.svg';
   static const pbSplashScreen = '$images/pb_splash_screen.jpg';

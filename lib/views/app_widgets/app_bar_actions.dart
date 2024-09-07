@@ -6,6 +6,7 @@ import 'package:broker_app/utils/strings/app_assets.dart';
 import 'package:broker_app/utils/strings/app_strings.dart';
 import 'package:broker_app/views/app_widgets/app_image.dart';
 import 'package:broker_app/views/app_widgets/app_spaces.dart';
+import 'package:broker_app/views/auth/sign_in/sign_in_screen.dart';
 import 'package:broker_app/views/auth/verify_pin/verify_pin_screen.dart';
 import 'package:broker_app/views/dashboard/profile/profile_screen.dart';
 import 'package:flutter/cupertino.dart';
@@ -54,7 +55,7 @@ class AppBarActions extends StatelessWidget {
                   // ignore: use_build_context_synchronously
                   NavHelper.navigate(
                     context: context,
-                    screen: const VerifyPinScreen(),
+                    screen: const SignInScreen(),
                     removeAll: true,
                   );
                 },

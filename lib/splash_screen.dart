@@ -3,6 +3,7 @@ import 'package:broker_app/providers/sign_in/sign_in_provider.dart';
 import 'package:broker_app/utils/extensions/app_size_extension.dart';
 import 'package:broker_app/utils/globals/app_globals.dart';
 import 'package:broker_app/utils/strings/app_assets.dart';
+import 'package:broker_app/utils/ui/app_ui_utils.dart';
 import 'package:broker_app/utils/urls/api_urls.dart';
 import 'package:broker_app/views/app_widgets/app_image.dart';
 import 'package:broker_app/views/app_widgets/app_loader.dart';
@@ -81,13 +82,17 @@ class _SplashScreenState extends State<SplashScreen> {
           if ((context.read<SignInProvider>().splashData.cliSplashImg ?? '')
               .isEmpty)
             return Container(
+              width: 1.screenWidth,
               child: AppImage.asset(
-                path: AppAssets.pbSplashScreen,
-              ),
+                  path: AppAssets.pbSplashScreen, fit: BoxFit.fill),
             );
           return Container(
+            width: 1.screenWidth,
             child: Image.network(
-              APIUrls.splashScreenUrl+(context.read<SignInProvider>().splashData.cliSplashImg ?? ''),
+              APIUrls.splashScreenUrl +
+                  (context.read<SignInProvider>().splashData.cliSplashImg ??
+                      ''),
+              fit: BoxFit.fill,
             ),
           );
         },

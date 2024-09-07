@@ -24,7 +24,7 @@ class BrokerInvoiceProvider extends AppProvider {
     String dateTo = '',
     String searchText = '',
   }) async {
-    _isLoading = true;
+    if(offset ==0)_isLoading = true;
     if (notify) notifyListeners();
 
     var data = await BrokerInvoiceRepo.fetchBrokerInvoice(
@@ -39,14 +39,15 @@ class BrokerInvoiceProvider extends AppProvider {
       offset: offset,
     );
     _brokerInvoices.addAll(data);
-    if (_brokerInvoices.isEmpty) {
+    // if (_brokerInvoices.isEmpty) {
+    if (data.isEmpty) {
       isListEmpty = true;
     } else {
       offset = offset + 10;
     }
 
     // _contracts.sort((a, b) => (a.productName ?? '').compareTo((b.productName ?? '')));
-    _isLoading = false;
+    if(offset ==10 || offset==0)_isLoading = false;
     notifyListeners();
   }
 

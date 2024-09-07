@@ -44,7 +44,7 @@ class _ContractsFilterScreenState extends State<ContractsFilterScreen> {
   bool isShowPartyList = false;
 
   getData() async {
-    await context.read<PartyMasterProvider>().setVoucherData();
+    await context.read<PartyMasterProvider>().setVoucherData(type: 'sauda');
   }
 
   @override

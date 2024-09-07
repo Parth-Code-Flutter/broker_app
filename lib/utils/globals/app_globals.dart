@@ -20,4 +20,5 @@ class AppGlobals {
   String? yearId;
   String? selectedYear;
   String? CmpCode;
+  String? appLogo;
 }

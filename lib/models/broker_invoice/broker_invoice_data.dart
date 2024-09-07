@@ -12,21 +12,26 @@ class BrokerInvoiceData {
   String? invAccVou;
   String? accNm;
   String? ctyNm;
+  String? ctyState;
+  String? companyName;
 
-  BrokerInvoiceData(
-      {this.invVou,
-      this.invVNo,
-      this.invType,
-      this.invTotal,
-      this.invSaudaTotal,
-      this.invDate,
-      this.invVtyVou,
-      this.invFileNm,
-      this.invFromDate,
-      this.invToDate,
-      this.invAccVou,
-      this.accNm,
-      this.ctyNm});
+  BrokerInvoiceData({
+    this.invVou,
+    this.invVNo,
+    this.invType,
+    this.invTotal,
+    this.invSaudaTotal,
+    this.invDate,
+    this.invVtyVou,
+    this.invFileNm,
+    this.invFromDate,
+    this.invToDate,
+    this.invAccVou,
+    this.accNm,
+    this.ctyNm,
+    this.ctyState,
+    this.companyName,
+  });
 
   factory BrokerInvoiceData.fromJson(Map<dynamic, dynamic> json) {
     return BrokerInvoiceData(
@@ -43,6 +48,8 @@ class BrokerInvoiceData {
       invAccVou: json['InvAccVou'],
       accNm: json['AccNm'],
       ctyNm: json['CtyNm'],
+      ctyState: json['CtyState'],
+      companyName: json['companyName'],
     );
   }
 
@@ -61,6 +68,8 @@ class BrokerInvoiceData {
     data['InvAccVou'] = this.invAccVou;
     data['AccNm'] = this.accNm;
     data['CtyNm'] = this.ctyNm;
+    data['CtyState'] = this.ctyState;
+    data['companyName'] = this.companyName;
     return data;
   }
 }

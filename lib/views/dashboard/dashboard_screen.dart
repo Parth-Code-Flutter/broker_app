@@ -54,7 +54,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           },
           child: SizedBox(
             width: 0.32.screenWidth,
-            height: 0.17.screenHeight,
+            height: 0.18.screenHeight,
             child: Container(
               margin: EdgeInsets.only(right: 10, top: 10),
               decoration: BoxDecoration(

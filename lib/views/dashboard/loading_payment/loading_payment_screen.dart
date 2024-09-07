@@ -6,6 +6,7 @@ import 'package:broker_app/utils/extensions/app_date_time_extension.dart';
 import 'package:broker_app/utils/extensions/app_size_extension.dart';
 import 'package:broker_app/utils/ui/app_text_styles.dart';
 import 'package:broker_app/utils/ui/app_ui_utils.dart';
+import 'package:broker_app/views/app_widgets/app_divider_with_text.dart';
 import 'package:broker_app/views/app_widgets/app_loader.dart';
 import 'package:broker_app/views/app_widgets/app_scaffold.dart';
 import 'package:broker_app/views/app_widgets/app_spaces.dart';
@@ -35,6 +36,7 @@ class LoadingPaymentScreen extends StatefulWidget {
 
 class _LoadingPaymentScreenState extends State<LoadingPaymentScreen> {
   TextEditingController _searchController = TextEditingController();
+  bool isShowLoader = false;
 
   final _controller = ScrollController();
   double firstTextWidth = 0.24;
@@ -46,16 +48,24 @@ class _LoadingPaymentScreenState extends State<LoadingPaymentScreen> {
     // context.read<LoadingProvider>().offset = 10;
     // context.read<LoadingProvider>().limit = 10;
     getLoadingData();
-    _controller.addListener(() {
+    _controller.addListener(() async {
       if (_controller.position.atEdge) {
         bool isTop = _controller.position.pixels == 0;
         if (isTop) {
           print('At the top');
         } else {
+          isShowLoader = true;
+          setState(() {});
           if (context.read<LoadingPaymentProvider>().isListEmpty == false) {
             // setState(() {});
-            context.read<LoadingPaymentProvider>().setLoadingsData();
+            await context.read<LoadingPaymentProvider>().setLoadingsData(
+                  dateTo: widget.dateTo.dateForDB,
+                  dateFrom: widget.dateFrom.dateForDB,
+                  partyId: widget.partyId ?? '',
+                );
           }
+          isShowLoader = false;
+          setState(() {});
         }
       }
     });
@@ -205,315 +215,565 @@ class _LoadingPaymentScreenState extends State<LoadingPaymentScreen> {
         return loadingList.isEmpty
             ? NoDataFound()
             : Expanded(
-                child: ListView.builder(
-                  controller: _controller,
-                  itemCount: loadingList.length,
-                  shrinkWrap: true,
-                  padding: EdgeInsets.zero,
-                  itemBuilder: (context, index) {
-                    var data = loadingList[index];
-                    return GestureDetector(
-                      onTap: () => NavHelper.navigate(
-                        context: context,
-                        screen: LoadingPaymentDetailsScreen(loadingData: data),
-                      ),
-                      child: Container(
-                        margin:
-                            EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-                        padding: EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          color: AppColors.containerBG,
-                          borderRadius: AppUIUtils.containerBorderRadius,
-                        ),
-                        child: Column(
-                          children: [
-                            /// type-vno and date
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  children: [
-                                    SizedBox(
-                                      width: firstTextWidth.screenWidth,
-                                      child: AppText(
-                                        text: kVNo,
-                                        style: AppTextStyles.tinyLabelTextStyle,
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: ListView.builder(
+                        controller: _controller,
+                        itemCount: loadingList.length,
+                        shrinkWrap: true,
+                        padding: EdgeInsets.zero,
+                        itemBuilder: (context, index) {
+                          var data = loadingList[index];
+                          return GestureDetector(
+                            onTap: () => NavHelper.navigate(
+                              context: context,
+                              screen: LoadingPaymentDetailsScreen(
+                                  loadingData: data),
+                            ),
+                            child: Container(
+                              margin: EdgeInsets.symmetric(
+                                  horizontal: 8, vertical: 10),
+                              padding: EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                color: AppColors.containerBG,
+                                borderRadius: AppUIUtils.containerBorderRadius,
+                              ),
+                              child: Column(
+                                children: [
+                                  /// type-vno and date
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          SizedBox(
+                                            width: firstTextWidth.screenWidth,
+                                            child: AppText(
+                                              text: kVNo,
+                                              style: AppTextStyles
+                                                  .tinyLabelTextStyle,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            child: AppText(
+                                              text: ': ',
+                                              style: AppTextStyles
+                                                  .tinyListTextStyle,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: (secondTextWidth - 0.15)
+                                                .screenWidth,
+                                            child: AppText(
+                                              // text: '${(data.vouType ?? '').trim()}-${data.vNo ?? 0}',
+                                              text: '${data.vNo ?? 0}',
+                                              style: AppTextStyles
+                                                  .tinyListTextStyle
+                                                  .copyWith(
+                                                      fontWeight:
+                                                          FontWeight.w700),
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    ),
-                                    SizedBox(
-                                      child: AppText(
-                                        text: ': ',
-                                        style: AppTextStyles.tinyListTextStyle,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width:
-                                          (secondTextWidth - 0.15).screenWidth,
-                                      child: AppText(
-                                        // text: '${(data.vouType ?? '').trim()}-${data.vNo ?? 0}',
-                                        text: '${data.vNo ?? 0}',
-                                        style: AppTextStyles.tinyListTextStyle
+                                      AppText(
+                                        text: AppDateTimeExtension
+                                            .convertDDMMYYYY(data.date ?? ''),
+                                        style: AppTextStyles.tinyLabelTextStyle
                                             .copyWith(
-                                                fontWeight: FontWeight.w700),
+                                                fontWeight: FontWeight.w400),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                                AppText(
-                                  text: AppDateTimeExtension.convertDDMMYYYY(
-                                      data.date ?? ''),
-                                  style: AppTextStyles.tinyLabelTextStyle
-                                      .copyWith(fontWeight: FontWeight.w400),
-                                ),
-                              ],
-                            ),
-                            AppSpaces.v4,
+                                    ],
+                                  ),
+                                  AppSpaces.v4,
 
-                            /// seller
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  width: firstTextWidth.screenWidth,
-                                  child: AppText(
-                                    text: kSeller,
-                                    style: AppTextStyles.tinyLabelTextStyle,
-                                  ),
-                                ),
-                                SizedBox(
-                                  child: AppText(
-                                    text: ': ',
-                                    style: AppTextStyles.tinyListTextStyle,
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 0.6.screenWidth,
-                                  child: AppText(
-                                    text: data.sellerName ?? '',
-                                    style: AppTextStyles.tinyListTextStyle,
-                                    maxLines: 2,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            AppSpaces.v4,
-
-                            /// buyer
-                            Row(
-                              children: [
-                                SizedBox(
-                                  width: firstTextWidth.screenWidth,
-                                  child: AppText(
-                                    text: kBuyer,
-                                    style: AppTextStyles.tinyLabelTextStyle,
-                                  ),
-                                ),
-                                SizedBox(
-                                  child: AppText(
-                                    text: ': ',
-                                    style: AppTextStyles.tinyListTextStyle,
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: secondTextWidth.screenWidth,
-                                  child: AppText(
-                                    text: data.buyerName ?? '',
-                                    style: AppTextStyles.tinyListTextStyle,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            AppSpaces.v4,
-
-                            /// contract no
-                            Row(
-                              children: [
-                                SizedBox(
-                                  width: firstTextWidth.screenWidth,
-                                  child: AppText(
-                                    text: kContractNo,
-                                    style: AppTextStyles.tinyLabelTextStyle,
-                                  ),
-                                ),
-                                SizedBox(
-                                  child: AppText(
-                                    text: ': ',
-                                    style: AppTextStyles.tinyListTextStyle,
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: secondTextWidth.screenWidth,
-                                  child: AppText(
-                                    text: data.contractNo.toString(),
-                                    style: AppTextStyles.tinyListTextStyle,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            AppSpaces.v4,
-
-                            /// contract date
-                            Row(
-                              children: [
-                                SizedBox(
-                                  width: firstTextWidth.screenWidth,
-                                  child: AppText(
-                                    text: kContractDate,
-                                    style: AppTextStyles.tinyLabelTextStyle,
-                                  ),
-                                ),
-                                SizedBox(
-                                  child: AppText(
-                                    text: ': ',
-                                    style: AppTextStyles.tinyListTextStyle,
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: secondTextWidth.screenWidth,
-                                  child: AppText(
-                                    text: AppDateTimeExtension.convertDDMMYYYY(
-                                        data.contractDate ?? ''),
-                                    style: AppTextStyles.tinyListTextStyle,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            AppSpaces.v4,
-
-                            // /// Product Name
-                            // Row(
-                            //   children: [
-                            //     SizedBox(
-                            //       width: firstTextWidth.screenWidth,
-                            //       child: AppText(
-                            //         text: kProductName,
-                            //         style: AppTextStyles.tinyLabelTextStyle,
-                            //       ),
-                            //     ),
-                            //     SizedBox(
-                            //       child: AppText(
-                            //         text: ': ',
-                            //         style: AppTextStyles.tinyListTextStyle,
-                            //       ),
-                            //     ),
-                            //     SizedBox(
-                            //       width: 0.6.screenWidth,
-                            //       child: AppText(
-                            //         text: 'The Money Managers',
-                            //         style: AppTextStyles.tinyListTextStyle,
-                            //         maxLines: 2,
-                            //       ),
-                            //     ),
-                            //   ],
-                            // ),
-                            // AppSpaces.v4,
-
-                            /// Rate
-                            Row(
-                              children: [
-                                SizedBox(
-                                  width: firstTextWidth.screenWidth,
-                                  child: AppText(
-                                    text: kRate,
-                                    style: AppTextStyles.tinyLabelTextStyle,
-                                  ),
-                                ),
-                                SizedBox(
-                                  child: AppText(
-                                    text: ': ',
-                                    style: AppTextStyles.tinyListTextStyle,
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 0.6.screenWidth,
-                                  child: AppText(
-                                    text: data.rate.toString(),
-                                    style: AppTextStyles.tinyListTextStyle,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            AppSpaces.v4,
-
-                            /// sauda qty & packing
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  children: [
-                                    SizedBox(
-                                      width: firstTextWidth.screenWidth,
-                                      child: AppText(
-                                        text: kSaudaQty,
-                                        style: AppTextStyles.tinyLabelTextStyle,
+                                  /// seller
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width: firstTextWidth.screenWidth,
+                                        child: AppText(
+                                          text: kSeller,
+                                          style:
+                                              AppTextStyles.tinyLabelTextStyle,
+                                        ),
                                       ),
-                                    ),
-                                    SizedBox(
-                                      child: AppText(
-                                        text: ': ',
+                                      SizedBox(
+                                        child: AppText(
+                                          text: ': ',
+                                          style:
+                                              AppTextStyles.tinyListTextStyle,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 0.6.screenWidth,
+                                        child: AppText(
+                                          text: data.sellerName ?? '',
+                                          style:
+                                              AppTextStyles.tinyListTextStyle,
+                                          maxLines: 2,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  AppSpaces.v4,
+
+                                  /// seller city & state
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width: firstTextWidth.screenWidth,
+                                        child: AppText(
+                                          text: '$kCity-$kState',
+                                          style:
+                                              AppTextStyles.tinyLabelTextStyle,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: secondTextWidth.screenWidth,
+                                        child: AppText(
+                                          text:
+                                              ': ${returnCityState(data.sellerCityName ?? '', (data.sellerStateName ?? '').isEmpty ? (data.sellerStateName ?? '') : (data.sellerStateName2 ?? ''))}',
+                                          style:
+                                              AppTextStyles.tinyListTextStyle,
+                                          maxLines: 2,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  AppSpaces.v4,
+
+                                  /// buyer
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width: firstTextWidth.screenWidth,
+                                        child: AppText(
+                                          text: kBuyer,
+                                          style:
+                                              AppTextStyles.tinyLabelTextStyle,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        child: AppText(
+                                          text: ': ',
+                                          style:
+                                              AppTextStyles.tinyListTextStyle,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: secondTextWidth.screenWidth,
+                                        child: AppText(
+                                          text: data.buyerName ?? '',
+                                          style:
+                                              AppTextStyles.tinyListTextStyle,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  AppSpaces.v4,
+
+                                  /// buyer city & state
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width: firstTextWidth.screenWidth,
+                                        child: AppText(
+                                          text: '$kCity-$kState',
+                                          style:
+                                              AppTextStyles.tinyLabelTextStyle,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: secondTextWidth.screenWidth,
+                                        child: AppText(
+                                          text:
+                                              ': ${returnCityState(data.buyerCityName ?? '', data.buyerStateName ?? '')}',
+                                          style:
+                                              AppTextStyles.tinyListTextStyle,
+                                          maxLines: 2,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  AppSpaces.v4,
+
+                                  /// contract no
+                                  Row(
+                                    children: [
+                                      SizedBox(
+                                        width: firstTextWidth.screenWidth,
+                                        child: AppText(
+                                          text: kContractNo,
+                                          style:
+                                              AppTextStyles.tinyLabelTextStyle,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        child: AppText(
+                                          text: ': ',
+                                          style:
+                                              AppTextStyles.tinyListTextStyle,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: secondTextWidth.screenWidth,
+                                        child: AppText(
+                                          text: data.contractNo.toString(),
+                                          style:
+                                              AppTextStyles.tinyListTextStyle,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  AppSpaces.v4,
+
+                                  /// contract date
+                                  Row(
+                                    children: [
+                                      SizedBox(
+                                        width: firstTextWidth.screenWidth,
+                                        child: AppText(
+                                          text: kContractDate,
+                                          style:
+                                              AppTextStyles.tinyLabelTextStyle,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        child: AppText(
+                                          text: ': ',
+                                          style:
+                                              AppTextStyles.tinyListTextStyle,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: secondTextWidth.screenWidth,
+                                        child: AppText(
+                                          text: AppDateTimeExtension
+                                              .convertDDMMYYYY(
+                                                  data.contractDate ?? ''),
+                                          style:
+                                              AppTextStyles.tinyListTextStyle,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  AppSpaces.v4,
+
+                                  // /// Product Name
+                                  // Row(
+                                  //   children: [
+                                  //     SizedBox(
+                                  //       width: firstTextWidth.screenWidth,
+                                  //       child: AppText(
+                                  //         text: kProductName,
+                                  //         style: AppTextStyles.tinyLabelTextStyle,
+                                  //       ),
+                                  //     ),
+                                  //     SizedBox(
+                                  //       child: AppText(
+                                  //         text: ': ',
+                                  //         style: AppTextStyles.tinyListTextStyle,
+                                  //       ),
+                                  //     ),
+                                  //     SizedBox(
+                                  //       width: 0.6.screenWidth,
+                                  //       child: AppText(
+                                  //         text: 'The Money Managers',
+                                  //         style: AppTextStyles.tinyListTextStyle,
+                                  //         maxLines: 2,
+                                  //       ),
+                                  //     ),
+                                  //   ],
+                                  // ),
+                                  // AppSpaces.v4,
+
+                                  /// Rate
+                                  Row(
+                                    children: [
+                                      SizedBox(
+                                        width: firstTextWidth.screenWidth,
+                                        child: AppText(
+                                          text: kRate,
+                                          style:
+                                              AppTextStyles.tinyLabelTextStyle,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        child: AppText(
+                                          text: ': ',
+                                          style:
+                                              AppTextStyles.tinyListTextStyle,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 0.6.screenWidth,
+                                        child: AppText(
+                                          text: data.rate.toString(),
+                                          style:
+                                              AppTextStyles.tinyListTextStyle,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  AppSpaces.v4,
+
+                                  /// sauda qty & packing
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          SizedBox(
+                                            width: firstTextWidth.screenWidth,
+                                            child: AppText(
+                                              text: kSaudaQty,
+                                              style: AppTextStyles
+                                                  .tinyLabelTextStyle,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            child: AppText(
+                                              text: ': ',
+                                              style: AppTextStyles
+                                                  .tinyListTextStyle,
+                                            ),
+                                          ),
+                                          AppText(
+                                            text: data.saudaQty ?? '',
+                                            style:
+                                                AppTextStyles.tinyListTextStyle,
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          AppText(
+                                            text: kPendingQty,
+                                            style: AppTextStyles
+                                                .tinyLabelTextStyle,
+                                          ),
+                                          SizedBox(
+                                            child: AppText(
+                                              text: ': ',
+                                              style: AppTextStyles
+                                                  .tinyListTextStyle,
+                                            ),
+                                          ),
+                                          AppText(
+                                            text: data.pendingQty ?? '',
+                                            style:
+                                                AppTextStyles.tinyListTextStyle,
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  AppSpaces.v4,
+
+                                  /// Loading Qty
+                                  Row(
+                                    children: [
+                                      SizedBox(
+                                        width: firstTextWidth.screenWidth,
+                                        child: AppText(
+                                          text: '$kLoading $kQty',
+                                          style:
+                                              AppTextStyles.tinyLabelTextStyle,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        child: AppText(
+                                          text: ': ',
+                                          style:
+                                              AppTextStyles.tinyListTextStyle,
+                                        ),
+                                      ),
+                                      AppText(
+                                        text: data.loadQty ?? '',
                                         style: AppTextStyles.tinyListTextStyle,
                                       ),
-                                    ),
-                                    AppText(
-                                      text: data.saudaQty ?? '',
-                                      style: AppTextStyles.tinyListTextStyle,
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    AppText(
-                                      text: kPendingQty,
-                                      style: AppTextStyles.tinyLabelTextStyle,
-                                    ),
-                                    SizedBox(
-                                      child: AppText(
-                                        text: ': ',
+                                    ],
+                                  ),
+                                  AppSpaces.v4,
+
+                                  // AppDividerWIthText(
+                                  //   text: '---------------',
+                                  // ),
+                                  // AppSpaces.v4,
+                                  //
+                                  // /// Filter dates
+                                  // Row(
+                                  //   children: [
+                                  //     SizedBox(
+                                  //       width: firstTextWidth.screenWidth,
+                                  //       child: AppText(
+                                  //         text: kFilter,
+                                  //         style:
+                                  //             AppTextStyles.tinyLabelTextStyle,
+                                  //       ),
+                                  //     ),
+                                  //     SizedBox(
+                                  //       child: AppText(
+                                  //         text: ': ',
+                                  //         style:
+                                  //             AppTextStyles.tinyListTextStyle,
+                                  //       ),
+                                  //     ),
+                                  //     AppText(
+                                  //       text:
+                                  //           '${widget.dateFrom.dateWithDDMMYYYY} $kTo ${widget.dateTo.dateWithDDMMYYYY}',
+                                  //       style: AppTextStyles.tinyListTextStyle,
+                                  //     ),
+                                  //   ],
+                                  // ),
+                                  // AppSpaces.v4,
+                                  //
+                                  // /// First vno
+                                  // Row(
+                                  //   children: [
+                                  //     SizedBox(
+                                  //       width: firstTextWidth.screenWidth,
+                                  //       child: AppText(
+                                  //         text: '$kFirstVNo.',
+                                  //         style:
+                                  //         AppTextStyles.tinyLabelTextStyle,
+                                  //       ),
+                                  //     ),
+                                  //     SizedBox(
+                                  //       child: AppText(
+                                  //         text: ': ',
+                                  //         style:
+                                  //         AppTextStyles.tinyListTextStyle,
+                                  //       ),
+                                  //     ),
+                                  //     AppText(
+                                  //       text: '${data.vNo ?? 0}',
+                                  //       style: AppTextStyles.tinyListTextStyle,
+                                  //     ),
+                                  //   ],
+                                  // ),
+                                  // AppSpaces.v4,
+
+                                  /// Bill Amount
+                                  Row(
+                                    children: [
+                                      SizedBox(
+                                        width: firstTextWidth.screenWidth,
+                                        child: AppText(
+                                          text: kBillAmount,
+                                          style:
+                                              AppTextStyles.tinyLabelTextStyle,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        child: AppText(
+                                          text: ': ',
+                                          style:
+                                              AppTextStyles.tinyListTextStyle,
+                                        ),
+                                      ),
+                                      AppText(
+                                        text: data.payBillAmount ?? '',
                                         style: AppTextStyles.tinyListTextStyle,
                                       ),
-                                    ),
-                                    AppText(
-                                      text: data.pendingQty??'',
-                                      style: AppTextStyles.tinyListTextStyle,
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            AppSpaces.v4,
-
-                            /// Loading Qty
-                            Row(
-                              children: [
-                                SizedBox(
-                                  width: firstTextWidth.screenWidth,
-                                  child: AppText(
-                                    text: '$kLoading $kQty',
-                                    style: AppTextStyles.tinyLabelTextStyle,
+                                    ],
                                   ),
-                                ),
-                                SizedBox(
-                                  child: AppText(
-                                    text: ': ',
-                                    style: AppTextStyles.tinyListTextStyle,
-                                  ),
-                                ),
-                                AppText(
-                                  text: data.loadQty ?? '',
-                                  style: AppTextStyles.tinyListTextStyle,
-                                ),
-                              ],
-                            ),
+                                  AppSpaces.v4,
 
-                            AppSpaces.v4,
-                          ],
-                        ),
+                                  /// Charges
+                                  Row(
+                                    children: [
+                                      SizedBox(
+                                        width: firstTextWidth.screenWidth,
+                                        child: AppText(
+                                          text: kCharges,
+                                          style:
+                                              AppTextStyles.tinyLabelTextStyle,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        child: AppText(
+                                          text: ': ',
+                                          style:
+                                              AppTextStyles.tinyListTextStyle,
+                                        ),
+                                      ),
+                                      AppText(
+                                        text: data.payCharges ?? '',
+                                        style: AppTextStyles.tinyListTextStyle,
+                                      ),
+                                    ],
+                                  ),
+                                  AppSpaces.v4,
+
+                                  /// PayAmt
+                                  Row(
+                                    children: [
+                                      SizedBox(
+                                        width: firstTextWidth.screenWidth,
+                                        child: AppText(
+                                          text: kPayAmt,
+                                          style:
+                                              AppTextStyles.tinyLabelTextStyle,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        child: AppText(
+                                          text: ': ',
+                                          style:
+                                              AppTextStyles.tinyListTextStyle,
+                                        ),
+                                      ),
+                                      AppText(
+                                        text: data.payAmount ?? '',
+                                        style: AppTextStyles.tinyListTextStyle,
+                                      ),
+                                    ],
+                                  ),
+                                  AppSpaces.v4,
+                                ],
+                              ),
+                            ),
+                          );
+                        },
                       ),
-                    );
-                  },
+                    ),
+                    if (isShowLoader) AppLoader(),
+                  ],
                 ),
               );
       },
     );
+  }
+
+  returnCityState(String c, String s) {
+    String city = c;
+    // (data.accCtyName ?? '').isNotEmpty
+    //     ? data.accCtyName ?? ''
+    //     : data.city ?? '';
+    String state = s;
+    // (data.accState ?? '').isNotEmpty
+    //     ? data.accState ?? ''
+    //     : data.state ?? '';
+
+    if (city.isEmpty) {
+      return state;
+    } else if (state.isNotEmpty) {
+      return city + ', $state';
+    } else {
+      return city;
+    }
   }
 }
